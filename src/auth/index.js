@@ -1,0 +1,127 @@
+// URL and endpoint constants
+var apiUrl = 'http://api.clinilink.org/api/';
+const options = {
+	loginUrl: apiUrl + 'auth/login/',
+	signupUrl: apiUrl + 'auth/signup/',
+	profileUrl: apiUrl + 'auth/profileInfo/',
+	tokenUrl: apiUrl + 'auth/token/',
+}
+
+class Authenticate {
+	constructor(Axios, loginUrl, signupUrl, logoutUrl, profileUrl) {
+		this.Axios = Axios;
+		this.loginUrl = loginUrl;
+		this.signupUrl = signupUrl;
+		this.logoutUrl = logoutUrl;
+		this.profileUrl = profileUrl;
+	}
+	login(context, input){
+		this.Axios.post(this.loginUrl, input).then((response) => {
+			//console.log(response);
+			if(response.data.user){
+				this.setUserId(response.data.user.id);
+				this.setToken(response.data.user.token);
+				this.updateUserData();
+				context.isAuth = true;
+				context.$router.replace('news');
+			}else{
+				context.credentials.error = response.data.info;
+			}
+		}, function(err){
+			console.log(err);
+		})
+	}
+	signup(context, input){
+		this.Axios.post(this.signupUrl, input).then((response) => {
+			//console.log(response);
+			context.isRegister = true;
+			//context.$emit('auth');
+			//context.$router.replace('asd');
+			/*if(response.data.user){
+				this.setToken(response.data.user.token);
+				//this.saveUser(response.data.user);
+				this.updateUserData(response.data.user.token);
+				context.isAuth = true;
+			}else{
+				context.credentials.error = response.data.info;
+			}*/
+		}, function(err){
+			console.log(err);
+		})
+	}
+	logout(context, redirect = false, errorHandler = false) {
+		this.removeToken();
+		this.removeUserId();
+		this.removeUser();
+		context.isAuth = false;
+	}
+	
+	// Token
+	check(){return validToken(this.getToken())}
+	setToken(token){localStorage.setItem("token", token)}
+	getToken(){return localStorage.getItem("token")}
+	removeToken() {localStorage.removeItem("token")}
+	
+	// User Data
+	updateUserData(){
+		var token = this.getToken();
+		this.Axios.get(this.profileUrl, {headers: {'Authorization': token}}).then((response) => {
+			if(response.data.profile){
+				this.saveUser(response.data.profile);
+			}
+		}, function(err){
+			console.log(err);
+		})
+	}
+	saveUser(userInfo){localStorage.setItem("user", JSON.stringify(userInfo))}
+	getUser(){return JSON.parse(localStorage.getItem("user"))}
+	removeUser(){localStorage.removeItem("user")}
+	
+	// User ID
+	setUserId(userId){localStorage.setItem("userId", userId)}
+	getUserId(){return localStorage.getItem("userId")}
+	removeUserId(){localStorage.removeItem("userId")}
+	
+}
+function validToken(token) {
+	if (typeof token != "undefined" && token != null) {
+		return true;
+	}
+	return false;
+}
+
+function authJWT(Vue, Axios, router) {
+
+	Vue.prototype.$auth = new Authenticate(Axios, options.loginUrl, options.signupUrl, options.logoutUrl, options.profileUrl);
+	
+	router.beforeEach((to, from, next) => {
+		if (to.matched.some(record => record.meta.requiresAuth)) {
+			// этот путь требует авторизации, проверяем залогинен ли
+			// пользователь, и если нет, перенаправляем на страницу логина
+			console.log('secure');
+			//if (!auth.loggedIn()) {
+			if (false) {
+				next({
+					path: '/login',
+					//query: { redirect: to.fullPath }
+				})
+			} else {
+				next()
+			}
+		} else {
+			next() // всегда так или иначе нужно вызвать next()!
+		}
+	});
+	
+	Axios.interceptors.request.use(function (config) {
+		if (!config.headers.common.hasOwnProperty('Authorization')) {
+			config.headers.common['Authorization'] = localStorage.getItem("token");
+		}
+		
+		return config;
+	}, function (error) {
+		return Promise.reject(error);
+	});
+	
+}
+export default authJWT;

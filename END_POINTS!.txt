@@ -1,0 +1,12 @@
+//// Профиль
+http://api.clinilink.org/api/profile - получение своего профиля
+http://api.clinilink.org/api/profile/:userUrl (id-591ebc1c3b969b54ea150b92) - получение профиля пользователя
+
+//// Новости
+http://api.clinilink.org/api/news?page=1 - получение новостей (сейчас рандом), параметр page = текущая позиция в infinteScroll
+
+//// Справочник
+http://api.clinilink.org/api/library - получение всего списка классов
+http://api.clinilink.org/api/library/:className - получение класса с привзяаными категориями
+http://api.clinilink.org/api/library/:className/:categoryName - получение категории с привзяаными элементами заболеваний
+http://api.clinilink.org/api/library/:className/:categoryName/:itemName - получение элемента заболевания
