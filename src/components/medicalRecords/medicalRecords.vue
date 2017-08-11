@@ -29,39 +29,15 @@ export default {
 	},
 	data() {
 		return {
-		activeWidgets: {
-				widgetConsultations: {
-					full: false,
-					show: true
-				},
-				widgetAllergies: {
-					full: false,
-					show: true
-				},
-				widgetImmunization: {
-					full: false,
-					show: true
-				},
-				widgetMedicament: {
-					full: false,
-					show: true
-				},
-				widgetInjuries: {
-					full: false,
-					show: true
-				},
-				widgetOperations: {
-					full: false,
-					show: true
-				},
-				widgetAnalyzes: {
-					full: false,
-					show: true
-				},
-				widgetGeneralInformation: {
-					full: false,
-					show: true
-				},
+			activeWidgets: {
+				wConsultations: {full: false, show: true},
+				wAllergies: {full: false, show: true},
+				wImmunization: {full: false, show: true},
+				wMedicament: {full: false, show: true},
+				wInjuries: {full: false, show: true},
+				wOperations: {full: false, show: true},
+				wAnalyzes: {full: false, show: true},
+				wGeneralInformation: {full: false, show: true},
 			},
 			isFullWidget: false,
 		}
@@ -70,4 +46,10 @@ export default {
 </script>
 
 <style>
+#medicalRecords{
+	column-count: 3;
+}
+#medicalRecords.fullWidget{
+	column-count: 1;
+}
 </style>
