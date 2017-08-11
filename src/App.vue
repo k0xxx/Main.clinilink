@@ -8,7 +8,7 @@
 		</div>
 	</div>
 </template>   
-  
+  asdasd
 <script>
 import appHeader from './components/appHeader/appHeader.vue'  
 import userMenu from './components/userMenu/userMenu.vue'  
