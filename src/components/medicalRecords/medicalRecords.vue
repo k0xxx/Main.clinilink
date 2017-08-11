@@ -25,7 +25,14 @@ import widgetGeneralInformation from './widgets/generalInformation.vue';
 export default {
 	name: 'medicalRecords',
 	components: {
-		widgetConsultations, widgetAllergies, widgetImmunization, widgetMedicament, widgetInjuries, widgetOperations, widgetAnalyzes, widgetGeneralInformation
+		widgetConsultations,
+		widgetAllergies,
+		widgetImmunization,
+		widgetMedicament,
+		widgetInjuries,
+		widgetOperations,
+		widgetAnalyzes,
+		widgetGeneralInformation
 	},
 	data() {
 		return {
@@ -42,12 +49,31 @@ export default {
 			isFullWidget: false,
 		}
 	},
+	methods: {
+		toogle: function(el){
+			console.log(this.activeWidgets[el].full);
+			if(!this.activeWidgets[el].full){
+				this.isFullWidget = true;
+				for(var widget in this.activeWidgets){
+					this.activeWidgets[widget].show = false;
+				}
+				this.activeWidgets[el].show = true;
+				this.activeWidgets[el].full = true;
+			}else{
+				this.isFullWidget = false;
+				for(var widget in this.activeWidgets){
+					this.activeWidgets[widget].show = true;
+				}
+				this.activeWidgets[el].full = false;
+			}
+		}
+	}
 }
 </script>
 
 <style>
 #medicalRecords{
-	column-count: 3;
+	column-count: 2;
 }
 #medicalRecords.fullWidget{
 	column-count: 1;

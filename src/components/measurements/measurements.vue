@@ -55,13 +55,6 @@ export default {
 				}
 				this.activeWidgets[el].full = false;
 			}
-			/*
-				this.activeWidgets[el].full = true;
-				for(var widget in activeWidgets){
-					console.log(widget);
-				}
-			}*/
-			console.log(el);
 		}
 	}
 }

@@ -78,8 +78,8 @@ export default {
 	name: 'widgetWeight',
 	data() {
 		return {
-			endpoint: 'http://api.clinilink.org/api/measurements/',
-			item: {title: 'Кровяное давление', icon: 'plus', type: 'bloodpressure'},
+			endpoint: 'http://api.clinilink.org/api/medical_records/',
+			item: {title: 'Аллергии', icon: 'bed', type: 'bloodpressure'},
 			showModal: false,
 			measurementsList: [],
 			bloodpressureForm: {

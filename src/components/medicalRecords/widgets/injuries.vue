@@ -79,7 +79,7 @@ export default {
 	data() {
 		return {
 			endpoint: 'http://api.clinilink.org/api/measurements/',
-			item: {title: 'Кровяное давление', icon: 'plus', type: 'bloodpressure'},
+			item: {title: 'Травмы', icon: 'bed', type: 'bloodpressure'},
 			showModal: false,
 			measurementsList: [],
 			bloodpressureForm: {
