@@ -1,6 +1,7 @@
 <template>
 	<div id="view" class="noSideBar">
 		<div id="medicalRecords" v-bind:class="{fullWidget: isFullWidget}">
+			<widgetGeneralInformation v-if="activeWidgets.wGeneralInformation.show" :showWidget="activeWidgets.wGeneralInformation.show" :isFullWidget="activeWidgets.wGeneralInformation.full" @toogle="toogle('wGeneralInformation')"></widgetGeneralInformation>
 			<widgetConsultations v-if="activeWidgets.wConsultations.show" :showWidget="activeWidgets.wConsultations.show" :isFullWidget="activeWidgets.wConsultations.full" @toogle="toogle('wConsultations')"></widgetConsultations>
 			<widgetAllergies v-if="activeWidgets.wAllergies.show" :showWidget="activeWidgets.wAllergies.show" :isFullWidget="activeWidgets.wAllergies.full" @toogle="toogle('wAllergies')"></widgetAllergies>
 			<widgetImmunization v-if="activeWidgets.wImmunization.show" :showWidget="activeWidgets.wImmunization.show" :isFullWidget="activeWidgets.wImmunization.full" @toogle="toogle('wImmunization')"></widgetImmunization>
@@ -8,7 +9,6 @@
 			<widgetInjuries v-if="activeWidgets.wInjuries.show" :showWidget="activeWidgets.wInjuries.show" :isFullWidget="activeWidgets.wInjuries.full" @toogle="toogle('wInjuries')"></widgetInjuries>
 			<widgetOperations v-if="activeWidgets.wOperations.show" :showWidget="activeWidgets.wOperations.show" :isFullWidget="activeWidgets.wOperations.full" @toogle="toogle('wOperations')"></widgetOperations>
 			<widgetAnalyzes v-if="activeWidgets.wAnalyzes.show" :showWidget="activeWidgets.wAnalyzes.show" :isFullWidget="activeWidgets.wAnalyzes.full" @toogle="toogle('wAnalyzes')"></widgetAnalyzes>
-			<widgetGeneralInformation v-if="activeWidgets.wGeneralInformation.show" :showWidget="activeWidgets.wGeneralInformation.show" :isFullWidget="activeWidgets.wGeneralInformation.full" @toogle="toogle('wGeneralInformation')"></widgetGeneralInformation>
 		</div>
 	</div>
 </template>
