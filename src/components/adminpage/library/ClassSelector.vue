@@ -3,7 +3,7 @@
 		<div v-if="!$route.params.classId">
 			<h3>Список классов</h3>
 			<ul>
-				<li v-for="libClass in libraryClassList">
+				<li v-for="libClass in libraryClassList" v-bind:key="libClass._id">
 					<router-link :to="'/adminpage/library/libClass/'+libClass._id" >{{libClass.class_id}} - {{libClass.class_sub_index}} - {{libClass.class_name}}</router-link>
 				</li>
 			</ul>
