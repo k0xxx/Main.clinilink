@@ -2,7 +2,7 @@
 	<div id="itemSelector">
 		<h3>Список заболеваний</h3>
 		<ul v-if="!$route.params.itemId">
-			<li v-for="libItem in libraryItemsList">
+			<li v-for="libItem in libraryItemsList" v-bind:key="libItem._id">
 				<router-link :to="'/adminpage/library/libItem/'+libItem._id" >{{libItem.item_id}} - {{libItem.sub_index}} - {{libItem.name}}</router-link>
 			</li>
 		</ul>
