@@ -9,6 +9,20 @@
 		</div>
 		<div v-if="!isFullWidget" class="p-75">
 			Уровень активности - Подвижный, Физическая культура - Баскетболл
+			{{generalInformationForm.activity_level}}
+			{{generalInformationForm.physical_culture}}
+			{{generalInformationForm.food_settings}}
+			{{generalInformationForm.work_type}}
+			{{generalInformationForm.sleep_type}}
+			{{generalInformationForm.sleep_duration}}
+			{{generalInformationForm.stress_type}}
+			{{generalInformationForm.sex_life}}
+			{{generalInformationForm.sex_contraception}}
+			{{generalInformationForm.home_pets}}
+			{{generalInformationForm.smoking_years}}
+			{{generalInformationForm.smoking_counter}}
+			{{generalInformationForm.alcohol_years}}
+			{{generalInformationForm.drugs_years}}
 		</div>
 		<div v-if="isFullWidget" class="p-75">
 			<form v-on:submit.prevent="saveGeneralInformation">
