@@ -154,7 +154,7 @@ export default {
 	name: 'widgetGeneralInformation',
 	data() {
 		return {
-			endpoint: 'http://api.clinilink.org/api/measurements/',
+			endpoint: 'http://api.clinilink.org/api/medical_records/general_information',
 			item: {title: 'Общая информация', icon: 'bed', type: 'generalInformation'},
 			generalInformationForm: {
 				activity_level: '',
@@ -177,22 +177,18 @@ export default {
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
 		saveGeneralInformation: function(){
-			/*this.$http.put(this.endpoint + this.bloodpressureForm.type, this.bloodpressureForm).then((response) => {
+			this.$http.post(this.endpoint, this.generalInformationForm).then((response) => {
 				console.log(response);
-				this.bloodpressureForm.date = '';
-				this.showModal = false;
-				this.measurementsList.push(response.data.measurement);
 			}, function(err){
 				console.log(err);
-			})*/
+			})
 		},
 		getGeneralInformation: function(){
-			/*this.$http.get(this.endpoint + this.bloodpressureForm.type).then((response) => {
-				console.log(response);
-				this.measurementsList = response.data.measurementsList;
+			this.$http.get(this.endpoint).then((response) => {
+				this.generalInformationForm = response.data.generalInformation;
 			}, function(err){
 				console.log(err);
-			})*/
+			})
 		}
 	},
 	created: function(){

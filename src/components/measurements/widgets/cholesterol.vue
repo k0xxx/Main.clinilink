@@ -21,13 +21,13 @@
 					<th>Примечание</th>
 					<th></th>
 				</tr>
-				<tr v-for="measurement in measurementsList">
+				<tr v-for="measurement in measurementsList" v-bind:key="measurement._id">
 					<td>{{measurement.date | formatMeasurement}}</td>
-					<td>{{measurement.cholesterol.LNP}}</td>
-					<td>{{measurement.cholesterol.LVP}}</td>
-					<td>{{measurement.cholesterol.triglycerides}}</td>
-					<td>{{measurement.cholesterol.cholesterol}}</td>
-					<td>{{measurement.cholesterol.note}}</td>
+					<td>{{measurement.LNP}}</td>
+					<td>{{measurement.LVP}}</td>
+					<td>{{measurement.triglycerides}}</td>
+					<td>{{measurement.cholesterol}}</td>
+					<td>{{measurement.note}}</td>
 					<td>Edit</td>
 				</tr>
 			</table>
@@ -101,10 +101,6 @@ export default {
             options: {
 				title: 'cholesterol',
 				titlePosition: 'none',
-				hAxis: {
-					//format: 'EE',
-					//gridlines: {count: -1}
-				},
 				vAxis: {
 					gridlines: {color: 'none'},
 					minValue: 0
@@ -118,7 +114,7 @@ export default {
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
 		addMeasurement: function(){
-			this.$http.put(this.endpoint + this.cholesterolForm.type, this.cholesterolForm).then((response) => {
+			this.$http.put(this.endpoint + this.item.type, this.cholesterolForm).then((response) => {
 				console.log(response);
 				this.cholesterolForm.date = '';
 				this.showModal = false;
@@ -128,8 +124,7 @@ export default {
 			})
 		},
 		getMeasurement: function(){
-			this.$http.get(this.endpoint + this.cholesterolForm.type).then((response) => {
-				console.log(response);
+			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				this.measurementsList = response.data.measurementsList;
 			}, function(err){
 				console.log(err);
@@ -143,10 +138,10 @@ export default {
 		measurementsList: function (measurement) {
 			for(var i = 0; i < measurement.length; i++){
 				this.rows.push([new Date(measurement[i].date),
-								parseInt(measurement[i].cholesterol.LNP),
-								parseInt(measurement[i].cholesterol.LVP),
-								parseInt(measurement[i].cholesterol.triglycerides),
-								parseInt(measurement[i].cholesterol.cholesterol)
+								parseInt(measurement[i].LNP),
+								parseInt(measurement[i].LVP),
+								parseInt(measurement[i].triglycerides),
+								parseInt(measurement[i].cholesterol)
 							]);
 			}
 		},

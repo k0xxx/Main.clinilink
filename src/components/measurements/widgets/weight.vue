@@ -18,10 +18,10 @@
 					<th>Примечание</th>
 					<th></th>
 				</tr>
-				<tr v-for="measurement in measurementsList">
+				<tr v-for="measurement in measurementsList" v-bind:key="measurement._id">
 					<td>{{measurement.date | formatMeasurement}}</td>
-					<td>{{measurement.weight.weight}} кг</td>
-					<td>{{measurement.weight.note}}</td>
+					<td>{{measurement.weight}} кг</td>
+					<td>{{measurement.note}}</td>
 					<td>Edit</td>
 				</tr>
 			</table>
@@ -79,10 +79,6 @@ export default {
             options: {
 				title: 'weight',
 				titlePosition: 'none',
-				hAxis: {
-					//format: 'EE',
-					//gridlines: {count: -1}
-				},
 				vAxis: {
 					gridlines: {color: 'none'},
 					minValue: 0
@@ -95,7 +91,7 @@ export default {
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
 		addMeasurement: function(){
-			this.$http.put(this.endpoint + this.weightForm.type, this.weightForm).then((response) => {
+			this.$http.put(this.endpoint + this.item.type, this.weightForm).then((response) => {
 				console.log(response);
 				this.weightForm.date = '';
 				this.weightForm.weight = '';
@@ -107,7 +103,7 @@ export default {
 			})
 		},
 		getMeasurement: function(){
-			this.$http.get(this.endpoint + this.weightForm.type).then((response) => {
+			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				this.measurementsList = response.data.measurementsList;
 			}, function(err){
 				console.log(err);
@@ -120,7 +116,7 @@ export default {
 	watch: {
 		measurementsList: function (measurement) {
 			for(var i = 0; i < measurement.length; i++){
-				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].weight.weight)]);
+				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].weight)]);
 			}
 		},
 	},
