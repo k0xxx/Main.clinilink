@@ -21,13 +21,13 @@
 					<th>Примечание</th>
 					<th></th>
 				</tr>
-				<tr v-for="measurement in measurementsList">
+				<tr v-for="measurement in measurementsList" v-bind:key="measurement._id">
 					<td>{{measurement.date | formatMeasurement}}</td>
-					<td>{{measurement.bloodpressure.systolic}}</td>
-					<td>{{measurement.bloodpressure.diastolic}}</td>
-					<td>{{measurement.bloodpressure.pulse}}</td>
-					<td>{{measurement.bloodpressure.arrhythmia}}</td>
-					<td>{{measurement.bloodpressure.note}}</td>
+					<td>{{measurement.systolic}}</td>
+					<td>{{measurement.diastolic}}</td>
+					<td>{{measurement.pulse}}</td>
+					<td>{{measurement.arrhythmia}}</td>
+					<td>{{measurement.note}}</td>
 					<td>Edit</td>
 				</tr>
 			</table>
@@ -96,10 +96,6 @@ export default {
             options: {
 				title: 'bloodpressure',
 				titlePosition: 'none',
-				hAxis: {
-					//format: 'EE',
-					//gridlines: {count: -1}
-				},
 				vAxis: {
 					gridlines: {color: 'none'},
 					minValue: 0
@@ -113,7 +109,7 @@ export default {
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
 		addMeasurement: function(){
-			this.$http.put(this.endpoint + this.bloodpressureForm.type, this.bloodpressureForm).then((response) => {
+			this.$http.put(this.endpoint + this.item.type, this.bloodpressureForm).then((response) => {
 				console.log(response);
 				this.bloodpressureForm.date = '';
 				this.showModal = false;
@@ -123,8 +119,7 @@ export default {
 			})
 		},
 		getMeasurement: function(){
-			this.$http.get(this.endpoint + this.bloodpressureForm.type).then((response) => {
-				console.log(response);
+			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				this.measurementsList = response.data.measurementsList;
 			}, function(err){
 				console.log(err);
@@ -137,7 +132,7 @@ export default {
 	watch: {
 		measurementsList: function (measurement) {
 			for(var i = 0; i < measurement.length; i++){
-				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].bloodpressure.systolic), parseInt(measurement[i].bloodpressure.diastolic)]);
+				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].systolic), parseInt(measurement[i].diastolic)]);
 			}
 		},
 	},

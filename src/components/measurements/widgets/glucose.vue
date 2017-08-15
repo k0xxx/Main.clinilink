@@ -19,11 +19,11 @@
 					<th>Примечание</th>
 					<th></th>
 				</tr>
-				<tr v-for="measurement in measurementsList">
+				<tr v-for="measurement in measurementsList" v-bind:key="measurement._id">
 					<td>{{measurement.date | formatMeasurement}}</td>
-					<td>{{measurement.glucose.glucose}} ммоль/л</td>
-					<td>{{measurement.glucose.context}}</td>
-					<td>{{measurement.glucose.note}}</td>
+					<td>{{measurement.glucose}} ммоль/л</td>
+					<td>{{measurement.context}}</td>
+					<td>{{measurement.note}}</td>
 					<td>Edit</td>
 				</tr>
 			</table>
@@ -84,10 +84,6 @@ export default {
             options: {
 				title: 'glucose',
 				titlePosition: 'none',
-				hAxis: {
-					//format: 'EE',
-					//gridlines: {count: -1}
-				},
 				vAxis: {
 					gridlines: {color: 'none'},
 					minValue: 0
@@ -101,7 +97,7 @@ export default {
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
 		addMeasurement: function(){
-			this.$http.put(this.endpoint + this.glucoseForm.type, this.glucoseForm).then((response) => {
+			this.$http.put(this.endpoint + this.item.type, this.glucoseForm).then((response) => {
 				console.log(response);
 				this.glucoseForm.date = '';
 				this.showModal = false;
@@ -111,8 +107,7 @@ export default {
 			})
 		},
 		getMeasurement: function(){
-			this.$http.get(this.endpoint + this.glucoseForm.type).then((response) => {
-				console.log(response);
+			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				this.measurementsList = response.data.measurementsList;
 			}, function(err){
 				console.log(err);
@@ -125,7 +120,7 @@ export default {
 	watch: {
 		measurementsList: function (measurement) {
 			for(var i = 0; i < measurement.length; i++){
-				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].glucose.glucose)]);
+				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].glucose)]);
 			}
 		},
 	},

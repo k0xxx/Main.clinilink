@@ -18,10 +18,10 @@
 					<th>Примечание</th>
 					<th></th>
 				</tr>
-				<tr v-for="measurement in measurementsList">
+				<tr v-for="measurement in measurementsList" v-bind:key="measurement._id">
 					<td>{{measurement.date | formatMeasurement}}</td>
-					<td>{{measurement.height.height}} см</td>
-					<td>{{measurement.height.note}}</td>
+					<td>{{measurement.height}} см</td>
+					<td>{{measurement.note}}</td>
 					<td>Edit</td>
 				</tr>
 			</table>
@@ -77,10 +77,6 @@ export default {
             options: {
 				title: 'height',
 				titlePosition: 'none',
-				hAxis: {
-					//format: 'EE',
-					//gridlines: {count: -1}
-				},
 				vAxis: {
 					gridlines: {color: 'none'},
 					minValue: 0
@@ -94,7 +90,7 @@ export default {
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
 		addMeasurement: function(){
-			this.$http.put(this.endpoint + this.heightForm.type, this.heightForm).then((response) => {
+			this.$http.put(this.endpoint + this.item.type, this.heightForm).then((response) => {
 				console.log(response);
 				this.heightForm.date = '';
 				this.showModal = false;
@@ -104,8 +100,7 @@ export default {
 			})
 		},
 		getMeasurement: function(){
-			this.$http.get(this.endpoint + this.heightForm.type).then((response) => {
-				console.log(response);
+			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				this.measurementsList = response.data.measurementsList;
 			}, function(err){
 				console.log(err);
@@ -117,8 +112,10 @@ export default {
 	},
 	watch: {
 		measurementsList: function (measurement) {
-			for(var i = 0; i < measurement.length; i++){
-				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].height.height)]);
+			if(measurement.length > 0){
+				for(var i = 0; i < measurement.length; i++){
+					this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].height)]);
+				}
 			}
 		},
 	},

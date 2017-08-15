@@ -8,7 +8,7 @@
 			</a>
 		</div> 
 		<div class="measurementItemGraph p-75">
-			<vue-chart :columns="columns" :rows="rows" :options="options"></vue-chart>
+			Вакцина	Дата получения	Кол-во уколов	Побочные действия	Примечание
 		</div>
 		<div v-if="isFullWidget" class="p-75">
 			<table>
@@ -78,8 +78,8 @@ export default {
 	name: 'widgetWeight',
 	data() {
 		return {
-			endpoint: 'http://api.clinilink.org/api/measurements/',
-			item: {title: 'Иммунизация', icon: 'bed', type: 'bloodpressure'},
+			endpoint: 'http://api.clinilink.org/api/medical_records/',
+			item: {title: 'Иммунизация', icon: 'bed', type: 'immunizations'},
 			showModal: false,
 			measurementsList: [],
 			bloodpressureForm: {
@@ -89,12 +89,12 @@ export default {
 				pulse: '',
 				arrhythmia: '',
 				note: '',
-				type: 'bloodpressure',
+				type: 'immunizations',
 			},
 			columns: [{'type': 'date', 'label': 'Дата'}, {'type': 'number', 'label': 'Систолическое'}, {'type': 'number', 'label': 'Диастолическое'}],
 			rows: [],
             options: {
-				title: 'bloodpressure',
+				title: 'immunizations',
 				titlePosition: 'none',
 				hAxis: {
 					//format: 'EE',
@@ -113,7 +113,7 @@ export default {
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
 		addMeasurement: function(){
-			this.$http.put(this.endpoint + this.bloodpressureForm.type, this.bloodpressureForm).then((response) => {
+			this.$http.put(this.endpoint + this.item.type, this.bloodpressureForm).then((response) => {
 				console.log(response);
 				this.bloodpressureForm.date = '';
 				this.showModal = false;
@@ -123,7 +123,7 @@ export default {
 			})
 		},
 		getMeasurement: function(){
-			this.$http.get(this.endpoint + this.bloodpressureForm.type).then((response) => {
+			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				console.log(response);
 				this.measurementsList = response.data.measurementsList;
 			}, function(err){
@@ -134,13 +134,13 @@ export default {
 	created: function(){
 		this.getMeasurement();
 	},
-	watch: {
+	/*watch: {
 		measurementsList: function (measurement) {
 			for(var i = 0; i < measurement.length; i++){
 				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].bloodpressure.systolic), parseInt(measurement[i].bloodpressure.diastolic)]);
 			}
 		},
-	},
+	},*/
 }
 </script>
 
