@@ -1,33 +1,35 @@
 <template>
 	<div class="measurementItem card">
 		<div class="measurementItemTitle p-75">
-			<a href="#" @click.prevent="$emit('toogle')">
-				<span v-if="isFullWidget"><icon name="arrow-left"></icon>Назад</span>
-				<span><icon :name=item.icon class="mr-50"></icon>{{item.title}}</span>
+			<div class="title">
+				<a href="#" v-if="isFullWidget" @click.prevent="$emit('toogle')">
+					<span><icon name="arrow-left"></icon>Назад</span>
+				</a>
+				<a href="#" @click.prevent="$emit('toogle')">
+					<span><icon :name=item.icon class="mr-50"></icon>{{item.title}}</span>
+				</a>
 				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="plus"></icon></button>
-			</a>
+			</div>
 		</div> 
 		<div class="measurementItemGraph p-75">
-			Название	Состояние	Дата начала	Дата прекращения	Примечание
+							
 		</div>
-		<div v-if="isFullWidget" class="p-75">
+		<div class="p-75">
 			<table>
 				<tr>		
-					<th>Дата</th>
-					<th>Систолическое</th>
-					<th>Диастолическое</th>
-					<th>Пульс</th>
-					<th>Аритмия</th>
+					<th>Название</th>
+					<th>Состояние</th>
+					<th>Дата начала</th>
+					<th>Дата прекращения</th>
 					<th>Примечание</th>
 					<th></th>
 				</tr>
-				<tr v-for="measurement in measurementsList">
-					<td>{{measurement.date | formatMeasurement}}</td>
-					<td>{{measurement.bloodpressure.systolic}}</td>
-					<td>{{measurement.bloodpressure.diastolic}}</td>
-					<td>{{measurement.bloodpressure.pulse}}</td>
-					<td>{{measurement.bloodpressure.arrhythmia}}</td>
-					<td>{{measurement.bloodpressure.note}}</td>
+				<tr v-for="medical_record in medical_recordsList">
+					<td>{{medical_record.date | formatMeasurement}}</td>
+					<td>{{medical_record.name}}</td>
+					<td>{{medical_record.name}}</td>
+					<td>{{medical_record.name}}</td>
+					<td>{{medical_record.note}}</td>
 					<td>Edit</td>
 				</tr>
 			</table>
@@ -44,24 +46,32 @@
 								<h3>Добавить значение</h3>
 							</div>
 							<div class="modal-body p-100">
-								<form v-on:submit.prevent="addMeasurement">
-									<input type="text" name="date" class="form-control text-center" v-model="bloodpressureForm.date">
-									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-									<label for="systolic">Систола</label>
-									<input type="number" name="systolic" placeholder="120" class="form-control text-center" min="0" max="400" v-model="bloodpressureForm.systolic" required="">
-									<div class="col-2 text-center py-1">/</div>
-									<label for="diastolic">Диастола</label>
-									<input type="number" name="diastolic" placeholder="80" class="form-control text-center" min="0" max="400" v-model="bloodpressureForm.diastolic" required="">
-									<label for="pulse">Пульс</label>
-									<input type="number" name="pulse" placeholder="80" class="form-control text-center" min="0" max="400" v-model="bloodpressureForm.pulse" required="">
-									<span class="input-group-addon">уд/м</span>
-									<label for="arrhythmia">Аритмия</label>
-									<select class="form-control text-center" name="arrhythmia" v-model="bloodpressureForm.arrhythmia">
-										<option value="Нет" selected="">Нет</option>
-										<option value="Обнаружена">Обнаружена</option>
-									</select>
-									<label for="note">Примечание</label>
-									<textarea class="form-control" name="note" rows="1" v-model="bloodpressureForm.note"></textarea>
+								<form v-on:submit.prevent="addMedicalRecord">
+									<div class="form-group">
+										<label for="name">Название заболевания</label>
+										<input type="text" name="name" v-model="diseasesForm.name" required="" autofocus="">
+									</div>
+									<div class="form-group">
+										<label for="state">Состояние</label>
+										<select name="state" v-model="diseasesForm.state">
+											<option value="Хроническое">Хроническое</option>
+											<option value="Острое">Острое</option>
+											<option value="Текущее">Текущее</option>
+											<option value="Вылечено">Вылечено</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="date">Дата начала</label>
+										<input type="text" name="date" v-model="diseasesForm.date">
+									</div>
+									<div class="form-group">
+										<label for="end_date">Дата прекращения</label>
+										<input type="text" name="end_date" v-model="diseasesForm.end_date">
+									</div>
+									<div class="form-group">
+										<label for="note">Примечание</label>
+										<textarea name="note" rows="1" v-model="diseasesForm.note"></textarea>
+									</div>
 									<button type="submit" class="btn-primary btn-xlarge mt-100">Добавить</button>
 								</form>
 							</div>
@@ -81,66 +91,39 @@ export default {
 			endpoint: 'http://api.clinilink.org/api/medical_records/',
 			item: {title: 'Заболевания', icon: 'bed', type: 'diseases'},
 			showModal: false,
-			measurementsList: [],
-			bloodpressureForm: {
+			medical_recordsList: [],
+			diseasesForm: {
+				name: '', 
+				state: '',
 				date: '',
-				systolic: '',
-				diastolic: '',
-				pulse: '',
-				arrhythmia: '',
+				end_date: '',
 				note: '',
-				type: 'diseases',
 			},
-			columns: [{'type': 'date', 'label': 'Дата'}, {'type': 'number', 'label': 'Систолическое'}, {'type': 'number', 'label': 'Диастолическое'}],
-			rows: [],
-            options: {
-				title: 'diseases',
-				titlePosition: 'none',
-				hAxis: {
-					//format: 'EE',
-					//gridlines: {count: -1}
-				},
-				vAxis: {
-					gridlines: {color: 'none'},
-					minValue: 0
-				},
-				legend: { position: 'bottom' },
-				chartArea: {'width': '85%', 'height': '50%'},
-            }
-            
 		}
 	},
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
-		addMeasurement: function(){
-			this.$http.put(this.endpoint + this.item.type, this.bloodpressureForm).then((response) => {
+		addMedicalRecord: function(){
+			this.$http.put(this.endpoint + this.item.type, this.diseasesForm).then((response) => {
 				console.log(response);
-				this.bloodpressureForm.date = '';
 				this.showModal = false;
-				this.measurementsList.push(response.data.measurement);
+				this.medical_recordsList.push(response.data.medicalRecord);
 			}, function(err){
 				console.log(err);
 			})
 		},
-		getMeasurement: function(){
+		getMedicalRecords: function(){
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				console.log(response);
-				this.measurementsList = response.data.measurementsList;
+				this.medical_recordsList = response.data.medical_recordsList;
 			}, function(err){
 				console.log(err);
 			})
 		}
 	},
 	created: function(){
-		this.getMeasurement();
+		this.getMedicalRecords();
 	},
-	/*watch: {
-		measurementsList: function (measurement) {
-			for(var i = 0; i < measurement.length; i++){
-				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].bloodpressure.systolic), parseInt(measurement[i].bloodpressure.diastolic)]);
-			}
-		},
-	},*/
 }
 </script>
 
@@ -162,7 +145,7 @@ tr:nth-child(even) {
 	display: inline-block;
     width: 100%;
 }
-.measurementItemTitle a{
+.measurementItemTitle .title{
 	display: flex;
     justify-content: space-between;
     font-size: 1.3rem;

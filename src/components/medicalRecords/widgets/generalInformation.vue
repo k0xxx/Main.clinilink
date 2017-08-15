@@ -1,11 +1,15 @@
 <template>
 	<div class="measurementItem card">
 		<div class="measurementItemTitle p-75">
-			<a href="#" @click.prevent="$emit('toogle')">
-				<span v-if="isFullWidget"><icon name="arrow-left"></icon>Назад</span>
-				<span><icon :name=item.icon class="mr-50"></icon>{{item.title}}</span>
-				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="pencil"></icon></button>
-			</a>
+			<div class="title">
+				<a href="#" v-if="isFullWidget" @click.prevent="$emit('toogle')">
+					<span><icon name="arrow-left"></icon>Назад</span>
+				</a>
+				<a href="#" @click.prevent="$emit('toogle')">
+					<span><icon :name=item.icon class="mr-50"></icon>{{item.title}}</span>
+				</a>
+				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="plus"></icon></button>
+			</div>
 		</div>
 		<div v-if="!isFullWidget" class="p-75">
 			Уровень активности - Подвижный, Физическая культура - Баскетболл

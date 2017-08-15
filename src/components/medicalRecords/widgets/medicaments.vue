@@ -1,11 +1,15 @@
 <template>
 	<div class="measurementItem card">
 		<div class="measurementItemTitle p-75">
-			<a href="#" @click.prevent="$emit('toogle')">
-				<span v-if="isFullWidget"><icon name="arrow-left"></icon>Назад</span>
-				<span><icon :name=item.icon class="mr-50"></icon>{{item.title}}</span>
+			<div class="title">
+				<a href="#" v-if="isFullWidget" @click.prevent="$emit('toogle')">
+					<span><icon name="arrow-left"></icon>Назад</span>
+				</a>
+				<a href="#" @click.prevent="$emit('toogle')">
+					<span><icon :name=item.icon class="mr-50"></icon>{{item.title}}</span>
+				</a>
 				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="plus"></icon></button>
-			</a>
+			</div>
 		</div> 
 		<div class="measurementItemGraph p-75">
 			Название	Содержание	Cпособ приема	Причина приема	Период приема
@@ -162,7 +166,7 @@ tr:nth-child(even) {
 	display: inline-block;
     width: 100%;
 }
-.measurementItemTitle a{
+.measurementItemTitle .title{
 	display: flex;
     justify-content: space-between;
     font-size: 1.3rem;
