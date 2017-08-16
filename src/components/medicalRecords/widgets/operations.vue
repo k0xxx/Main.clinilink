@@ -11,27 +11,21 @@
 				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="plus"></icon></button>
 			</div>
 		</div> 
-		<div class="measurementItemGraph p-75">
-			Название	Дата	Примечание
+		<div v-if="isFullWidget" class="measurementItemGraph p-75">
+			
 		</div>
-		<div v-if="isFullWidget" class="p-75">
+		<div class="p-75">
 			<table>
-				<tr>		
+				<tr>
+					<th>Название</th>
 					<th>Дата</th>
-					<th>Систолическое</th>
-					<th>Диастолическое</th>
-					<th>Пульс</th>
-					<th>Аритмия</th>
 					<th>Примечание</th>
 					<th></th>
 				</tr>
-				<tr v-for="measurement in measurementsList">
-					<td>{{measurement.date | formatMeasurement}}</td>
-					<td>{{measurement.bloodpressure.systolic}}</td>
-					<td>{{measurement.bloodpressure.diastolic}}</td>
-					<td>{{measurement.bloodpressure.pulse}}</td>
-					<td>{{measurement.bloodpressure.arrhythmia}}</td>
-					<td>{{measurement.bloodpressure.note}}</td>
+				<tr v-for="medical_record in medical_recordsList" v-bind:key="medical_record._id">
+					<td>{{medical_record.name}}</td>
+					<td>{{medical_record.date | formatMeasurement}}</td>
+					<td>{{medical_record.note}}</td>
 					<td>Edit</td>
 				</tr>
 			</table>
@@ -48,24 +42,13 @@
 								<h3>Добавить значение</h3>
 							</div>
 							<div class="modal-body p-100">
-								<form v-on:submit.prevent="addMeasurement">
-									<input type="text" name="date" class="form-control text-center" v-model="bloodpressureForm.date">
-									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-									<label for="systolic">Систола</label>
-									<input type="number" name="systolic" placeholder="120" class="form-control text-center" min="0" max="400" v-model="bloodpressureForm.systolic" required="">
-									<div class="col-2 text-center py-1">/</div>
-									<label for="diastolic">Диастола</label>
-									<input type="number" name="diastolic" placeholder="80" class="form-control text-center" min="0" max="400" v-model="bloodpressureForm.diastolic" required="">
-									<label for="pulse">Пульс</label>
-									<input type="number" name="pulse" placeholder="80" class="form-control text-center" min="0" max="400" v-model="bloodpressureForm.pulse" required="">
-									<span class="input-group-addon">уд/м</span>
-									<label for="arrhythmia">Аритмия</label>
-									<select class="form-control text-center" name="arrhythmia" v-model="bloodpressureForm.arrhythmia">
-										<option value="Нет" selected="">Нет</option>
-										<option value="Обнаружена">Обнаружена</option>
-									</select>
-									<label for="note">Примечание</label>
-									<textarea class="form-control" name="note" rows="1" v-model="bloodpressureForm.note"></textarea>
+								<form v-on:submit.prevent="addMedicalRecord">
+									<label for="name">Название</label>
+									<input type="text" name="name" v-model="operationsForm.name" placeholder="напр.: гепатит В">
+									<label for="date">Дата</label>
+									<input type="text" name="date" v-model="operationsForm.date" readonly="">
+  									<label for="note">Примечание</label>
+									<textarea name="note" v-model="operationsForm.note"></textarea>
 									<button type="submit" class="btn-primary btn-xlarge mt-100">Добавить</button>
 								</form>
 							</div>
@@ -85,66 +68,40 @@ export default {
 			endpoint: 'http://api.clinilink.org/api/medical_records/',
 			item: {title: 'Перенесенные операции', icon: 'bed', type: 'operations'},
 			showModal: false,
-			measurementsList: [],
-			bloodpressureForm: {
+			medical_recordsList: [],
+			operationsForm: {
+				name: '',
 				date: '',
-				systolic: '',
-				diastolic: '',
-				pulse: '',
-				arrhythmia: '',
 				note: '',
-				type: 'operations',
 			},
-			columns: [{'type': 'date', 'label': 'Дата'}, {'type': 'number', 'label': 'Систолическое'}, {'type': 'number', 'label': 'Диастолическое'}],
-			rows: [],
-            options: {
-				title: 'operations',
-				titlePosition: 'none',
-				hAxis: {
-					//format: 'EE',
-					//gridlines: {count: -1}
-				},
-				vAxis: {
-					gridlines: {color: 'none'},
-					minValue: 0
-				},
-				legend: { position: 'bottom' },
-				chartArea: {'width': '85%', 'height': '50%'},
-            }
-            
 		}
 	},
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
-		addMeasurement: function(){
-			this.$http.put(this.endpoint + this.item.type, this.bloodpressureForm).then((response) => {
+		addMedicalRecord: function(){
+			this.$http.put(this.endpoint + this.item.type, this.operationsForm).then((response) => {
 				console.log(response);
-				this.bloodpressureForm.date = '';
+				//this.bloodpressureForm.date = '';
 				this.showModal = false;
-				this.measurementsList.push(response.data.measurement);
+				this.medical_recordsList.push(response.data.medicalRecord);
 			}, function(err){
 				console.log(err);
 			})
 		},
-		getMeasurement: function(){
+		getMedicalRecords: function(){
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				console.log(response);
-				this.measurementsList = response.data.measurementsList;
+				if(response.data.medical_recordsList.length){
+					this.medical_recordsList = response.data.medical_recordsList;
+				}
 			}, function(err){
 				console.log(err);
 			})
 		}
 	},
 	created: function(){
-		this.getMeasurement();
+		this.getMedicalRecords();
 	},
-	/*watch: {
-		measurementsList: function (measurement) {
-			for(var i = 0; i < measurement.length; i++){
-				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].bloodpressure.systolic), parseInt(measurement[i].bloodpressure.diastolic)]);
-			}
-		},
-	},*/
 }
 </script>
 
