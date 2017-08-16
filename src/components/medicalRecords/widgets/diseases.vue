@@ -11,9 +11,6 @@
 				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="plus"></icon></button>
 			</div>
 		</div> 
-		<div class="measurementItemGraph p-75">
-							
-		</div>
 		<div class="p-75">
 			<table>
 				<tr>		
@@ -24,7 +21,7 @@
 					<th>Примечание</th>
 					<th></th>
 				</tr>
-				<tr v-for="medical_record in medical_recordsList">
+				<tr v-for="medical_record in medical_recordsList" v-bind:key="medical_record._id">
 					<td>{{medical_record.date | formatMeasurement}}</td>
 					<td>{{medical_record.name}}</td>
 					<td>{{medical_record.name}}</td>
@@ -115,7 +112,9 @@ export default {
 		getMedicalRecords: function(){
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				console.log(response);
-				this.medical_recordsList = response.data.medical_recordsList;
+				if(response.data.medical_recordsList.length){
+					this.medical_recordsList = response.data.medical_recordsList;
+				}
 			}, function(err){
 				console.log(err);
 			})

@@ -85,7 +85,7 @@ export default {
 			endpoint: 'http://api.clinilink.org/api/medical_records/',
 			item: {title: 'Консультации', icon: 'bed', type: 'consultations'},
 			showModal: false,
-			measurementsList: [],
+			medical_recordsList: [],
 			bloodpressureForm: {
 				date: '',
 				systolic: '',
@@ -95,56 +95,32 @@ export default {
 				note: '',
 				type: 'consultations',
 			},
-			columns: [{'type': 'date', 'label': 'Дата'}, {'type': 'number', 'label': 'Систолическое'}, {'type': 'number', 'label': 'Диастолическое'}],
-			rows: [],
-            options: {
-				title: 'consultations',
-				titlePosition: 'none',
-				hAxis: {
-					//format: 'EE',
-					//gridlines: {count: -1}
-				},
-				vAxis: {
-					gridlines: {color: 'none'},
-					minValue: 0
-				},
-				legend: { position: 'bottom' },
-				chartArea: {'width': '85%', 'height': '50%'},
-            }
-            
 		}
 	},
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
-		addMeasurement: function(){
-			this.$http.put(this.endpoint + this.item.type, this.bloodpressureForm).then((response) => {
+		addMedicalRecord: function(){
+			this.$http.put(this.endpoint + this.item.type, this.allergiesForm).then((response) => {
 				console.log(response);
-				this.bloodpressureForm.date = '';
+				//this.bloodpressureForm.date = '';
 				this.showModal = false;
-				this.measurementsList.push(response.data.measurement);
+				this.medical_recordsList.push(response.data.medicalRecord);
 			}, function(err){
 				console.log(err);
 			})
 		},
-		getMeasurement: function(){
+		getMedicalRecords: function(){
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				console.log(response);
-				this.measurementsList = response.data.measurementsList;
+				this.medical_recordsList = response.data.medical_recordsList;
 			}, function(err){
 				console.log(err);
 			})
 		}
 	},
 	created: function(){
-		this.getMeasurement();
+		this.getMedicalRecords();
 	},
-	/*watch: {
-		measurementsList: function (measurement) {
-			for(var i = 0; i < measurement.length; i++){
-				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].bloodpressure.systolic), parseInt(measurement[i].bloodpressure.diastolic)]);
-			}
-		},
-	},*/
 }
 </script>
 
