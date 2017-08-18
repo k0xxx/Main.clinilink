@@ -6,7 +6,7 @@
 				<span slot="no-more">Всё загружено!</span>
 			</infinite-loading>
 		</div>
-	</div>asdasdasd
+	</div>
 </template>
 
 <script>
