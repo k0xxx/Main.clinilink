@@ -1,4 +1,4 @@
-<template>
+<template> 
 	<div id="messengerMain"> 
 		<aside class="dialogSideBar">
 			<div class="dialogSideBar_header d-flex justify-content-between align-i-center text-primary"> 
