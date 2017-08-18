@@ -5,14 +5,13 @@
 				<router-link :to="{name: 'news'}" class="d-flex py-50 px-75"><icon name="arrow-left"></icon></router-link>
 				<div class="d-flex text-center py-50">Диалоги</div>
 				<a href="#" class="d-flex py-50 px-75"><icon name="envelope-o"></icon></a>
-			</div>
+			</div> 
 			<div class="dialogSideBar_search d-flex justify-content-between align-i-center text-primary p-50"> 
 				<form class="dialogSideBar_searchInput d-flex">
 					<input type="text" class="form-control px-50 input-middle input-calc-border-width" placeholder="Найти...">
 					<icon name="search" class="form-input-icon text-primary"></icon>
 				</form>
-			</div>
-			//g
+			</div> 
 			<ul class="dialogSideBar_list">
 				<li v-for="dialog in dialogList">
 					<a href="#" v-on:click="selectDialog(dialog._id)">
