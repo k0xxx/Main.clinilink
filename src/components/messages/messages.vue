@@ -30,7 +30,7 @@
 					</a>
 				</li>
 				<infinite-loading :on-infinite="loadDialogs" ref="infiniteLoading"></infinite-loading>
-			</ul>
+			</ul> 
 		</aside>
 		<div class="dialogMainBlock">
 			<div class="dialogMainBlock_header" v-if="currentDialogId">
