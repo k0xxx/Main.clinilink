@@ -81,6 +81,9 @@ export default{
 	},
 	created: function(){
 		this.profile = this.contact;
+		if(this.contact.contactsRef){
+			this.contactStatus = this.contact.contactsRef[0].type;
+		}
 	}
 }  
 </script>
