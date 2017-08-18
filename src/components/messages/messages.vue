@@ -12,7 +12,7 @@
 					<icon name="search" class="form-input-icon text-primary"></icon>
 				</form>
 			</div>
-			//gg1263
+			//gg1263111
 			<ul class="dialogSideBar_list">
 				<li v-for="dialog in dialogList">
 					<a href="#" v-on:click="selectDialog(dialog._id)">
