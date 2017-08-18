@@ -19,8 +19,18 @@
 				<div class="d-flex">
 					<button type="button" v-on:click="newMessage = true" class="d-flex btn btn-primary btn-middle border-left-radius"><icon name="comment" class="mr-50"></icon>Написать</button>
 					<newMessageModal v-if="newMessage" @close="newMessage = false" :contact_id="profile._id"></newMessageModal> 
-					<button type="button" class="d-flex btn btn-primary btn-middle no-border-radius"><icon name="user-plus" class="mr-50"></icon>Добавить</button>
-					<button type="button" class="d-flex btn btn-primary btn-middle border-right-radius"><icon name="user-plus" class="mr-50"></icon>Подписаться</button>
+					<button v-if="contactStatus == 0" type="button" v-on:click="addContact" class="d-flex btn btn-primary btn-middle no-border-radius">
+						<icon name="user-plus" class="mr-50"></icon>Добавить
+					</button>
+					<button v-if="contactStatus == 1" type="button" v-on:click="addContact" class="d-flex btn btn-primary btn-middle no-border-radius" disabled>
+						<icon name="user-plus" class="mr-50"></icon>Ожидается подтверждение
+					</button>
+					<button v-if="contactStatus == 2" type="button" v-on:click="addContact" class="d-flex btn btn-primary btn-middle no-border-radius">
+						<icon name="user-plus" class="mr-50"></icon>Удалить из контактов
+					</button>
+					<button type="button" v-on:click="addSubscribe" class="d-flex btn btn-primary btn-middle border-right-radius">
+						<icon name="user-plus" class="mr-50"></icon>Подписаться
+					</button>
 				</div>
 			</div>
 			<div class="contactItemInfoDoc" v-if="profile.status.id == '3'">
@@ -43,7 +53,10 @@ export default{
 	data() {
 		return {
 			newMessage: false,
+			endpoint: 'http://api.clinilink.org/api/contacts/',
+			contactStatus: 0,
 			profile: {
+				id: '',
 				img: '',
 				fullName: '',
 			}
@@ -51,6 +64,21 @@ export default{
 	},
 	components: {newMessageModal},
 	props: ['contact'],
+	methods: {
+		addContact: function(){
+			this.$http.put(this.endpoint, {contactId: this.profile.id}).then((response) => {
+				console.log(response);
+				if(response.data.isContact){
+					this.contactStatus = 1;
+				}
+			}, function(err){
+				console.log(err);
+			})
+		},
+		addSubscribe: function(){
+			console.log('hi');
+		}
+	},
 	created: function(){
 		this.profile = this.contact;
 	}
