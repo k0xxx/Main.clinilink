@@ -3,7 +3,7 @@
 		<div id="profileMenu" v-if="isAuth">
 			<div class="profileMenuInfo">
 				<div class="avatar">
-					<img :src="'http://new.clinilink.org/' + menu.img" alt="image profile" />
+					<img :src="menu.img" alt="image profile" />
 					<div class="login">
 						<router-link :to="{ name: 'profile', params: { profileUrl: menu.profileUrl }}">{{ menu.displayName }}</router-link> 
 					</div>
@@ -74,7 +74,7 @@ export default {
 			isAuth: this.$auth.check(),
 			showRegisterModal: false,
 			menu: {
-				img: '/img/defaultProfile.png',
+				img: 'http://cdn.clinilink.org/images/defaultProfile.png',
 				displayName: 'Аноним',
 				status: 'Не указано',
 				profileUrl: '',
