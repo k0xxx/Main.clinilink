@@ -35,6 +35,12 @@ Vue.filter('formatBirthday', function(value) {
   }
 });
 
+Vue.filter('formatMedicalRecord', function(value) {
+  if (value) {
+    return moment(String(value)).format('DD MMMM YYYY');
+  }
+});
+
 Vue.filter('formatMeasurement', function(value) {
   if (value) {
     return moment(String(value)).format('DD MMMM YYYY в HH:mm');

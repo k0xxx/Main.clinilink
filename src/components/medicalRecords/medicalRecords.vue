@@ -82,4 +82,15 @@ export default {
 #medicalRecords.fullWidget{
 	column-count: 1;
 }
+.medicalRecordList{
+
+}
+.medicalRecordList-item{
+	display: flex;
+	flex-direction: column;
+	border-bottom: 1px solid #ddd;
+}
+.medicalRecordList-item:last-child{
+	border-bottom: none;
+}
 </style>

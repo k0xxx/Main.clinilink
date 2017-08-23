@@ -10,8 +10,16 @@
 				</a>
 				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="plus"></icon></button>
 			</div>
-		</div> 
+		</div>
 		<div class="p-75">
+			<ul class="medicalRecordList">
+				<li v-for="medical_record in medical_recordsList" v-bind:key="medical_record._id" class="medicalRecordList-item">
+					<div><strong>{{medical_record.name}}</strong></div>
+					<div>{{medical_record.reaction}}</div>
+				</li>
+			</ul>
+		</div>
+		<!--<div class="p-75">
 			<table>
 				<tr>		
 					<th>Название</th>
@@ -30,7 +38,7 @@
 					<td>Edit</td>
 				</tr>
 			</table>
-		</div>
+		</div>-->
 		<div v-if="showModal" class="modal-template">
 			<transition name="modal">
 				<div class="modal-mask">
