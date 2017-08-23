@@ -1,5 +1,10 @@
 <template>
 	<div id="view" class="withSideBar">
+		<div>
+			<form action="">
+				<input type="text" name="search" placeholder="Поиск..." v-model="contactsSearch">
+			</form>
+		</div>
 		<div id="contacts">
 			<contactItem v-for="contact in contactsList" v-bind:key="contact._id" v-bind:contact="contact"></contactItem>
 			<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
@@ -20,13 +25,15 @@ export default {
 		return {
 			page: 1,
 			endpoint: 'http://api.clinilink.org/api/contacts',
-			contactsList: []
+			contactsList: [],
+			contactsType: '',
+			contactsSearch: ''
 		}
 	},
 	methods: {
 		onInfinite() {
 			var options = {
-				params: {page: this.page}
+				params: {page: this.page, contactsType: this.contactsType, contactsSearch: this.contactsSearch}
 			}
 			this.$http.get(this.endpoint, options).then((response) => {
 				if (response.data.contactsList.length) {
@@ -38,9 +45,17 @@ export default {
 				}
 		  });
 		},
+		getQuery(){
+			this.contactsType = this.$route.query.type;
+			this.contactsList = [];
+			this.page = 1;
+      		this.$nextTick(() => {
+        		this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+      		});
+		}
 	},
-	created: function(){
-		
-	}
+	watch: {
+    	'$route': 'getQuery'
+  	},
 }      
 </script>  

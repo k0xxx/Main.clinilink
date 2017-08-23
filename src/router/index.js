@@ -54,7 +54,7 @@ var router =  new VueRouter({
 	mode: 'history', 
 	routes: [ 
 		{path: '/news', name: 'news', component: News, meta: {requiresAuth: true}},
-		{path: '/contacts', name: 'contacts', components: {default:Contacts, sideBar:ContactsFilter}},
+		{path: '/contacts', name: 'contacts', components: {default:Contacts, sideBar:ContactsFilter}, props: (route) => ({ query: route.query.q })},
 		{path: '/library', name: 'library', component: Library, 
 			children: [
 				{path: ':classUrl', name: 'libraryClass', component: LibraryClass,

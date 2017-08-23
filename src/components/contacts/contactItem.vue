@@ -80,7 +80,8 @@ export default{
 		}
 	},
 	created: function(){
-		this.profile = this.contact;
+		this.profile = this.contact.contactRef;
+		this.contactStatus = this.contact.type;
 	}
 }  
 </script>

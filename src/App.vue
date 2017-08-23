@@ -86,7 +86,7 @@ img{
 .list-item-filter:hover{
 	background-color: #F8F8F8;  
 }
-.active_filter{
+.list-item-filter.router-link-exact-active{
 	background-color: #329d81 !important;
 	color: white !important;
 }
