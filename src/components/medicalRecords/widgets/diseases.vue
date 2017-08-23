@@ -16,6 +16,8 @@
 				<li v-for="medical_record in medical_recordsList" v-bind:key="medical_record._id" class="medicalRecordList-item">
 					<div><icon name="calendar" class="mr-50"></icon>c {{medical_record.date | formatMedicalRecord}} по {{medical_record.end_date | formatMedicalRecord}}</div>
 					<div>{{medical_record.name}}</div>
+					<div v-if="isFullWidget">{{medical_record.note}}</div>
+					<div v-if="isFullWidget"><icon name="edit" class="mr-50"></icon>Редактировать</div>
 				</li>
 			</ul>
 		</div>
