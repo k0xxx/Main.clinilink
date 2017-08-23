@@ -11,6 +11,7 @@
 				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="plus"></icon></button>
 			</div>
 		</div>
+		<img src="http://cdn.clinilink.org/public/defaultProfile.png" alt="">
 		<div class="p-75">
 			<ul class="medicalRecordList">
 				<li v-for="medical_record in medical_recordsList" v-bind:key="medical_record._id" class="medicalRecordList-item">

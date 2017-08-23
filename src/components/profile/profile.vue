@@ -3,7 +3,7 @@
 		<div id="userPage" class="card p-75"> 
 			<div class="header_profile p-3">
 				<div class="d-flex pb-75">
-					<div class="contain-image"> <img :src="'http://new.clinilink.org/' + profile.img"  alt="Фото профиля" height="170px" width="170px"> </div> 
+					<div class="contain-image"> <img :src="profile.img"  alt="Фото профиля" height="170px" width="170px"> </div> 
 					<div class="profile_detals">
 						<h2>{{ profile.fullName }}</h2>
 						<h3>{{profile.doc_specialization}}</h3>
@@ -50,7 +50,7 @@ export default {
 			endpoint: 'http://api.clinilink.org/api/profile/'+ this.profileUrl,
 			newMessage: false,
 			profile: {
-				img: '/img/defaultProfile.png',
+				img: 'http://cdn.clinilink.org/images/defaultProfile.png',
 				status: {
 					id: 0
 				},

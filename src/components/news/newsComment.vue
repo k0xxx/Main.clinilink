@@ -1,7 +1,7 @@
 <template>
 	<div class="mb-50 d-flex comment">
 		<a href="#" class="avatar_commentator">
-			<img :src="'http://new.clinilink.org/'+commentItem.authorRef.img" alt="" width="54px" height="54px">
+			<img :src="commentItem.authorRef.img" alt="" width="54px" height="54px">
 		</a>
 		<ul class="list pl-50">
 			<li class=''>
