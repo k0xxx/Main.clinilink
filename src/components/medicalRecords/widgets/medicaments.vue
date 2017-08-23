@@ -12,6 +12,14 @@
 			</div>
 		</div>
 		<div class="p-75">
+			<ul class="medicalRecordList">
+				<li v-for="medical_record in medical_recordsList" v-bind:key="medical_record._id" class="medicalRecordList-item">
+					<div>{{medical_record.name}}</div>
+					<div><icon name="calendar" class="mr-50"></icon>{{medical_record.date | formatMedicalRecord}}</div>
+				</li>
+			</ul>
+		</div>
+		<!--<div class="p-75">
 			<table>
 				<tr>		
 					<th>Название</th>
@@ -30,7 +38,7 @@
 					<td>Edit</td>
 				</tr>
 			</table>
-		</div>
+		</div>-->
 		<div v-if="showModal" class="modal-template">
 			<transition name="modal">
 				<div class="modal-mask">
