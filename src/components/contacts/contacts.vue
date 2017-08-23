@@ -1,6 +1,7 @@
 <template>
 	<div id="view" class="withSideBar">
 		<div id="contacts">
+			<p>{{test}}</p>
 			<contactItem v-for="contact in contactsList" v-bind:key="contact._id" v-bind:contact="contact"></contactItem>
 			<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
 				<span slot="no-more">Всё загружено!</span>
@@ -20,7 +21,8 @@ export default {
 		return {
 			page: 1,
 			endpoint: 'http://api.clinilink.org/api/contacts',
-			contactsList: []
+			contactsList: [],
+			test: '1'
 		}
 	},
 	methods: {
@@ -41,6 +43,15 @@ export default {
 	},
 	created: function(){
 		
-	}
+	},
+	route: {
+		data(){
+			this.test = this.$route.query;
+		}
+    	/*data () {
+      		// handle updated route
+      		this.queryItems(this.$route.query);
+    	}*/
+  	}
 }      
 </script>  
