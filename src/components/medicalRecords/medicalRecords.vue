@@ -85,7 +85,7 @@ export default {
 .medicalRecordItem{
 	display: inline-block;
     width: 100%;
-	min-height: 450px;
+	min-height: 380px;
 }
 .medicalRecordItem .title{
 	display: flex;
