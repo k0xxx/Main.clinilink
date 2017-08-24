@@ -382,6 +382,9 @@ textarea[placeholder]{
     padding-bottom: 1rem;
 }     
 /*===Margins===*/
+.mx-auto{
+    margin: 0 auto;
+}
 .m-auto{
 	margin: auto; 
 }

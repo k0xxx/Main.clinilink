@@ -15,12 +15,21 @@
 			
 		</div>
 		<div class="p-75">
-			<ul class="medicalRecordList">
+			<div v-if="loading" class="p-75 text-center text-primary">
+				<icon name="refresh" scale="2" spin></icon>
+			</div>
+			<ul v-else-if="medical_recordsList" class="medicalRecordList">
 				<li v-for="medical_record in medical_recordsList" v-bind:key="medical_record._id" class="medicalRecordList-item">
 					<div>{{medical_record.name}}</div>
 					<div><icon name="calendar" class="mr-50"></icon>{{medical_record.date | formatMedicalRecord}}</div>
 				</li>
 			</ul>
+			<div v-else class="text-center">
+				Записей нет<br>
+				<button class="btn btn-primary d-flex btn-middle mx-auto" v-on:click="showModal = true">
+					Добавить новую запись<icon name="plus" class="ml-50"></icon>
+				</button>
+			</div>
 		</div>
 		<!--<div class="p-75">
 			<table>
@@ -73,6 +82,7 @@ export default {
 	name: 'widgetWeight',
 	data() {
 		return {
+			loading: true,
 			endpoint: 'http://api.clinilink.org/api/medical_records/',
 			item: {title: 'Перенесенные операции', icon: 'bed', type: 'operations'},
 			showModal: false,
@@ -97,11 +107,13 @@ export default {
 			})
 		},
 		getMedicalRecords: function(){
+			this.loading = true;
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				console.log(response);
 				if(response.data.medical_recordsList.length){
 					this.medical_recordsList = response.data.medical_recordsList;
 				}
+				this.loading = false;
 			}, function(err){
 				console.log(err);
 			})

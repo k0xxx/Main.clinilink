@@ -12,7 +12,15 @@
 			</div>
 		</div> 
 		<div class="measurementItemGraph p-75">
-			Список консультаций?
+			<div v-if="loading" class="p-75 text-center text-primary">
+				<icon name="refresh" scale="2" spin></icon>
+			</div>
+			<div class="text-center">
+				Записей нет<br>
+				<button class="btn btn-primary d-flex btn-middle mx-auto" v-on:click="showModal = true">
+					Добавить новую запись<icon name="plus" class="ml-50"></icon>
+				</button>
+			</div>
 		</div>
 		<div v-if="isFullWidget" class="p-75">
 			<table>
@@ -82,6 +90,7 @@ export default {
 	name: 'widgetWeight',
 	data() {
 		return {
+			loading: true,
 			endpoint: 'http://api.clinilink.org/api/medical_records/',
 			item: {title: 'Консультации', icon: 'bed', type: 'consultations'},
 			showModal: false,
@@ -110,9 +119,11 @@ export default {
 			})
 		},
 		getMedicalRecords: function(){
+			this.loading = true;
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				console.log(response);
 				this.medical_recordsList = response.data.medical_recordsList;
+				this.loading = false;
 			}, function(err){
 				console.log(err);
 			})
