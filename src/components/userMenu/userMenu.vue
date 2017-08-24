@@ -13,7 +13,7 @@
 			<nav>
 				<router-link :to="{ name: 'profile', params: { profileUrl: menu.profileUrl }}">Профиль</router-link>
 				<router-link to="/measurements">Измерения</router-link>
-				<router-link to="/medicalRecords">Медицинская карта</router-link>
+				<router-link to="/medical_records">Медицинская карта</router-link>
 				<router-link to="/consultations">Консультации</router-link>
 				<router-link to="/news">Новости</router-link>
 				<router-link to="/questions">Вопрос врачу</router-link>
