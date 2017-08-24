@@ -1,6 +1,6 @@
 <template>
-	<div class="measurementItem card">
-		<div class="measurementItemTitle p-75">
+	<div class="medicalRecordItem card">
+		<div class="p-75">
 			<div class="title">
 				<a href="#" v-if="isFullWidget" @click.prevent="$emit('toogle')">
 					<span><icon name="arrow-left"></icon>Назад</span>

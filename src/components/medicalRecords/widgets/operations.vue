@@ -1,6 +1,6 @@
 <template>
-	<div class="measurementItem card">
-		<div class="measurementItemTitle p-75">
+	<div class="medicalRecordItem card">
+		<div class="p-75">
 			<div class="title">
 				<a href="#" v-if="isFullWidget" @click.prevent="$emit('toogle')">
 					<span><icon name="arrow-left"></icon>Назад</span>
@@ -114,30 +114,6 @@ export default {
 </script>
 
 <style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-.measurementItem{
-	display: inline-block;
-    width: 100%;
-}
-.measurementItemTitle .title{
-	display: flex;
-    justify-content: space-between;
-    font-size: 1.3rem;
-	border-bottom: 1px solid #329d81;
-	align-items: center;
-}
 .modal-mask {
   position: fixed;
   z-index: 9998;

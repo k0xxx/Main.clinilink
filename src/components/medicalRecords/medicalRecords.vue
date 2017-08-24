@@ -82,6 +82,18 @@ export default {
 #medicalRecords.fullWidget{
 	column-count: 1;
 }
+.medicalRecordItem{
+	display: inline-block;
+    width: 100%;
+	min-height: 450px;
+}
+.medicalRecordItem .title{
+	display: flex;
+    justify-content: space-between;
+    font-size: 1.3rem;
+	border-bottom: 1px solid #329d81;
+	align-items: center;
+}
 .medicalRecordList{
 
 }
