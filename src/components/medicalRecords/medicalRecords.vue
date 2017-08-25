@@ -77,7 +77,7 @@ export default {
 
 <style>
 #medicalRecords{
-	column-count: 2;
+	column-count: 3;
 }
 #medicalRecords.fullWidget{
 	column-count: 1;
