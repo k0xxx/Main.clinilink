@@ -8,7 +8,6 @@
 				<div class="p-50">
 					<label for="lastName" class="pr-75">Фамилия</label>
 					<input type="text" name="lastName" class="input-middle px-50" v-model="settings.lastName" placeholder="Введите вашу фамилию" autocomplete="off">
-					<date-picker ></date-picker>
 				</div>
 				<div class="p-50">
 					<label for="firstName" class="pr-75">Имя</label>
@@ -79,7 +78,6 @@
 </template>
 
 <script>
-import datePiker from 'vue-datepicker'
 export default {
 	name: 'settingsTotal',
 	data() {
@@ -104,7 +102,7 @@ export default {
 		}
 	},
 	components: {
-		'date-picker': datePiker
+		
 	},
 	methods: {
 		getProfileSettings: function(){
