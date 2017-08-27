@@ -99,7 +99,8 @@ export default {
 }
 .medicalRecordList-item{
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+    justify-content: space-between;
 	border-bottom: 1px solid #ddd;
 }
 .medicalRecordList-item:last-child{
