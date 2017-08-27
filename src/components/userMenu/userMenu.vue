@@ -65,6 +65,7 @@ export default {
 	name: 'userMenu', 
 	data() {  
 		return {
+			endpoint: 'http://api.clinilink.org/api/profile/',
 			credentials: {
 				email: '',
 				password: '',
@@ -91,6 +92,14 @@ export default {
 		},
 		logout: function(){
 			this.$auth.logout(this, this.credentials, "profile/",);
+		},
+		updateUserProfile: function(){
+			this.$http.get(this.endpoint).then((response) => {
+				console.log(response.data.profile);
+				this.profile = response.data.profile;
+			}, function(err){
+				console.log(err); 
+			})
 		}
 	},
 	created: function(){
