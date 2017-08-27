@@ -5,16 +5,6 @@
 			<router-link :to="{ name: 'contacts', query: { type: 'in_requests' }}" class="list-item-filter p-50">Входящие заявки</router-link>
 			<router-link :to="{ name: 'contacts', query: { type: 'out_requests' }}" class="list-item-filter p-50">Исходящие заявки</router-link>
 			<router-link :to="{ name: 'contacts', query: { type: 'subsribers' }}" class="list-item-filter p-50">Подписки</router-link>
-			<div class="mt-50">
-				<label for="">Тип контакта</label>
-				<select class="w-100 py-50">
-					<option value="">Все</option>
-					<option value="">Пациенты</option>
-					<option value="">Специалисты</option>
-					<option value="">Врачи</option>
-				</select>
-			</div>
-			
 			<!--<router-link :to="{ name: 'contacts', query: { userId: 123313 }}" class="list-item-filter p-50">Пациенты</router-link>
 			<router-link :to="{ name: 'contacts', query: { userId: 1213 }}" class="list-item-filter p-50">Специалисты</router-link>
 			<router-link :to="{ name: 'contacts', query: { userId: 1253 }}" class="list-item-filter p-50">Врачи</router-link>-->
