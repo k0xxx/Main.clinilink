@@ -3,17 +3,15 @@ var apiUrl = 'http://api.clinilink.org/api/';
 const options = {
 	loginUrl: apiUrl + 'auth/login/',
 	signupUrl: apiUrl + 'auth/signup/',
-	profileUrl: apiUrl + 'auth/profileInfo/',
 	tokenUrl: apiUrl + 'auth/token/',
 }
 
 class Authenticate {
-	constructor(Axios, loginUrl, signupUrl, logoutUrl, profileUrl) {
+	constructor(Axios, loginUrl, signupUrl, logoutUrl) {
 		this.Axios = Axios;
 		this.loginUrl = loginUrl;
 		this.signupUrl = signupUrl;
 		this.logoutUrl = logoutUrl;
-		this.profileUrl = profileUrl;
 	}
 	login(context, input){
 		this.Axios.post(this.loginUrl, input).then((response) => {
@@ -21,7 +19,6 @@ class Authenticate {
 			if(response.data.user){
 				this.setUserId(response.data.user.id);
 				this.setToken(response.data.user.token);
-				this.updateUserData();
 				context.isAuth = true;
 				context.$router.replace('news');
 			}else{
@@ -52,7 +49,6 @@ class Authenticate {
 	logout(context, redirect = false, errorHandler = false) {
 		this.removeToken();
 		this.removeUserId();
-		this.removeUser();
 		context.isAuth = false;
 	}
 	
@@ -61,21 +57,6 @@ class Authenticate {
 	setToken(token){localStorage.setItem("token", token)}
 	getToken(){return localStorage.getItem("token")}
 	removeToken() {localStorage.removeItem("token")}
-	
-	// User Data
-	updateUserData(){
-		var token = this.getToken();
-		this.Axios.get(this.profileUrl, {headers: {'Authorization': token}}).then((response) => {
-			if(response.data.profile){
-				this.saveUser(response.data.profile);
-			}
-		}, function(err){
-			console.log(err);
-		})
-	}
-	saveUser(userInfo){localStorage.setItem("user", JSON.stringify(userInfo))}
-	getUser(){return JSON.parse(localStorage.getItem("user"))}
-	removeUser(){localStorage.removeItem("user")}
 	
 	// User ID
 	setUserId(userId){localStorage.setItem("userId", userId)}
@@ -92,7 +73,7 @@ function validToken(token) {
 
 function authJWT(Vue, Axios, router) {
 
-	Vue.prototype.$auth = new Authenticate(Axios, options.loginUrl, options.signupUrl, options.logoutUrl, options.profileUrl);
+	Vue.prototype.$auth = new Authenticate(Axios, options.loginUrl, options.signupUrl, options.logoutUrl);
 	
 	router.beforeEach((to, from, next) => {
 		if (to.matched.some(record => record.meta.requiresAuth)) {

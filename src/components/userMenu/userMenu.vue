@@ -65,20 +65,20 @@ export default {
 	name: 'userMenu', 
 	data() {  
 		return {
-			endpoint: 'http://api.clinilink.org/api/profile/',
+			endpoint: 'http://api.clinilink.org/api/auth/profileInfo/',
 			credentials: {
 				email: '',
 				password: '',
 				error: {},
 			},
-			isSubmited: false,
+			isSubmited: true,
 			isAuth: this.$auth.check(),
 			showRegisterModal: false,
 			menu: {
 				img: 'http://cdn.clinilink.org/images/defaultProfile.png',
 				displayName: 'Аноним',
 				status: 'Не указано',
-				profileUrl: '',
+				profileUrl: 'Аноним',
 			},
 		} 
 	},
@@ -95,22 +95,19 @@ export default {
 		},
 		updateUserProfile: function(){
 			this.$http.get(this.endpoint).then((response) => {
-				console.log(response.data.profile);
-				this.profile = response.data.profile;
+				this.menu.img = response.data.profile.img;
+				this.menu.profileUrl = response.data.profile.url;
+				this.menu.displayName = response.data.profile.fullName;
+				this.menu.status = response.data.profile.status.name_rus;
+				
+				this.isSubmited = response.data.profile.isRegister;
 			}, function(err){
 				console.log(err); 
 			})
 		}
 	},
 	created: function(){
-		var userMenu = this.$auth.getUser();
-		if(userMenu){
-			this.menu.displayName = userMenu.fullName;
-			this.menu.profileUrl = userMenu.url;
-			this.menu.status = userMenu.status.name_rus;
-			this.isSubmited = userMenu.isRegister;
-		}
-		console.log(userMenu);
+		this.updateUserProfile();
 	}
 	
 }
