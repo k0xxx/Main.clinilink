@@ -22,16 +22,16 @@
 					<button v-if="statusContact == 0" type="button" v-on:click="addContact" class="d-flex btn btn-primary btn-middle no-border-radius">
 						<icon name="user-plus" class="mr-50"></icon>Добавить
 					</button>
-					<button v-if="statusContact == 1" type="button" v-on:click="addContact" class="d-flex btn btn-primary btn-middle no-border-radius" disabled>
+					<button v-if="statusContact == 1" type="button" v-on:click="removeContact" class="d-flex btn btn-primary btn-middle no-border-radius">
 						<icon name="user-plus" class="mr-50"></icon>Отменить заявку
 					</button>
-					<button v-if="statusContact == 2" type="button" v-on:click="addContact" class="d-flex btn btn-primary btn-middle no-border-radius">
+					<button v-if="statusContact == 2" type="button" v-on:click="approveContact" class="d-flex btn btn-primary btn-middle no-border-radius">
 						<icon name="user-plus" class="mr-50"></icon>Подтвердить
 					</button>
-					<button v-if="statusContact == 2" type="button" v-on:click="addContact" class="d-flex btn btn-primary btn-middle no-border-radius">
+					<button v-if="statusContact == 2" type="button" v-on:click="removeContact" class="d-flex btn btn-primary btn-middle no-border-radius">
 						<icon name="user-plus" class="mr-50"></icon>Отклонить
 					</button>
-					<button v-if="statusContact == 2" type="button" v-on:click="addContact" class="d-flex btn btn-primary btn-middle no-border-radius">
+					<button v-if="statusContact == 3" type="button" v-on:click="removeContact" class="d-flex btn btn-primary btn-middle no-border-radius">
 						<icon name="user-plus" class="mr-50"></icon>Удалить из контактов
 					</button>
 					<button v-if="statusSubscribe == 0" type="button" v-on:click="addSubscribe" class="d-flex btn btn-primary btn-middle border-right-radius">
@@ -64,16 +64,16 @@ export default{
 			newMessage: false,
 			endpoint: 'http://api.clinilink.org/api/contacts/',
 			statusContact: 0,
-			statusSubscribe: 0,
+			statusSubscribe: false,
 			profile: {
 				id: '',
-				img: '',
+				img: 'asd.png',
 				fullName: '',
 			}
 		}
 	},
 	components: {newMessageModal},
-	props: ['contact'],
+	props: ['contact', 'contactStatus', 'isSubscribe'],
 	methods: {
 		addContact: function(){
 			this.$http.put(this.endpoint, {contactId: this.profile.id}).then((response) => {
@@ -86,13 +86,30 @@ export default{
 			})
 		},
 		approveContact: function(){
-			console.log('hi');
-		},
-		cancelContact: function(){
-			console.log('hi');
+			this.$http.post(this.endpoint, {contactId: this.profile.id}).then((response) => {
+				console.log(response);
+				/*if(response.data.isContact){
+					this.contactStatus = 1;
+				}*/
+			}, function(err){
+				console.log(err);
+			})
 		},
 		removeContact: function(){
-			console.log('hi');
+			console.log('remove now!');
+			var options = {
+    			params: {
+     	 			contactId: this.profile.id
+    			}
+  			};
+			this.$http.delete(this.endpoint, options).then((response) => {
+				console.log(response);
+				/*if(response.data.isContact){
+					this.contactStatus = 1;
+				}*/
+			}, function(err){
+				console.log(err);
+			})
 		},
 		addSubscribe: function(){
 			console.log('hi');
@@ -102,8 +119,9 @@ export default{
 		}
 	},
 	created: function(){
-		this.profile = this.contact.contactRef;
-		this.statusContact = this.contact.type;
+		this.profile = this.contact;
+		this.statusContact = this.contactStatus;
+		this.statusSubscribe = this.isSubscribe;
 	}
 }  
 </script>
