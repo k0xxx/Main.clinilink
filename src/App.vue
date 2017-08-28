@@ -241,6 +241,10 @@ textarea[placeholder]{
 .img-circle{
 	border-radius: 100%; 
 }
+/*===displaying===*/
+.d-none{
+    display: none;
+}
 /*===flex===*/
 .d-flex{
     display: flex !important;

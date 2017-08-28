@@ -4,12 +4,16 @@
 			<form id="newPost" class='mb-75' method="POST" v-on:submit.prevent="sendPost">
 				<textarea name="title" class="text-areas p-50 mb-50" id="postTitle" v-model="newPost.title" cols="30" rows="1" placeholder="Тема..."></textarea>
 				<textarea name="text" class="text-areas p-50  mb-50" id="postText" v-model="newPost.text" cols="30" rows="3" placeholder="Ваш пост..."></textarea>
+				<ul v-if="attachfiles" class="d-flex flex-column">
+					<li v-for="attachfile in attachfiles">{{attachfile}}</li> 
+				</ul>
 				<div class="btn-group w-100 justify-content-end d-flex">
 					<select name="access" v-model="newPost.access" id="postAccess">
 						<option value="0">Доступно всем</option>
 					</select>
 					<button class="btn btn-primary no-border-radius" type="submit">Отправить</button>
-					<button class="btn btn-primary  border-right-radius d-flex align-i-center"><icon name="plus" scale="0.8"></icon></button>
+					<label for="attachFile" class="btn btn-primary border-right-radius d-flex align-i-center"><icon name="plus" scale="0.8"></icon></label>
+					<input type="file" id="attachFile" class="d-none" @change="attachFile">
 				</div>
 			</form>
 		</div>
@@ -33,9 +37,13 @@ export default {
 			newPost: {
 				title: '',
 				text: '',
+				attachFiles: [],
 				access: '',
 			},
+			attachfiles: [],
+			currentUploadFile: {},
 			endpoint: 'http://api.clinilink.org/api/news',
+			endpointFileUpload: 'http://cdn.clinilink.org/upload',
 			page: 1,
 			posts: []
 		}
@@ -43,12 +51,33 @@ export default {
 	components: {newsItem, InfiniteLoading},
 	methods: {
 		sendPost: function(){
-				this.$http.put(this.endpoint, this.newPost).then((response) => {
-					console.log(response);
-					this.posts.unshift(response.data.post);
-				}, function(err){
-					console.log(err);
-				})
+			this.$http.put(this.endpoint, this.newPost).then((response) => {
+				console.log(response);
+				this.posts.unshift(response.data.post);
+			}, function(err){
+				console.log(err);
+			})
+		},
+		attachFile: function(e){
+			console.log(e);
+			var files = e.target.files || e.dataTransfer.files;
+			if (!files.length) return;
+			this.attachfiles = this.attachfiles.concat(files[0].name)
+			this.currentUploadFile = files[0];
+			//this.createImage(files[0]);
+			var fileForm = new FormData();
+			fileForm.append("file", files[0])
+			this.currentUploadFile = fileForm;
+			this.uploadFile();
+		},
+		uploadFile: function(fileForm){
+			console.log(fileForm);
+			this.$http.post(this.endpointFileUpload, this.currentUploadFile).then((response) => {
+				console.log(response);
+				//this.posts.unshift(response.data.post);
+			}, function(err){
+				console.log(err);
+			})
 		},
 		onInfinite() {
 			var options = {
