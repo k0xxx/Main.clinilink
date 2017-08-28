@@ -123,6 +123,8 @@ export default {
         onMediaElement(e) {
             console.log(e);
             // For WebRTC just using JS/CSS for transformation
+            var video = document.createElement(e.element);
+            document.getElementById('voximplant_container').appendChild(video);
             /*$video = $(e.element);
             $video.appendTo('#voximplant_container');
             $video.css('margin-left', '10px').css('width', '320px').css('height', '240px').css('float', 'left');
