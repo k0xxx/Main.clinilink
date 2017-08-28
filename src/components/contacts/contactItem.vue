@@ -87,26 +87,23 @@ export default{
 		},
 		approveContact: function(){
 			this.$http.post(this.endpoint, {contactId: this.profile.id}).then((response) => {
-				console.log(response);
-				/*if(response.data.isContact){
-					this.contactStatus = 1;
-				}*/
+				if(response.data.update){
+					this.contactStatus = 3;
+				}
 			}, function(err){
 				console.log(err);
 			})
 		},
 		removeContact: function(){
-			console.log('remove now!');
 			var options = {
     			params: {
      	 			contactId: this.profile.id
     			}
   			};
 			this.$http.delete(this.endpoint, options).then((response) => {
-				console.log(response);
-				/*if(response.data.isContact){
-					this.contactStatus = 1;
-				}*/
+				if(response.data.isRemoved){
+					this.contactStatus = 0;
+				}
 			}, function(err){
 				console.log(err);
 			})
