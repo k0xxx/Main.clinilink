@@ -78,7 +78,6 @@
 </template>
 
 <script>
-
 export default {
 	name: 'settingsTotal',
 	data() {
@@ -101,6 +100,9 @@ export default {
 				"Младшая медицинская сестра по уходу за больными", "Санитар", "Санитар-водитель", "Сестра-хозяйк", "Провизор", "Фармацевт", "Фасовщик"]
 			}
 		}
+	},
+	components: {
+		
 	},
 	methods: {
 		getProfileSettings: function(){

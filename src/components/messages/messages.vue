@@ -30,7 +30,8 @@
 					</a>
 				</li>
 				<infinite-loading :on-infinite="loadDialogs" ref="infiniteLoading"></infinite-loading>
-			</ul> 
+				<voximplant></voximplant>
+			</ul>
 		</aside>
 		<div class="dialogMainBlock">
 			<div class="dialogMainBlock_header" v-if="currentDialogId">
@@ -100,9 +101,11 @@
 
 <script>
 import InfiniteLoading from "vue-infinite-loading"
+import voximplant from "../voximplant/voximplant.vue"
+
 export default {
 	name: 'messages', 
-	components: {InfiniteLoading},
+	components: {InfiniteLoading, voximplant},
 	data() {  
 		return {
 			endpoint: 'http://api.clinilink.org/api/messages/',
@@ -172,8 +175,8 @@ export default {
 			this.messagePage = 1;
 			this.currentDialogId = dialogId;
 			this.$nextTick(() => {
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
-      });
+        		this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+      		});
 			this.loadDialogInfo();
 			
 		},
@@ -207,7 +210,7 @@ export default {
 		}
 	},
 	created: function(){
-		
+		//console.log(this.voxAPI);
 	}
 }
 </script> 

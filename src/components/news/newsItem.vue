@@ -97,7 +97,7 @@ export default {
 			userProfile: {
 				displayName: '',
 				profileUrl: '',
-				img: '',
+				img: 'http://cdn.clinilink.org/images/profile/defaultProfile.png',
 				status: ''
 			},
 			isLike: false,
@@ -199,13 +199,13 @@ export default {
 		},
 	},
 	created: function(){
-		var profileData = this.$auth.getUser();
+		/*var profileData = this.$auth.getUser();
 		if(profileData){
 			this.userProfile.displayName = profileData.fullName;
 			this.userProfile.profileUrl = profileData.url;
 			this.userProfile.img = profileData.img;
 			this.userProfile.status = profileData.status.name_rus;
-		}
+		}*/
 	}
 }
 </script>
