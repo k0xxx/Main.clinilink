@@ -105,6 +105,8 @@ export default {
             this.currentCall.addEventListener(VoxImplant.CallEvents.Connected, this.onCallConnected);
             this.currentCall.addEventListener(VoxImplant.CallEvents.Disconnected, this.onCallDisconnected);
             this.currentCall.addEventListener(VoxImplant.CallEvents.Failed, this.onCallFailed);
+            this.currentCall.addEventListener(VoxImplant.CallEvents.MediaElementCreated, this.onMediaElement);
+            this.currentCall.addEventListener(VoxImplant.CallEvents.LocalVideoStreamAdded, this.onLocalVideoStream);
         },
         onIncomingCall(e) {
             console.log(e);
@@ -113,8 +115,32 @@ export default {
             this.currentCall.addEventListener(VoxImplant.CallEvents.Connected, this.onCallConnected);
             this.currentCall.addEventListener(VoxImplant.CallEvents.Disconnected, this.onCallDisconnected);
             this.currentCall.addEventListener(VoxImplant.CallEvents.Failed, this.onCallFailed);
+            this.currentCall.addEventListener(VoxImplant.CallEvents.MediaElementCreated, this.onMediaElement);
+            this.currentCall.addEventListener(VoxImplant.CallEvents.LocalVideoStreamAdded, this.onLocalVideoStream);
             // Answer automatically. It's better to show the dialog to let answer/reject the call in real app.
             currentCall.answer();
+        },
+        onMediaElement(e) {
+            console.log(e);
+            // For WebRTC just using JS/CSS for transformation
+            /*$video = $(e.element);
+            $video.appendTo('#voximplant_container');
+            $video.css('margin-left', '10px').css('width', '320px').css('height', '240px').css('float', 'left');
+            $video[0].play();*/
+        },
+        onLocalVideoStream(e) {
+            console.log("LOCAL VIDEO STREAM");
+            console.log(e);
+            /*if (e.type == "sharing") {
+                $('#shareButton').html('Stop Sharing');
+                $('#shareButton').off('click').click(function() {
+                currentCall.stopSharingScreen();
+                $('#shareButton').html('Share Screen');
+                $('#shareButton').off('click').click(function() {
+                    currentCall.shareScreen(true);
+                });
+                });
+            }*/
         },
         onCallConnected(e) {  
             // Start sending video and show incoming video    
