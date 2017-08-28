@@ -8,8 +8,8 @@
         <button type="button" v-on:click="createCall">Позвонить</button>
     </div>
 </template>
-
 <script>
+import $ from 'jquery';
 var VoxImplant = require('voximplant-websdk');
 
 export default {
@@ -35,7 +35,7 @@ export default {
         try {
             this.voxApi.init({
                 useRTCOnly: true, // force usage of WebRTC
-                micRequired: false, // ask mic/cam access before connection to VoxImplant
+                micRequired: true, // ask mic/cam access before connection to VoxImplant
                 videoSupport: true,  // enable video support
                 progressTone: true, // play progress tone
                 localVideoContainerId: "voximplant_container", // element id for local video from camera or screen sharing
@@ -118,7 +118,9 @@ export default {
             this.currentCall.addEventListener(VoxImplant.CallEvents.MediaElementCreated, this.onMediaElement);
             this.currentCall.addEventListener(VoxImplant.CallEvents.LocalVideoStreamAdded, this.onLocalVideoStream);
             // Answer automatically. It's better to show the dialog to let answer/reject the call in real app.
-            currentCall.answer();
+            //currentCall.answer();
+            // Answer automatically
+            this.currentCall.answer(null, {}, { receiveVideo: true, sendVideo: true });
         },
         onMediaElement(e) {
             console.log(e);
@@ -126,13 +128,17 @@ export default {
             //var video = document.createElement(e.element);
             var video = e.element.outerHTML;
             console.log(video);
-            document.getElementById('voximplant_container').innerHTML = video;
+            //document.getElementById('voximplant_container').innerHTML = video;
             /*document.getElementById('voximplant_container').appendChild(video);
             video.play();
             /*$video = $(e.element);
             $video.appendTo('#voximplant_container');
             $video.css('margin-left', '10px').css('width', '320px').css('height', '240px').css('float', 'left');
             $video[0].play();*/
+            $video = $(e.element);
+            $video.appendTo('#voximplant_container');
+            $video.css('margin-left', '10px').css('width', '320px').css('height', '240px').css('float', 'left');
+            $video[0].play();
         },
         onLocalVideoStream(e) {
             console.log("LOCAL VIDEO STREAM");
