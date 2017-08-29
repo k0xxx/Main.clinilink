@@ -34,6 +34,7 @@ export default {
     mounted: function(){
         this.voxApi.addEventListener(VoxImplant.Events.SDKReady, this.onSdkReady);
         this.voxApi.addEventListener(VoxImplant.Events.ConnectionEstablished, this.onConnectionEstablished);
+        this.voxApi.addEventListener(VoxImplant.Events.IncomingCall, this.onIncomingCall);
         
         try {
             this.voxApi.init({
@@ -66,7 +67,6 @@ export default {
             console.log(e);
             if(e.result){
                 console.log('is connected succsesful!');
-                this.voxApi.addEventListener(VoxImplant.Events.IncomingCall, this.onIncomingCall);
                 //this.currentCall = this.voxApi.call('test1');
                 /*this.currentCall.addEventListener(VoxImplant.CallEvents.Connected, function () {
                     this.currentCall.addEventListener(VoxImplant.CallEvents.MessageReceived,function(e){
@@ -96,17 +96,16 @@ export default {
         createCall() {
             // application_username - app username that will be dialed (with video)
             this.currentCall = this.voxApi.call(this.callTo, true);
-            this.currentCall.addEventListener(VoxImplant.CallEvents.Connected, this.onOutCallConnected);
-            
             this.voxApi.showLocalVideo(true);
             
             this.localvideo = document.querySelector('#voximplantlocalvideo');
             document.querySelector('#local_video_container').appendChild(this.localvideo);
             this.localvideo.style.height = "60px";
             this.localvideo.play();
+
             
             //this.currentCall.addEventListener(VoxImplant.CallEvents.Connected, this.onCallConnected);
-            //
+            this.currentCall.addEventListener(VoxImplant.CallEvents.MessageReceived, this.onMessageReceived);
 
             // add event listeners
             /*
@@ -115,44 +114,17 @@ export default {
             this.currentCall.addEventListener(VoxImplant.CallEvents.MediaElementCreated, this.onMediaElement);
             this.currentCall.addEventListener(VoxImplant.CallEvents.LocalVideoStreamAdded, this.onLocalVideoStream);*/
         },
-        onOutCallConnected(){
-            console.log('call is conected');
-            this.currentCall.addEventListener(VoxImplant.CallEvents.MessageReceived, this.onOutMessageReceived);
-        },
-        onOutMessageReceived(e){
-            console.log(e);
-            if(e.text=="CONNECTED"){
-                
-                this.remotevideo = document.getElementById(this.currentCall.getVideoElementId());
-                console.log(this.remotevideo);
-                document.querySelector('#remote_video_container').appendChild(this.remotevideo);
-                this.remotevideo.style.height = "150px";
-                this.remotevideo.play();
-                /*document.querySelector('.it_local_video').style.display = "block";
-                document.querySelector('.it_local_video').appendChild(localvideo);
-                document.querySelector('.it_connecting').style.display = "none";
-                localvideo.style.height = "140px";
-                localvideo.style.marginLeft = "-40px";
-                localvideo.play();
-                var remotevideo = document.getElementById(call.getVideoElementId());
-
-                document.querySelector('.it_remote_video').appendChild(remotevideo);
-                remotevideo.style.height = "100%";
-                remotevideo.removeAttribute("height");
-                remotevideo.removeAttribute("width");
-
-                remotevideo.play();*/
-                console.log('hi, im connected');
-            }
-        },
         onIncomingCall(e) {
             //console.log(e);
             this.currentCall = e.call;
-            //this.currentCall.addEventListener(VoxImplant.CallEvents.MessageReceived, this.onMessageReceived);
+            this.currentCall.addEventListener(VoxImplant.CallEvents.Connected, this.onCallConnected);
+            this.currentCall.addEventListener(VoxImplant.CallEvents.Disconnected, this.onCallDisconnected);
+            this.currentCall.addEventListener(VoxImplant.CallEvents.Failed, this.onCallFailed);
+            this.currentCall.addEventListener(VoxImplant.CallEvents.MessageReceived, this.onMessageReceived);
             //this.currentCall.addEventListener(VoxImplant.CallEvents.MediaElementCreated, this.onMediaElement);
             //this.currentCall.addEventListener(VoxImplant.CallEvents.LocalVideoStreamAdded, this.onLocalVideoStream);
         },
-        onIncomeCallConnected(e) {
+        onCallConnected(e) {
             //console.log(e);
             this.voxApi.sendVideo(true);
             this.currentCall.showRemoteVideo(true);
@@ -167,10 +139,10 @@ export default {
             document.querySelector('.it_remote').appendChild(this.remotevideo);
             this.remotevideo.play();*/
         },
-        onIncomeCallDisconnected(e) {
+        onCallDisconnected(e) {
             this.currentCall = null;
         },
-        onIncomeCallFailed(e) {
+        onCallFailed(e) {
             console.log(e); // Error code -  e.code, error reason - e.reason
         },
         onMessageReceived(e){
@@ -220,10 +192,6 @@ export default {
         answerCall(){
             this.currentCall.answer();
             
-            this.currentCall.addEventListener(VoxImplant.CallEvents.Connected, this.onIncomeCallConnected);
-            this.currentCall.addEventListener(VoxImplant.CallEvents.Disconnected, this.onIncomeCallDisconnected);
-            this.currentCall.addEventListener(VoxImplant.CallEvents.Failed, this.onIncomeCallFailed);
-
             this.voxApi.showLocalVideo(true);
             
             this.localvideo = document.querySelector('#voximplantlocalvideo');

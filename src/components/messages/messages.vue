@@ -30,10 +30,10 @@
 					</a>
 				</li>
 				<infinite-loading :on-infinite="loadDialogs" ref="infiniteLoading"></infinite-loading>
-				<voximplant></voximplant>
 			</ul>
 		</aside>
 		<div class="dialogMainBlock">
+			<voximplant></voximplant>
 			<div class="dialogMainBlock_header" v-if="currentDialogId">
 				<div></div>
 				<div class="d-flex align-i-center py-50">
