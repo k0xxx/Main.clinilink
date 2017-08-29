@@ -2,7 +2,7 @@
 	<div class="card my-2 mx-1 vopros_otvet p-75">
 		<div class="card-block">
 			<div class="user_info d-flex w-100">
-				<div class="avatar_container_dialog"> <img :src="'http://new.clinilink.org/'+ question.from_ref.img" alt="dialog avatar" class="avatar_dialog" height="54px" width="54px"> </div>
+				<div class="avatar_container_dialog"> <img :src="question.from_ref.img" alt="dialog avatar" class="avatar_dialog" height="54px" width="54px"> </div>
 				<div class="user_info_title w-100">
 					<div class="pl-50"><a href="#"><strong>{{ question.from_ref.fullName }}</strong></a></div>
 					<div class="pl-50 data_Question text-muted"><small>Тематика вопроса: <strong>{{ question.type }}</strong></small></div>

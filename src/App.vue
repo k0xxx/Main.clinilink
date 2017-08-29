@@ -86,7 +86,7 @@ img{
 .list-item-filter:hover{
 	background-color: #F8F8F8;  
 }
-.active_filter{
+.list-item-filter.router-link-exact-active{
 	background-color: #329d81 !important;
 	color: white !important;
 }
@@ -241,6 +241,10 @@ textarea[placeholder]{
 .img-circle{
 	border-radius: 100%; 
 }
+/*===displaying===*/
+.d-none{
+    display: none;
+}
 /*===flex===*/
 .d-flex{
     display: flex !important;
@@ -382,6 +386,9 @@ textarea[placeholder]{
     padding-bottom: 1rem;
 }     
 /*===Margins===*/
+.mx-auto{
+    margin: 0 auto;
+}
 .m-auto{
 	margin: auto; 
 }

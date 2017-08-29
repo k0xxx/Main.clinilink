@@ -1,6 +1,6 @@
 <template>
-	<div class="measurementItem card">
-		<div class="measurementItemTitle p-75">
+	<div class="medicalRecordItem card">
+		<div class="p-75">
 			<div class="title">
 				<a href="#" v-if="isFullWidget" @click.prevent="$emit('toogle')">
 					<span><icon name="arrow-left"></icon>Назад</span>
@@ -11,24 +11,23 @@
 				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="plus"></icon></button>
 			</div>
 		</div>
-		<div v-if="!isFullWidget" class="p-75">
-			Уровень активности - Подвижный, Физическая культура - Баскетболл
-			{{generalInformationForm.activity_level}}
-			{{generalInformationForm.physical_culture}}
-			{{generalInformationForm.food_settings}}
-			{{generalInformationForm.work_type}}
-			{{generalInformationForm.sleep_type}}
-			{{generalInformationForm.sleep_duration}}
-			{{generalInformationForm.stress_type}}
-			{{generalInformationForm.sex_life}}
-			{{generalInformationForm.sex_contraception}}
-			{{generalInformationForm.home_pets}}
-			{{generalInformationForm.smoking_years}}
-			{{generalInformationForm.smoking_counter}}
-			{{generalInformationForm.alcohol_years}}
-			{{generalInformationForm.drugs_years}}
+		<div v-if="loading" class="p-75 text-center text-primary">
+			<icon name="refresh" scale="2" spin></icon>
 		</div>
-		<div v-if="isFullWidget" class="p-75">
+		<div v-else-if="!isFullWidget" class="p-75">
+			<div>Уровень активности: {{generalInformationForm.activity_level}}.</div> 
+			<div>Физическая культура: {{generalInformationForm.physical_culture}}</div>
+			<div>Питание: {{generalInformationForm.food_settings}}</div>
+			<div>Уровень тяжести работы: {{generalInformationForm.work_type}}</div>
+			<div>Качество сна {{generalInformationForm.sleep_type}}, продолжительность сна {{generalInformationForm.sleep_duration}} часов.</div>
+			<div>Стрессовые ситуации {{generalInformationForm.stress_type}}</div>
+			<div>Сексуальная жизнь {{generalInformationForm.sex_life}}, средства контрацепции {{generalInformationForm.sex_contraception}}</div>
+			<div>Наличие домашних животных - {{generalInformationForm.home_pets}}.</div>
+			<div v-if="generalInformationForm.smoking_years">Курение {{generalInformationForm.smoking_years}} лет, по {{generalInformationForm.smoking_counter}} пачек в день.</div>
+			<div v-if="generalInformationForm.alcohol_years">Употребление алкоголя {{generalInformationForm.alcohol_years}} лет.</div>
+			<div v-if="generalInformationForm.drugs_years">Употребление наркотиков {{generalInformationForm.drugs_years}} лет.</div>
+		</div>
+		<div v-else-if="isFullWidget" class="p-75">
 			<form v-on:submit.prevent="saveGeneralInformation">
 				<div class="d-flex mb-75">
 					<label for="activity_level" class="mr-50">Уровень активности</label>
@@ -158,6 +157,7 @@ export default {
 	name: 'widgetGeneralInformation',
 	data() {
 		return {
+			loading: true,
 			endpoint: 'http://api.clinilink.org/api/medical_records/general_information',
 			item: {title: 'Общая информация', icon: 'bed', type: 'generalInformation'},
 			generalInformationForm: {
@@ -188,8 +188,10 @@ export default {
 			})
 		},
 		getGeneralInformation: function(){
+			this.loading = true;
 			this.$http.get(this.endpoint).then((response) => {
 				this.generalInformationForm = response.data.generalInformation;
+				this.loading = false;
 			}, function(err){
 				console.log(err);
 			})

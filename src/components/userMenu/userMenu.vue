@@ -3,7 +3,7 @@
 		<div id="profileMenu" v-if="isAuth">
 			<div class="profileMenuInfo">
 				<div class="avatar">
-					<img :src="'http://new.clinilink.org/' + menu.img" alt="image profile" />
+					<img :src="menu.img" alt="image profile" />
 					<div class="login">
 						<router-link :to="{ name: 'profile', params: { profileUrl: menu.profileUrl }}">{{ menu.displayName }}</router-link> 
 					</div>
@@ -13,7 +13,7 @@
 			<nav>
 				<router-link :to="{ name: 'profile', params: { profileUrl: menu.profileUrl }}">Профиль</router-link>
 				<router-link to="/measurements">Измерения</router-link>
-				<router-link to="/medicalRecords">Мед.карта</router-link>
+				<router-link to="/medical_records">Медицинская карта</router-link>
 				<router-link to="/consultations">Консультации</router-link>
 				<router-link to="/news">Новости</router-link>
 				<router-link to="/questions">Вопрос врачу</router-link>
@@ -65,19 +65,20 @@ export default {
 	name: 'userMenu', 
 	data() {  
 		return {
+			endpoint: 'http://api.clinilink.org/api/auth/profileInfo/',
 			credentials: {
 				email: '',
 				password: '',
 				error: {},
 			},
-			isSubmited: false,
+			isSubmited: true,
 			isAuth: this.$auth.check(),
 			showRegisterModal: false,
 			menu: {
-				img: '/img/defaultProfile.png',
+				img: 'http://cdn.clinilink.org/images/defaultProfile.png',
 				displayName: 'Аноним',
 				status: 'Не указано',
-				profileUrl: '',
+				profileUrl: 'Аноним',
 			},
 		} 
 	},
@@ -91,17 +92,22 @@ export default {
 		},
 		logout: function(){
 			this.$auth.logout(this, this.credentials, "profile/",);
+		},
+		updateUserProfile: function(){
+			this.$http.get(this.endpoint).then((response) => {
+				this.menu.img = response.data.profile.img;
+				this.menu.profileUrl = response.data.profile.url;
+				this.menu.displayName = response.data.profile.fullName;
+				this.menu.status = response.data.profile.status.name_rus;
+				
+				this.isSubmited = response.data.profile.isRegister;
+			}, function(err){
+				console.log(err); 
+			})
 		}
 	},
 	created: function(){
-		var userMenu = this.$auth.getUser();
-		if(userMenu){
-			this.menu.displayName = userMenu.fullName;
-			this.menu.profileUrl = userMenu.url;
-			this.menu.status = userMenu.status.name_rus;
-			this.isSubmited = userMenu.isRegister;
-		}
-		console.log(userMenu);
+		this.updateUserProfile();
 	}
 	
 }

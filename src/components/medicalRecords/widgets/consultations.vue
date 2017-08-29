@@ -1,6 +1,6 @@
 <template>
-	<div class="measurementItem card">
-		<div class="measurementItemTitle p-75">
+	<div class="medicalRecordItem card">
+		<div class="p-75">
 			<div class="title">
 				<a href="#" v-if="isFullWidget" @click.prevent="$emit('toogle')">
 					<span><icon name="arrow-left"></icon>Назад</span>
@@ -12,7 +12,15 @@
 			</div>
 		</div> 
 		<div class="measurementItemGraph p-75">
-			Список консультаций?
+			<div v-if="loading" class="p-75 text-center text-primary">
+				<icon name="refresh" scale="2" spin></icon>
+			</div>
+			<div class="text-center">
+				Записей нет<br>
+				<button class="btn btn-primary d-flex btn-middle mx-auto" v-on:click="showModal = true">
+					Добавить новую запись<icon name="plus" class="ml-50"></icon>
+				</button>
+			</div>
 		</div>
 		<div v-if="isFullWidget" class="p-75">
 			<table>
@@ -82,6 +90,7 @@ export default {
 	name: 'widgetWeight',
 	data() {
 		return {
+			loading: true,
 			endpoint: 'http://api.clinilink.org/api/medical_records/',
 			item: {title: 'Консультации', icon: 'bed', type: 'consultations'},
 			showModal: false,
@@ -110,9 +119,11 @@ export default {
 			})
 		},
 		getMedicalRecords: function(){
+			this.loading = true;
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				console.log(response);
 				this.medical_recordsList = response.data.medical_recordsList;
+				this.loading = false;
 			}, function(err){
 				console.log(err);
 			})
@@ -125,30 +136,6 @@ export default {
 </script>
 
 <style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-.measurementItem{
-	display: inline-block;
-    width: 100%;
-}
-.measurementItemTitle .title{
-	display: flex;
-    justify-content: space-between;
-    font-size: 1.3rem;
-	border-bottom: 1px solid #329d81;
-	align-items: center;
-}
 .modal-mask {
   position: fixed;
   z-index: 9998;

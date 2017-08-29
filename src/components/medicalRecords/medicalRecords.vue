@@ -77,9 +77,33 @@ export default {
 
 <style>
 #medicalRecords{
-	column-count: 2;
+	column-count: 3;
 }
 #medicalRecords.fullWidget{
 	column-count: 1;
+}
+.medicalRecordItem{
+	display: inline-block;
+    width: 100%;
+	min-height: 380px;
+}
+.medicalRecordItem .title{
+	display: flex;
+    justify-content: space-between;
+    font-size: 1.3rem;
+	border-bottom: 1px solid #329d81;
+	align-items: center;
+}
+.medicalRecordList{
+
+}
+.medicalRecordList-item{
+	display: flex;
+	flex-direction: row;
+    justify-content: space-between;
+	border-bottom: 1px solid #ddd;
+}
+.medicalRecordList-item:last-child{
+	border-bottom: none;
 }
 </style>

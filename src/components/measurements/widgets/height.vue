@@ -7,7 +7,10 @@
 				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="plus"></icon></button>
 			</a>
 		</div>
-		<div class="measurementItemGraph p-75">
+		<div v-if="loading" class="p-75 text-center text-primary">
+			<icon name="refresh" scale="2" spin></icon>
+		</div>
+		<div v-else class="measurementItemGraph p-75">
 			<vue-chart :columns="columns" :rows="rows" :options="options"></vue-chart>
 		</div>
 		<div v-if="isFullWidget" class="p-75">
@@ -62,6 +65,7 @@ export default {
 	name: 'widgetWeight',
 	data() {
 		return {
+			loading: true,
 			endpoint: 'http://api.clinilink.org/api/measurements/',
 			item: {title: 'Рост', icon: 'plus', type: 'height'},
 			showModal: false,
@@ -100,8 +104,10 @@ export default {
 			})
 		},
 		getMeasurement: function(){
+			this.loading = true;
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				this.measurementsList = response.data.measurementsList;
+				this.loading = false;
 			}, function(err){
 				console.log(err);
 			})

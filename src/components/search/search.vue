@@ -1,7 +1,7 @@
 <template>
 	<div id="view" class="withSideBar">
 		<div id="searchList">
-			<contactItem v-for="contact in searchList" v-bind:key="contact._id" v-bind:contact="contact"></contactItem>
+			<contactItem v-for="contact in searchList" v-bind:key="contact._id" v-bind:contact="contact" :contactStatus="0" :isSubscribe="false"></contactItem>
 			<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
 				<span slot="no-more">Всё загружено!</span>
 			</infinite-loading>
@@ -29,6 +29,7 @@ export default {
 				params: {page: this.page}
 			}
 			this.$http.get(this.endpoint, options).then((response) => {
+				console.log(response);
 				if (response.data.searchList.length) {
 					this.searchList = this.searchList.concat(response.data.searchList);
 					this.page++;

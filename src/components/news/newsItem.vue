@@ -1,7 +1,7 @@
 <template>
 	<div class="card postItem">
 		<div class="cardAuthorBlock p-75">
-			<img :src="'http://new.clinilink.org/'+postItem.author_ref.img" alt="dialog avatar" class="profileAvatar">
+			<img :src="postItem.author_ref.img" alt="dialog avatar" class="profileAvatar">
 			<ul class="profileInfo">
 				<li class="name"> 
 					<router-link :to="{ name: 'profile', params: { profileUrl: postItem.author_ref.url }}">
@@ -27,7 +27,7 @@
 			<div class="post-item" v-if="postItem.postOriginal">
 				<div class="card postItem">
 					<div class="cardAuthorBlock p-75">
-						<img :src="'http://new.clinilink.org/'+postItem.postOriginal.author_ref.img" alt="dialog avatar" class="profileAvatar">
+						<img :src="postItem.postOriginal.author_ref.img" alt="dialog avatar" class="profileAvatar">
 						<ul class="profileInfo">
 							<li class="name">
 								<router-link :to="{ name: 'profile', params: { profileUrl: postItem.postOriginal.author_ref.url }}">
@@ -70,7 +70,7 @@
 			</div>  
 			<div class="commetaries_form">    
 				<form class="d-flex align-i-stretch" v-on:submit.prevent="newComment">
-					<img :src="'http://new.clinilink.org/'+userProfile.img" alt="avatar" height="35px" width="35px" class="mx-1 img-circle">
+					<img :src="userProfile.img" alt="avatar" height="35px" width="35px" class="mx-1 img-circle">
 					<textarea name="" class="w-100 ml-50" id="area_comment" v-model="commentForm.text"></textarea>
 					<button class="btn btn-primary no-border-radius" type="submit">Комментарий</button> 
 				</form>  
@@ -97,7 +97,7 @@ export default {
 			userProfile: {
 				displayName: '',
 				profileUrl: '',
-				img: '',
+				img: 'http://cdn.clinilink.org/images/profile/defaultProfile.png',
 				status: ''
 			},
 			isLike: false,
@@ -199,13 +199,13 @@ export default {
 		},
 	},
 	created: function(){
-		var profileData = this.$auth.getUser();
+		/*var profileData = this.$auth.getUser();
 		if(profileData){
 			this.userProfile.displayName = profileData.fullName;
 			this.userProfile.profileUrl = profileData.url;
 			this.userProfile.img = profileData.img;
 			this.userProfile.status = profileData.status.name_rus;
-		}
+		}*/
 	}
 }
 </script>

@@ -16,7 +16,7 @@
 				<li v-for="dialog in dialogList">
 					<a href="#" v-on:click="selectDialog(dialog._id)">
 						<div>
-							<img :src="'http://new.clinilink.org/' + dialog.user_dialog_list_ref[0].img" class="dialogImg p-50">
+							<img :src="dialog.user_dialog_list_ref[0].img" class="dialogImg p-50">
 						</div>
 						<div class="dialogInfo py-50"> 
 							<div class="d-flex justify-content-between align-i-center pr-50">
@@ -30,7 +30,8 @@
 					</a>
 				</li>
 				<infinite-loading :on-infinite="loadDialogs" ref="infiniteLoading"></infinite-loading>
-			</ul> 
+				<voximplant></voximplant>
+			</ul>
 		</aside>
 		<div class="dialogMainBlock">
 			<div class="dialogMainBlock_header" v-if="currentDialogId">
@@ -54,7 +55,7 @@
 						</infinite-loading>
 						<li class="messageItem" v-for="message in messageList">
 							<div>
-								<img :src="'http://new.clinilink.org/' + message.from_ref.img" class="messageAuthorImg p-50">
+								<img :src="message.from_ref.img" class="messageAuthorImg p-50">
 							</div>
 							<div class="messageContent py-50"> 
 								<div class="d-flex justify-content-between align-i-center pr-50">
@@ -77,7 +78,7 @@
 				</div>
 				<aside v-if="showDialogProfile" class="dialogMainBlock_contentUserInfo d-flex flex-column mb-100"> 
 					<div class="d-flex justify-content-center">
-						<img :src="'http://new.clinilink.org/' + currentDialog.userInfo.img"  alt="avatar" height="120px" width="120px" class="img-circle">
+						<img :src="currentDialog.userInfo.img"  alt="avatar" height="120px" width="120px" class="img-circle">
 					</div>
 					<div class="mt-75 px-75 text-center">
 						<a href="#">{{currentDialog.userInfo.fullName}}</a>
@@ -100,9 +101,11 @@
 
 <script>
 import InfiniteLoading from "vue-infinite-loading"
+import voximplant from "../voximplant/voximplant.vue"
+
 export default {
 	name: 'messages', 
-	components: {InfiniteLoading},
+	components: {InfiniteLoading, voximplant},
 	data() {  
 		return {
 			endpoint: 'http://api.clinilink.org/api/messages/',
@@ -172,8 +175,8 @@ export default {
 			this.messagePage = 1;
 			this.currentDialogId = dialogId;
 			this.$nextTick(() => {
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
-      });
+        		this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+      		});
 			this.loadDialogInfo();
 			
 		},
@@ -207,7 +210,7 @@ export default {
 		}
 	},
 	created: function(){
-		
+		//console.log(this.voxAPI);
 	}
 }
 </script> 
