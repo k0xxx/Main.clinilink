@@ -29,6 +29,7 @@
 					</form>
 				</div>
 			</div>
+			<router-view></router-view>
 			<div id="questionList">
 				<questionItem v-for="question in questions" v-bind:key="question._id" v-bind:question="question"></questionItem>
 				<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">

@@ -71,7 +71,12 @@ var router =  new VueRouter({
 		{path: '/library/:classUrl/:categoryUrl/:itemUrl', name: 'libraryItemPage', components: {default: LibraryItem, rightBar: LibraryItem, sideBar: LibrarySidebar}},
 		{path: '/measurements', name: 'measurements', component: Measurements},
 		{path: '/medical_records', name: 'medicalRecords', component: MedicalRecords},
-		{path: '/questions', name: 'questions', components: {default: Questions, sideBar: QuestionsSideBar}},
+		{path: '/questions', components: {default: Questions, sideBar: QuestionsSideBar},
+			children: [
+				{path: '', name: 'questions', component: LibraryClass},
+				{path: 'my_questions', name: 'myQuestions', component: LibraryClass},
+			]
+		},
 		{path: '/messages', name: 'messages', component: Messages},
 		{path: '/consultations', name: 'consultations', component: Consultations},
 		{path: '/search', name: 'search', components: {default: Search, sideBar: SearchSidebar}},  
