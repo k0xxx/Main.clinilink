@@ -1,7 +1,7 @@
 <template>
 	<div class="contactItem card p-75">
 		<div class="contactItemImg mr-75">
-			<img :src="'http://new.clinilink.org/' + profile.img" >
+			<img :src="profile.img" >
 		</div>
 		<div class="contactItemInfoFull">
 			<div class="contactItemInfo">
@@ -22,7 +22,7 @@
 					<button v-if="statusContact == 0" type="button" v-on:click="addContact" class="d-flex btn btn-primary btn-middle no-border-radius">
 						<icon name="user-plus" class="mr-50"></icon>Добавить
 					</button>
-					<button v-if="statusContact == 1" type="button" v-on:click="removeContact" class="d-flex btn btn-primary btn-middle no-border-radius">
+					<button v-if="statusContact == 1" type="button" v-on:click="removeContact" class="d-flex btn btn-outline-danger btn-middle no-border-radius">
 						<icon name="user-plus" class="mr-50"></icon>Отменить заявку
 					</button>
 					<button v-if="statusContact == 2" type="button" v-on:click="approveContact" class="d-flex btn btn-primary btn-middle no-border-radius">
@@ -31,13 +31,13 @@
 					<button v-if="statusContact == 2" type="button" v-on:click="removeContact" class="d-flex btn btn-primary btn-middle no-border-radius">
 						<icon name="user-plus" class="mr-50"></icon>Отклонить
 					</button>
-					<button v-if="statusContact == 3" type="button" v-on:click="removeContact" class="d-flex btn btn-primary btn-middle no-border-radius">
+					<button v-if="statusContact == 3" type="button" v-on:click="removeContact" class="d-flex btn btn-outline-danger btn-middle no-border-radius">
 						<icon name="user-plus" class="mr-50"></icon>Удалить из контактов
 					</button>
 					<button v-if="statusSubscribe == 0" type="button" v-on:click="addSubscribe" class="d-flex btn btn-primary btn-middle border-right-radius">
 						<icon name="user-plus" class="mr-50"></icon>Подписаться
 					</button>
-					<button v-if="statusSubscribe == 1" type="button" v-on:click="unSubscribe" class="d-flex btn btn-danger btn-middle border-right-radius">
+					<button v-if="statusSubscribe == 1" type="button" v-on:click="unSubscribe" class="d-flex btn btn-outline-danger btn-middle border-right-radius">
 						<icon name="user-plus" class="mr-50"></icon>Отписаться
 					</button>
 				</div>
@@ -79,7 +79,7 @@ export default{
 			this.$http.put(this.endpoint, {contactId: this.profile.id}).then((response) => {
 				console.log(response);
 				if(response.data.isContact){
-					this.contactStatus = 1;
+					this.statusContact = 1;
 				}
 			}, function(err){
 				console.log(err);
@@ -88,7 +88,7 @@ export default{
 		approveContact: function(){
 			this.$http.post(this.endpoint, {contactId: this.profile.id}).then((response) => {
 				if(response.data.update){
-					this.contactStatus = 3;
+					this.statusContact = 3;
 				}
 			}, function(err){
 				console.log(err);
@@ -102,7 +102,7 @@ export default{
   			};
 			this.$http.delete(this.endpoint, options).then((response) => {
 				if(response.data.isRemoved){
-					this.contactStatus = 0;
+					this.statusContact = 0;
 				}
 			}, function(err){
 				console.log(err);

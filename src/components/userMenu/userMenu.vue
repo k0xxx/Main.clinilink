@@ -23,7 +23,7 @@
 				<router-link to="/groups">Группы</router-link>
 				<router-link to="/organizations">Организации</router-link>
 				<router-link to="/library">Справочник</router-link> 
-				<router-link to="/settings">Настройки</router-link> 
+				<router-link to="/settings"><icon name="cogs" class="mr-50"></icon>Настройки</router-link> 
 				<router-link to="/adminpage">Админ панель</router-link> 
 				<button type="button" v-on:click="logout">Выход!</button> 
 			</nav>
@@ -75,7 +75,7 @@ export default {
 			isAuth: this.$auth.check(),
 			showRegisterModal: false,
 			menu: {
-				img: 'http://cdn.clinilink.org/images/defaultProfile.png',
+				img: 'http://cdn.clinilink.org/images/profile/defaultProfile.png',
 				displayName: 'Аноним',
 				status: 'Не указано',
 				profileUrl: 'Аноним',
@@ -137,8 +137,8 @@ export default {
     left: 0;
     bottom: 0;
     background-color: rgba(255, 255, 255, 0.8);
-    padding: 0.25rem 0px;
-    font-size: 18px;
+    padding: 0.25rem;
+    font-size: 16px;
     font-weight: bold;
     white-space: nowrap;
     text-align: center;
@@ -157,7 +157,8 @@ export default {
     cursor: default;
 }
 #profileMenu nav a{
-	display: list-item;
+	display: flex;
+    align-items: center;
     list-style: none;
     font-size: 14px;
     color: #333;

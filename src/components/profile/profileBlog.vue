@@ -9,7 +9,11 @@
 				</ul>
 				<div class="btn-group w-100 justify-content-end d-flex">
 					<select name="access" v-model="newPost.access" id="postAccess">
-						<option value="0">Доступно всем</option>
+						<option value="0" data-icon="fa fa-globe">Доступно всем</option>
+						<option value="1" data-icon="fa fa-male">Пациенты</option>
+						<option value="2" data-icon="fa fa-universal-access">Специалисты</option>
+						<option value="3" data-icon="fa fa-medkit">Врачи</option>
+						<option value="4" data-icon="fa fa-eye-slash">Только я</option>
 					</select>
 					<button class="btn btn-primary no-border-radius" type="submit">Отправить</button>
 					<label for="attachFile" class="btn btn-primary border-right-radius d-flex align-i-center"><icon name="plus" scale="0.8"></icon></label>
@@ -38,7 +42,7 @@ export default {
 				title: '',
 				text: '',
 				attachFiles: [],
-				access: '',
+				access: '0',
 			},
 			attachfiles: [],
 			currentUploadFile: {},
@@ -53,7 +57,14 @@ export default {
 		sendPost: function(){
 			this.$http.put(this.endpoint, this.newPost).then((response) => {
 				console.log(response);
+				this.newPost = {
+					title: '',
+					text: '',
+					attachFiles: [],
+					access: '0',
+				};
 				this.posts.unshift(response.data.post);
+
 			}, function(err){
 				console.log(err);
 			})
