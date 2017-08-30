@@ -33,7 +33,7 @@ export default {
 	box-sizing: inherit; 
 }
 html {
-    font-family: sans-serif;
+    font-family: "Roboto", sans-serif;
 	line-height: 1.15;
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
@@ -63,6 +63,14 @@ ul{
 }
 img{
 	display: block;
+}
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
 }
 .list-item-filter{
 	position: relative;
@@ -372,7 +380,11 @@ textarea[placeholder]{
     padding-right: 1rem;
     padding-left: 1rem;
 }
-    
+
+.py-25{
+	padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+}
 .py-50{
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important;
@@ -554,6 +566,7 @@ textarea[placeholder]{
     -webkit-transition: all 0.2s ease-in-out;
     -o-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
+    cursor: pointer;
 }
 .btn-outline-danger {
     color: #d9534f;

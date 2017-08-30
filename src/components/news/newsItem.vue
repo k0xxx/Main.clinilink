@@ -17,7 +17,10 @@
 					<span class="cout_like">{{postItem.author_ref.grade.rate}}% ({{postItem.author_ref.grade.votes}} оценок)</span>
 				</li>
 				<li class="date">
-					<small class="align-i-center d-flex text-center">{{postItem.date | formatPostDate}}<icon name="globe" scale='0.8' class="px-25"></icon></small> 
+					<small class="align-i-center d-flex text-center">
+						{{postItem.date | formatPostDate}}
+						<icon name="globe" scale='0.8' class="px-25"></icon>
+					</small> 
 				</li>
 			</ul>
 		</div>

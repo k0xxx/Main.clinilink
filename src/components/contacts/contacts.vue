@@ -1,16 +1,17 @@
 <template>
 	<div id="view" class="withSideBar">
-		<div>
-			<form action="">
-				<input type="text" name="search" placeholder="Поиск..." v-model="contactsSearch">
-				
-				<label for="">Тип контакта</label>
-				<select class="">
-					<option value="">Все</option>
-					<option value="">Пациенты</option>
-					<option value="">Специалисты</option>
-					<option value="">Врачи</option>
-				</select>
+		<div class="card px-75 py-50 mb-50">
+			<form class="d-flex justify-content-between">
+				<input type="text" v-model="contactsSearch" v-on:keyup="refreshList" name="search" class="input-middle px-50" placeholder="Поиск...">
+				<div>
+					<label for="contactType" class="mr-50">Тип контакта</label>
+					<select id="contactType" v-on:change="refreshList" v-model="contactsType" class="input-middle px-50">
+						<option value="">Все</option>
+						<option value="0">Пациенты</option>
+						<option value="1">Специалисты</option>
+						<option value="3">Врачи</option>
+					</select>
+				</div>
 			</form>
 		</div>
 		<div id="contacts">
@@ -36,13 +37,14 @@ export default {
 			endpoint: 'http://api.clinilink.org/api/contacts',
 			contactsList: [],
 			contactsType: '',
-			contactsSearch: ''
+			contactsSearch: '',
+			relationType: '',
 		}
 	},
 	methods: {
 		onInfinite() {
 			var options = {
-				params: {page: this.page, contactsType: this.contactsType, contactsSearch: this.contactsSearch}
+				params: {page: this.page, relationType: this.relationType, contactsType: this.contactsType, contactsSearch: this.contactsSearch}
 			}
 			this.$http.get(this.endpoint, options).then((response) => {
 				console.log(response);
@@ -56,13 +58,16 @@ export default {
 		  });
 		},
 		getQuery(){
-			this.contactsType = this.$route.query.type;
+			this.relationType = this.$route.query.type;
+			this.refreshList();
+		},
+		refreshList(){
 			this.contactsList = [];
 			this.page = 1;
       		this.$nextTick(() => {
         		this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
       		});
-		}
+		},
 	},
 	watch: {
     	'$route': 'getQuery'
