@@ -30,6 +30,8 @@ import Groups from '../components/groups/groups.vue';
 import Organizations from '../components/organizations/organizations.vue';
 import Consultations from '../components/consultations/consultations.vue';
 
+import Blog from '../components/blog/blog.vue';
+
 import Settings from '../components/settings/settings.vue';
 import SettingsTotal from '../components/settings/settingsTotal.vue';
 import SettingsContacts from '../components/settings/settingsContacts.vue';
@@ -53,6 +55,8 @@ Vue.use(VueRouter);
 var router =  new VueRouter({
 	mode: 'history', 
 	routes: [ 
+		
+		{path: '/blog', name: 'blog', component: Blog},
 		{path: '/news', name: 'news', component: News, meta: {requiresAuth: true}},
 		{path: '/contacts', name: 'contacts', components: {default:Contacts, sideBar:ContactsFilter}, props: (route) => ({ query: route.query.q })},
 		{path: '/library', name: 'library', component: Library, 

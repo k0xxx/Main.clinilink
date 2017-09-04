@@ -10,18 +10,18 @@
 				<div class="askQuestion p-100">     
 					<form v-on:submit.prevent="newQuestion">
 						<div class="d-flex flex-column">
-							<textarea id="questionText" name="text" v-model="questionForm.text" maxlength="250" placeholder="Задайте вопрос врачу..." rows="3"></textarea>
+							<textarea id="questionText" name="text" v-model="questionForm.text" class="form_input" maxlength="250" placeholder="Задайте вопрос врачу..." rows="3"></textarea>
 							<div class="text-right"><small>Осталось <span class="count_symbols">250</span> символов</small></div>
 						</div>
 						<div class="text-right d-flex justify-content-end"> 
-							<select name="type" v-model="questionForm.type" class="input-middle border-left-radius">
+							<select name="type" v-model="questionForm.type" class="form_input">
 								<option selected="">Тематика вопроса</option>
 								<option value="1">First</option>
 								<option value="2">Second</option>
 								<option value="3">Threed</option> 
 							</select>
-							<button type="button" class="btn btn-secondary btn-middle no-border-radius  d-flex align-i-center"><icon name="plus" scale="0.8"></icon></button>
-							<button type="submit"class="btn btn-secondary btn-middle border-right-radius">Задать вопрос</button> 
+							<button type="button" class="btn btn-primary"><icon name="plus" scale="0.8"></icon></button>
+							<button type="submit"class="btn btn-primary">Задать вопрос</button> 
 						</div>
 						<div class="text-right"> 
 							<input type="checkbox"><small>Задать вопрос анонимно</small>

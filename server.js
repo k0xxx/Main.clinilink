@@ -5,14 +5,14 @@ var app = express();
 var port = process.env.PORT || 3900;
 
 //app.use(compression());
-app.use(express.static(path.join(__dirname, '/')));
+app.use(express.static(path.join(__dirname, '/dist')));
 
 app.get('/', function(req, res){
-	res.sendFile(path.join(__dirname, 'index.html'));
+	res.sendFile(path.join(__dirname, './dist/index.html'));
 })
 
 app.get('/*', function(req, res){
-	res.sendFile(path.join(__dirname, 'main.html'));
+	res.sendFile(path.join(__dirname, './dist/index.html'));
 });
 
 

@@ -1,14 +1,14 @@
 <template>
 	<div id="blog" class="p-75">
 		<div class="add_newpost_form py-1 text-center">
-			<form id="newPost" class='mb-75' method="POST" v-on:submit.prevent="sendPost">
-				<textarea name="title" class="text-areas p-50 mb-50" id="postTitle" v-model="newPost.title" cols="30" rows="1" placeholder="Тема..."></textarea>
-				<textarea name="text" class="text-areas p-50  mb-50" id="postText" v-model="newPost.text" cols="30" rows="3" placeholder="Ваш пост..."></textarea>
+			<form id="newPost" class='d-flex flex-column mb-75' method="POST" v-on:submit.prevent="sendPost">
+				<textarea name="title" class="form_input mb-50" id="postTitle" v-model="newPost.title" cols="30" rows="1" placeholder="Тема..."></textarea>
+				<textarea name="text" class="form_input mb-50" id="postText" v-model="newPost.text" cols="30" rows="3" placeholder="Ваш пост..."></textarea>
 				<ul v-if="attachfiles" class="d-flex flex-column">
 					<li v-for="attachfile in attachfiles">{{attachfile}}</li> 
 				</ul>
 				<div class="btn-group w-100 justify-content-end d-flex">
-					<select name="access" v-model="newPost.access" id="postAccess">
+					<select name="access" class="form_input" v-model="newPost.access" id="postAccess">
 						<option value="0" data-icon="fa fa-globe">Доступно всем</option>
 						<option value="1" data-icon="fa fa-male">Пациенты</option>
 						<option value="2" data-icon="fa fa-universal-access">Специалисты</option>
