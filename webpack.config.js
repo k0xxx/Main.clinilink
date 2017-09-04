@@ -73,7 +73,7 @@ if (process.env.NODE_ENV === 'production') {
 		}),
 		new PrerenderSpaPlugin(
 			path.resolve(__dirname, './dist'),
-			[ '/', '/news', '/contacts' ],
+			[ '/', '/news', '/contacts' ]
 		),
 		new webpack.optimize.UglifyJsPlugin({
 			sourceMap: true,
