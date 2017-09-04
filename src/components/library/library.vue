@@ -2,7 +2,7 @@
 	<div id="view" class="noSideBar">
 		<div id="library" class="card p-75">
 			<div class="d-flex mb-75">
-				<input type="text" class="input-calc-border-width input-middle border-left-radius px-50" placeholder="Поиск по справочнику">
+				<input type="text" class="form_input" placeholder="Поиск по справочнику">
 				<button class="btn btn-primary d-flex border-right-radius" id="spravichnik_button">Найти</button>
             </div>
 			<ul id="libraryList">

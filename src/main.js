@@ -49,8 +49,11 @@ Vue.filter('formatMeasurement', function(value) {
 
 import App from './App.vue';
 
-new Vue({
-  el: '#mainView',
+const root = new Vue({
   router,
   render: h => h(App),
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+  root.$mount('#mainView');
 })

@@ -24,8 +24,7 @@
 				<router-link to="/organizations">Организации</router-link>
 				<router-link to="/library">Справочник</router-link> 
 				<router-link to="/settings"><icon name="cogs" class="mr-50"></icon>Настройки</router-link> 
-				<router-link to="/adminpage">Админ панель</router-link> 
-				<button type="button" v-on:click="logout">Выход!</button> 
+				<router-link to="/adminpage">Админ панель</router-link>
 			</nav>
 			<modalPostRegister v-if="!isSubmited" @submit="isSubmited = true"></modalPostRegister> 
 		</div> 
@@ -91,7 +90,7 @@ export default {
 			this.$auth.login(this, this.credentials);
 		},
 		logout: function(){
-			this.$auth.logout(this, this.credentials, "profile/",);
+			this.$auth.logout(this);
 		},
 		updateUserProfile: function(){
 			this.$http.get(this.endpoint).then((response) => {
@@ -106,7 +105,7 @@ export default {
 			})
 		}
 	},
-	created: function(){
+	mounted: function(){
 		this.updateUserProfile();
 	}
 	

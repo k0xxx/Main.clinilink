@@ -1,0 +1,32 @@
+#mainView{
+	position: relative;
+	display: flex;
+    flex-direction: row;
+	width: 1140px;
+    max-width: 100%;
+	min-height: calc(100vh - 50px);
+	margin: 0 auto;
+}
+#menuWrap{
+	position: relative;
+    flex: 0 0 calc(18% - 1rem);
+    width: 18%;
+    padding: 1rem 0.5rem 0.5rem;
+    min-height: 100vh;
+}
+#view.noSideBar{
+	flex: 0 0 calc(82% - 1rem);
+    max-width: calc(82% - 1rem);
+    padding: 1rem 0.5rem 0.5rem;
+}
+#view.withSideBar{
+	flex: 0 0 calc(60% - 1rem);
+    max-width: calc(60% - 1rem);
+    padding: 1rem 0.5rem 0.5rem;
+}
+
+#mainView .sideBar{
+	flex: 0 0 calc(22% - 1rem);
+    max-width: calc(22% - 1rem);
+    padding: 1rem 0.5rem 0.5rem;
+}

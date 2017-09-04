@@ -1,0 +1,16 @@
+.list-item-filter{
+	position: relative;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.list-item-filter:hover{
+	background-color: #F8F8F8;  
+}
+.list-item-filter.router-link-exact-active{
+	background-color: #329d81 !important;
+	color: white !important;
+}

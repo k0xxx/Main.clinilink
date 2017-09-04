@@ -7,8 +7,9 @@ const options = {
 }
 
 class Authenticate {
-	constructor(Axios, loginUrl, signupUrl, logoutUrl) {
+	constructor(Axios, router, loginUrl, signupUrl, logoutUrl) {
 		this.Axios = Axios;
+		this.router = router;
 		this.loginUrl = loginUrl;
 		this.signupUrl = signupUrl;
 		this.logoutUrl = logoutUrl;
@@ -19,7 +20,7 @@ class Authenticate {
 			if(response.data.user){
 				this.setUserId(response.data.user.id);
 				this.setToken(response.data.user.token);
-				context.isAuth = true;
+				//context.isAuth = true;
 				context.$router.replace('news');
 			}else{
 				context.credentials.error = response.data.info;
@@ -50,6 +51,7 @@ class Authenticate {
 		this.removeToken();
 		this.removeUserId();
 		context.isAuth = false;
+		context.$router.replace('/');
 	}
 	
 	// Token
@@ -73,7 +75,7 @@ function validToken(token) {
 
 function authJWT(Vue, Axios, router) {
 
-	Vue.prototype.$auth = new Authenticate(Axios, options.loginUrl, options.signupUrl, options.logoutUrl);
+	Vue.prototype.$auth = new Authenticate(Axios, router, options.loginUrl, options.signupUrl, options.logoutUrl);
 	
 	router.beforeEach((to, from, next) => {
 		if (to.matched.some(record => record.meta.requiresAuth)) {

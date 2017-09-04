@@ -1,0 +1,104 @@
+.btn {
+    display: inline-block;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.4rem;
+    font-size: 1rem; 
+    border-radius: 0.25rem;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    
+    &:focus,
+    &.focus {
+      outline: 0;
+    }
+  
+    &.disabled,
+    &:disabled {
+      opacity: .65;
+    }
+  
+    &:active,
+    &.active {
+      background-image: none;
+    }
+
+    // Colors
+    &.btn-primary{
+        color: #fff;
+        background: #329d81;
+    }
+    &.btn-outline-primary {
+        color: #329d81;
+        background-image: none;
+        background-color: transparent;
+        border-color: #329d81;
+    }
+    &.btn-outline-primary:hover{
+        color:white;
+        background-color: #329d81;
+    }
+
+    &.btn-danger{
+        color: #fff;
+        background: red;
+    }
+    &.btn-outline-danger {
+        color: #d9534f;
+        background-image: none;
+        background-color: transparent;
+        border-color: #d9534f;
+    }
+    &.btn-outline-danger:hover{
+        color:white;
+        background-color: #d9534f;
+    }
+    
+    &.btn-info {
+        color: #fff;
+        background: #5bc0de;
+    }
+    &.btn-outline-info {
+        color: #5bc0de;
+        background-image: none;
+        background-color: transparent;
+        border-color: #5bc0de;
+    }
+    &.btn-outline-info:hover{
+        color: white;
+        background-color: #5bc0de;
+    }
+
+    &.btn-warning {
+        color: white;
+        background-color: #f0ad4e;
+    }
+    &.btn-outline-warning {
+        color: #f0ad4e;
+        background-image: none;
+        background-color: transparent;
+        border-color: #f0ad4e;
+    }
+    &.btn-outline-warning:hover{
+        color:white;
+        background-color: #f0ad4e;
+    }
+
+    /*===button-sizing===*/
+    .btn-small{
+        height: 1rem;
+    }
+    .btn-middle{
+        height: 1.3rem;
+    }
+    .btn-large{
+        height: 1.8rem;
+    }
+    .btn-xlarge{
+        height: 2.3rem;
+    }
+}

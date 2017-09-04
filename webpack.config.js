@@ -1,12 +1,14 @@
 var path = require('path')
 var webpack = require('webpack')
-const autoprefixer = require('autoprefixer');
+var autoprefixer = require('autoprefixer');
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+var PrerenderSpaPlugin = require('prerender-spa-plugin')
 
 module.exports = {
 	entry: './src/main.js',
 	output: {
 		path: path.resolve(__dirname, './dist'),
-		publicPath: '/dist/',
+		publicPath: '/',
 		filename: 'build.js'
 	},
 	module: {
@@ -37,6 +39,14 @@ module.exports = {
 			}
 		]
 	},
+	plugins: [
+		new HtmlWebpackPlugin({
+			title: 'Clinilink',
+			template: 'index.html',
+			filename: path.resolve(__dirname, './dist/index.html'),
+			favicon: './src/assets/favicon.png',
+	  	})
+	],
 	resolve: {
 		alias: {
 			'vue$': 'vue/dist/vue.esm.js'
@@ -61,7 +71,10 @@ if (process.env.NODE_ENV === 'production') {
 				NODE_ENV: '"production"'
 			}
 		}),
-		new webpack.optimize.DedupePlugin(),
+		new PrerenderSpaPlugin(
+			path.resolve(__dirname, './dist'),
+			[ '/', '/news', '/contacts' ],
+		),
 		new webpack.optimize.UglifyJsPlugin({
 			sourceMap: true,
 			compress: {
