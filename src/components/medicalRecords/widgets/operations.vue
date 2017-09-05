@@ -83,7 +83,7 @@ export default {
 	data() {
 		return {
 			loading: true,
-			endpoint: 'http://api.clinilink.org/api/medical_records/',
+			endpoint: 'https://api.clinilink.org/api/medical_records/',
 			item: {title: 'Перенесенные операции', icon: 'bed', type: 'operations'},
 			showModal: false,
 			medical_recordsList: [],

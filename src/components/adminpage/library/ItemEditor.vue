@@ -67,7 +67,7 @@ export default {
 	name: 'itemEditor',
 	data() {
 		return {
-			endpointItem: 'http://api.clinilink.org/api/adminpage/library/getItems/'+this.$route.params.itemId,
+			endpointItem: 'https://api.clinilink.org/api/adminpage/library/getItems/'+this.$route.params.itemId,
 			libItem: {},
 		}
 	},

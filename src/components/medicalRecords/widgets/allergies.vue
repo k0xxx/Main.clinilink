@@ -89,7 +89,7 @@ export default {
 	data() {
 		return {
 			loading: true,
-			endpoint: 'http://api.clinilink.org/api/medical_records/',
+			endpoint: 'https://api.clinilink.org/api/medical_records/',
 			item: {title: 'Аллергии', icon: 'bed', type: 'allergies'},
 			showModal: false,
 			medical_recordsList: [],

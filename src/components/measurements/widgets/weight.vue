@@ -68,7 +68,7 @@ export default {
 	data() {
 		return {
 			loading: true,
-			endpoint: 'http://api.clinilink.org/api/measurements/',
+			endpoint: 'https://api.clinilink.org/api/measurements/',
 			item: {title: 'Вес', icon: 'plus', type: 'weight'},
 			showModal: false,
 			measurementsList: [],

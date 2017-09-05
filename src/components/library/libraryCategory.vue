@@ -11,7 +11,7 @@ export default {
   name: 'libraryCategory',
   data() {
     return {
-      endpoint: 'http://api.clinilink.org/api/library/'+this.$route.params.classUrl+'/'+this.$route.params.categoryUrl,
+      endpoint: 'https://api.clinilink.org/api/library/'+this.$route.params.classUrl+'/'+this.$route.params.categoryUrl,
       itemsList: {}
     }
   },

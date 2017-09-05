@@ -158,7 +158,7 @@ export default {
 	data() {
 		return {
 			loading: true,
-			endpoint: 'http://api.clinilink.org/api/medical_records/general_information',
+			endpoint: 'https://api.clinilink.org/api/medical_records/general_information',
 			item: {title: 'Общая информация', icon: 'bed', type: 'generalInformation'},
 			generalInformationForm: {
 				activity_level: '',

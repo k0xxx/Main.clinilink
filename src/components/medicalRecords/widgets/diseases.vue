@@ -117,7 +117,7 @@ export default {
 	data() {
 		return {
 			loading: true,
-			endpoint: 'http://api.clinilink.org/api/medical_records/',
+			endpoint: 'https://api.clinilink.org/api/medical_records/',
 			item: {title: 'Заболевания', icon: 'bed', type: 'diseases'},
 			showModal: false,
 			medical_recordsList: [],

@@ -18,7 +18,7 @@ export default {
 	data() {
 		return {
 			page: 1,
-			endpoint: 'http://api.clinilink.org/api/blog',
+			endpoint: 'https://api.clinilink.org/api/blog',
 			posts: [],
 		}
 	},

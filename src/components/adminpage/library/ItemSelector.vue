@@ -15,7 +15,7 @@ export default {
 	name: 'itemSelector',
 	data() {
 		return {
-			endpointItems: 'http://api.clinilink.org/api/adminpage/library/getItems',
+			endpointItems: 'https://api.clinilink.org/api/adminpage/library/getItems',
 			libraryItemsList: []
 		}
 	},

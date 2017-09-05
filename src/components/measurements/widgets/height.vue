@@ -66,7 +66,7 @@ export default {
 	data() {
 		return {
 			loading: true,
-			endpoint: 'http://api.clinilink.org/api/measurements/',
+			endpoint: 'https://api.clinilink.org/api/measurements/',
 			item: {title: 'Рост', icon: 'plus', type: 'height'},
 			showModal: false,
 			measurementsList: [],

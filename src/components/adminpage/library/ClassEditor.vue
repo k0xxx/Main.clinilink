@@ -26,7 +26,7 @@ export default {
 	name: 'ClassEditor',
 	data() {
 		return {      
-			endpointClass: 'http://api.clinilink.org/api/adminpage/library/getClasses/'+this.$route.params.classId,
+			endpointClass: 'https://api.clinilink.org/api/adminpage/library/getClasses/'+this.$route.params.classId,
 			libClass: {}
 		}
 	},
