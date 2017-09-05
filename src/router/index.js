@@ -31,6 +31,7 @@ import Organizations from '../components/organizations/organizations.vue';
 import Consultations from '../components/consultations/consultations.vue';
 
 import Blog from '../components/blog/blog.vue';
+import AboutUs from '../components/aboutUs/aboutUs.vue';
 
 import Settings from '../components/settings/settings.vue';
 import SettingsTotal from '../components/settings/settingsTotal.vue';
@@ -57,6 +58,7 @@ var router =  new VueRouter({
 	routes: [ 
 		
 		{path: '/blog', name: 'blog', component: Blog},
+		{path: '/about-us', name: 'aboutUs', component: AboutUs},
 		{path: '/news', name: 'news', component: News, meta: {requiresAuth: true}},
 		{path: '/contacts', name: 'contacts', components: {default:Contacts, sideBar:ContactsFilter}, props: (route) => ({ query: route.query.q })},
 		{path: '/library', name: 'library', component: Library, 
