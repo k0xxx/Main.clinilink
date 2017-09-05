@@ -15,17 +15,17 @@
 					<input type="password" v-model="credentials.password" class="form_input" placeholder="Пароль">
 					<br>
 					<button type="submit" class="btn btn-primary mb-50">Вход</button>
-					<div id="socialNetworks"> 
-						<a href="#" class="btn-outline-danger mx-50">
+					<div id="socialNetworks" class="d-flex justify-content-center"> 
+						<a href="#" class="btn btn-outline-danger">
 							<icon name="google-plus"></icon>
 						</a>
-						<a href="#" class="btn-outline-info mx-50">
+						<a href="#" class="btn btn-outline-info">
 							<icon name="facebook"></icon>
 						</a>
-						<a href="#" class="btn-outline-warning mx-50">
+						<a href="#" class="btn btn-outline-warning">
 							<icon name="odnoklassniki"></icon>
 						</a>
-						<a href="#" class="btn-outline-info mx-50"> 
+						<a href="#" class="btn btn-outline-info">
 							<icon name="vk"></icon>
 						</a>
 					</div>
@@ -33,11 +33,11 @@
 				</form>
 			</div>
 			<div class="card p-75">
-				<form id="register_form" class="d-flex flex-column">
+				<form id="register_form" class="d-flex flex-column" v-on:submit.prevent="signup">
 					<legend class="text-center mb-75">Регистрация</legend>
-					<input type="email" class="form_input" placeholder="Ваш email">
+					<input type="email" v-model="register.email" class="form_input" placeholder="Ваш email">
 					<br>
-					<input type="password" class="form_input" placeholder="Пароль">
+					<input type="password" v-model="register.password" class="form_input" placeholder="Пароль">
 					<br>
 					<button type="submit" class="btn btn-primary mb-50">Зарегистрироваться</button>
 					<small class="text-center"> Регистрируясь, Вы соглашаетесь с нашими условиями<br> <a>пользовательского соглашения</a> </small>
@@ -59,14 +59,22 @@ export default {
 				password: '',
 				error: {},
 			},
-			//isSubmited: true,
-			//isAuth: this.$auth.check(),
-		} 
+			register: {
+				email: '',
+				password: '',
+				isRegister: false,
+				error: ''
+			},
+		}
 	},
 	methods: {
 		login: function(){
 			this.$auth.login(this, this.credentials);
-		},	
+		},
+		signup: function(){
+			this.$auth.signup(this, this.register);
+			console.log(this.register);
+		}
 	},
 	
 }
@@ -78,6 +86,17 @@ body{
 }
 .main_page_logo{
 	max-width: 65%;
+}
+#socialNetworks a{
+	justify-content: center;
+    display: flex;
+	align-items: center;
+	width: 30px;
+	height: 20px;
+    margin-right: 0.5rem;
+}
+#socialNetworks a::last-child{
+	margin-right: 0;
 }
 /*.main_page_auth{
 	width: 40%;

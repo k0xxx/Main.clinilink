@@ -23,7 +23,7 @@ class Authenticate {
 				//context.isAuth = true;
 				context.$router.replace('news');
 			}else{
-				context.credentials.error = response.data.info;
+				input.error = response.data.info;
 			}
 		}, function(err){
 			console.log(err);
@@ -32,7 +32,7 @@ class Authenticate {
 	signup(context, input){
 		this.Axios.post(this.signupUrl, input).then((response) => {
 			//console.log(response);
-			context.isRegister = true;
+			input.isRegister = true;
 			//context.$emit('auth');
 			//context.$router.replace('asd');
 			/*if(response.data.user){
