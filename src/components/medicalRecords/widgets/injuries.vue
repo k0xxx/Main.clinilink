@@ -80,7 +80,7 @@ export default {
 	data() {
 		return {
 			loading: true,
-			endpoint: 'http://api.clinilink.org/api/medical_records/',
+			endpoint: 'https://api.clinilink.org/api/medical_records/',
 			item: {title: 'Травмы', icon: 'bed', type: 'injuries'},
 			showModal: false,
 			medical_recordsList: [],

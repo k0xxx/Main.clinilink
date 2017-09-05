@@ -12,7 +12,7 @@ export default {
   name: 'libraryClass',
   data() {
     return {
-      endpoint: 'http://api.clinilink.org/api/library/'+this.$route.params.classUrl,
+      endpoint: 'https://api.clinilink.org/api/library/'+this.$route.params.classUrl,
       categorysList: {}
     }
   },

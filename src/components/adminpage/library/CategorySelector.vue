@@ -17,7 +17,7 @@ export default {
 	name: 'CategorySelector',
 	data() {
 		return {
-			endpointCategories: 'http://api.clinilink.org/api/adminpage/library/getCategories',
+			endpointCategories: 'https://api.clinilink.org/api/adminpage/library/getCategories',
 			libraryCategoriesList: []
 		}
 	},

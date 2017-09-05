@@ -94,7 +94,7 @@ export default {
 	data() {
 		return {
 			loading: true,
-			endpoint: 'http://api.clinilink.org/api/medical_records/',
+			endpoint: 'https://api.clinilink.org/api/medical_records/',
 			item: {title: 'Принимаемые препараты', icon: 'bed', type: 'medicaments'},
 			showModal: false,
 			medical_recordsList: [],

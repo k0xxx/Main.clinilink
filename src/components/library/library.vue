@@ -26,7 +26,7 @@ export default {
 	name: 'library',
 	data() {
 		return {
-			endpoint: 'http://api.clinilink.org/api/library/',
+			endpoint: 'https://api.clinilink.org/api/library/',
 			classList: []
 		}
 	},

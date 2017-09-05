@@ -17,7 +17,7 @@ export default {
 	name: 'ClassSelector',
 	data() {
 		return {      
-			endpointClasses: 'http://api.clinilink.org/api/adminpage/library/getClasses',
+			endpointClasses: 'https://api.clinilink.org/api/adminpage/library/getClasses',
 			classSearch: '',
 			libraryClassList: [],
 		}

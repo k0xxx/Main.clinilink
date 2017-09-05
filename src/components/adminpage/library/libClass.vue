@@ -17,10 +17,10 @@ export default {
   name: 'classItem',
   data() {
     return {
-      msg: 'Редактор справочника',
-	  endpointClasses: 'http://api.clinilink.org/api/libraryAdminpage/getClasses',
-	  endpointCategories: 'http://api.clinilink.org/api/libraryAdminpage/getCategories',
-	  endpointItems: 'http://api.clinilink.org/api/libraryAdminpage/getItems',
+      msg: 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
+	  endpointClasses: 'https://api.clinilink.org/api/libraryAdminpage/getClasses',
+	  endpointCategories: 'https://api.clinilink.org/api/libraryAdminpage/getCategories',
+	  endpointItems: 'https://api.clinilink.org/api/libraryAdminpage/getItems',
 	  libraryClassList: [],
 	  libraryCategoryList: [],
 	  libraryItemList: [],

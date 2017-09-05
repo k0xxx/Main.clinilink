@@ -34,7 +34,7 @@ export default {
 	data() {
 		return {
 			page: 1,
-			endpoint: 'http://api.clinilink.org/api/contacts',
+			endpoint: 'https://api.clinilink.org/api/contacts',
 			contactsList: [],
 			contactsType: '',
 			contactsSearch: '',

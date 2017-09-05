@@ -96,11 +96,11 @@ export default {
 	props: ['post'],
 	data() {
 		return {
-			endpoint: 'http://api.clinilink.org/api/blog/'+this.post._id,
+			endpoint: 'https://api.clinilink.org/api/blog/'+this.post._id,
 			userProfile: {
 				displayName: '',
 				profileUrl: '',
-				img: 'http://cdn.clinilink.org/images/profile/defaultProfile.png',
+				img: 'https://cdn.clinilink.org/images/profile/defaultProfile.png',
 				status: ''
 			},
 			isLike: false,

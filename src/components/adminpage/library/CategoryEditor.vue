@@ -24,7 +24,7 @@ export default {
 	name: 'CategoryEditor',
 	data() {
 		return {
-			endpointCategory: 'http://api.clinilink.org/api/adminpage/library/getCategories/'+this.$route.params.categoryId,
+			endpointCategory: 'https://api.clinilink.org/api/adminpage/library/getCategories/'+this.$route.params.categoryId,
 			libCategory: {}
 		}
 	},

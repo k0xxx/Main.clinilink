@@ -1,5 +1,5 @@
 // URL and endpoint constants
-var apiUrl = 'http://api.clinilink.org/api/';
+var apiUrl = 'https://api.clinilink.org/api/';
 const options = {
 	loginUrl: apiUrl + 'auth/login/',
 	signupUrl: apiUrl + 'auth/signup/',
