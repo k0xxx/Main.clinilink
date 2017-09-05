@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { baseAPI } from '../../config.js';
+import { baseAPI } from '../../../config';
 export default {
 	name: 'itemSelector',
 	data() {
