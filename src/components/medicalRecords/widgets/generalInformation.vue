@@ -153,12 +153,13 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'widgetGeneralInformation',
 	data() {
 		return {
 			loading: true,
-			endpoint: 'https://api.clinilink.org/api/medical_records/general_information',
+			endpoint: baseAPI + 'medical_records/general_information',
 			item: {title: 'Общая информация', icon: 'bed', type: 'generalInformation'},
 			generalInformationForm: {
 				activity_level: '',

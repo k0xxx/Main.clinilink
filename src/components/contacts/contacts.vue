@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 import InfiniteLoading from "vue-infinite-loading"
 import contactItem from "./contactItem.vue";
 
@@ -34,7 +35,7 @@ export default {
 	data() {
 		return {
 			page: 1,
-			endpoint: 'https://api.clinilink.org/api/contacts',
+			endpoint: baseAPI + 'contacts',
 			contactsList: [],
 			contactsType: '',
 			contactsSearch: '',

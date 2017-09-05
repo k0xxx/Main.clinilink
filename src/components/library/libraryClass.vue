@@ -8,11 +8,12 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
   name: 'libraryClass',
   data() {
     return {
-      endpoint: 'https://api.clinilink.org/api/library/'+this.$route.params.classUrl,
+      endpoint: baseAPI + 'library/'+this.$route.params.classUrl,
       categorysList: {}
     }
   },

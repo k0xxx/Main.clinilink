@@ -18,14 +18,14 @@
 </template>
 
 <script>
-
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'settingsContacts',
 	data() {
 		return {
 			userId: '',
 			settings: {},
-			endpoint: 'http://api.clinilink.org/api/profileSettings/',
+			endpoint: baseAPI + 'profileSettings/',
 			sub: {
 				blood_type_list: ["I(+)", "I(-)", "II(+)", "II(-)", "III(+)", "III(-)", "IV(+)", "IV(-)"],
 			}

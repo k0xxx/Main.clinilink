@@ -100,6 +100,7 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 import InfiniteLoading from "vue-infinite-loading"
 import voximplant from "../voximplant/voximplant.vue"
 
@@ -108,7 +109,7 @@ export default {
 	components: {InfiniteLoading, voximplant},
 	data() {  
 		return {
-			endpoint: 'http://api.clinilink.org/api/messages/',
+			endpoint: baseAPI + 'messages/',
 			dialogPage: 1,
 			messagePage: 1,
 			dialogList: [],

@@ -76,12 +76,13 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'widgetWeight',
 	data() {
 		return {
 			loading: true,
-			endpoint: 'https://api.clinilink.org/api/measurements/',
+			endpoint: baseAPI + 'measurements/',
 			item: {title: 'Холестерин', icon: 'plus', type: 'cholesterol'},
 			showModal: false,
 			measurementsList: [],

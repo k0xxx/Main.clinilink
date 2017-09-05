@@ -13,11 +13,12 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'CategorySelector',
 	data() {
 		return {
-			endpointCategories: 'https://api.clinilink.org/api/adminpage/library/getCategories',
+			endpointCategories: baseAPI + 'adminpage/library/getCategories',
 			libraryCategoriesList: []
 		}
 	},

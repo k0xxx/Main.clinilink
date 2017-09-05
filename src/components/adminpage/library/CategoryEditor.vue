@@ -20,11 +20,12 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'CategoryEditor',
 	data() {
 		return {
-			endpointCategory: 'https://api.clinilink.org/api/adminpage/library/getCategories/'+this.$route.params.categoryId,
+			endpointCategory: baseAPI + 'adminpage/library/getCategories/'+this.$route.params.categoryId,
 			libCategory: {}
 		}
 	},

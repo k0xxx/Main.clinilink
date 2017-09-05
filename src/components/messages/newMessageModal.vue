@@ -24,11 +24,12 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'newMessageModal', 
 	data() {  
 		return {
-			endpoint: 'http://api.clinilink.org/api/messages',
+			endpoint: baseAPI + 'messages',
 			newMessageForm: {
 				message: '',
 				contact_id: this.contact_id,

@@ -48,12 +48,12 @@
 </template>
 
 <script>
-
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'defaultView', 
 	data() {  
 		return {
-			endpoint: 'https://api.clinilink.org/api/auth/profileInfo/',
+			endpoint: baseAPI + 'auth/profileInfo/',
 			credentials: {
 				email: '',
 				password: '',

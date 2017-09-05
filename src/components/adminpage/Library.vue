@@ -12,7 +12,7 @@
 //import libClass from './library/libClass.vue'
 //import libCategory from './library/libCategory.vue'
 //import libItem from './library/libItem.vue'
-
+import { baseAPI } from '../../config.js';
 export default {
   name: 'library',
   data() {

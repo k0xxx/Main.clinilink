@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 import InfiniteLoading from "vue-infinite-loading"
 import newsItem from "../news/newsItem.vue"
 
@@ -46,7 +47,7 @@ export default {
 			},
 			attachfiles: [],
 			currentUploadFile: {},
-			endpoint: 'http://api.clinilink.org/api/news',
+			endpoint: baseAPI + 'news',
 			endpointFileUpload: 'http://cdn.clinilink.org/upload',
 			page: 1,
 			posts: []

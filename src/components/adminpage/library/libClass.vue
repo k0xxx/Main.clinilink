@@ -13,14 +13,15 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
   name: 'classItem',
   data() {
     return {
       msg: '�������� �����������',
-	  endpointClasses: 'https://api.clinilink.org/api/libraryAdminpage/getClasses',
-	  endpointCategories: 'https://api.clinilink.org/api/libraryAdminpage/getCategories',
-	  endpointItems: 'https://api.clinilink.org/api/libraryAdminpage/getItems',
+	  endpointClasses: baseAPI + 'libraryAdminpage/getClasses',
+	  endpointCategories: baseAPI + 'libraryAdminpage/getCategories',
+	  endpointItems: baseAPi + 'libraryAdminpage/getItems',
 	  libraryClassList: [],
 	  libraryCategoryList: [],
 	  libraryItemList: [],

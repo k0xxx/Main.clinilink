@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 import newMessageModal from '../messages/newMessageModal.vue';
 export default {
 	name: 'profile',
@@ -47,7 +48,7 @@ export default {
 	props: ['profileUrl'],
 	data() {
 		return {
-			endpoint: 'http://api.clinilink.org/api/profile/'+ this.profileUrl,
+			endpoint: baseAPI + 'profile/'+ this.profileUrl,
 			newMessage: false,
 			profile: {
 				img: 'http://cdn.clinilink.org/images/defaultProfile.png',
