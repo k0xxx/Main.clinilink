@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { baseAPI } from '../../config.js';
+import { baseAPI } from '../../../config';
 import { VueEditor } from 'vue2-quill-editor'
 
 export default {
