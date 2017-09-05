@@ -1,6 +1,7 @@
 var compression = require('compression');
 var express = require('express');
 var https = require('https');
+var http = require('http');
 var fs = require('fs');
 var path = require('path');
 
@@ -32,6 +33,6 @@ if(mainConf.isSSL){
 
 
 // Старт сервера на порту
-httpsServer.listen(mainConf.port, function(){
+server.listen(mainConf.port, function(){
 	console.log('Server running on port: ' + mainConf.port);
 });
