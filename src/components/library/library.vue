@@ -22,11 +22,12 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'library',
 	data() {
 		return {
-			endpoint: 'https://api.clinilink.org/api/library/',
+			endpoint: baseAPI + 'library/',
 			classList: []
 		}
 	},

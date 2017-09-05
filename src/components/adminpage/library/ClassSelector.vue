@@ -13,11 +13,12 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'ClassSelector',
 	data() {
 		return {      
-			endpointClasses: 'https://api.clinilink.org/api/adminpage/library/getClasses',
+			endpointClasses: baseAPI + 'adminpage/library/getClasses',
 			classSearch: '',
 			libraryClassList: [],
 		}

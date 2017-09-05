@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 import InfiniteLoading from "vue-infinite-loading"
 import questionItem from './questionItem.vue';
 
@@ -54,7 +55,7 @@ export default {
 				type: ''
 			},
 			page: 1,
-			endpoint: 'http://api.clinilink.org/api/questions',
+			endpoint: baseAPI + 'questions',
 			questions: []
 		}
 	},

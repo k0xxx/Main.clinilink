@@ -22,11 +22,12 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'ClassEditor',
 	data() {
 		return {      
-			endpointClass: 'https://api.clinilink.org/api/adminpage/library/getClasses/'+this.$route.params.classId,
+			endpointClass: baseAPI + 'adminpage/library/getClasses/'+this.$route.params.classId,
 			libClass: {}
 		}
 	},

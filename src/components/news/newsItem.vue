@@ -89,6 +89,7 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 import newsComment from './newsComment.vue';
 export default {
 	name: 'newsItem',
@@ -96,7 +97,7 @@ export default {
 	props: ['post'],
 	data() {
 		return {
-			endpoint: 'http://api.clinilink.org/api/news/'+this.post._id,
+			endpoint: baseAPI + 'news/'+this.post._id,
 			userProfile: {
 				displayName: '',
 				profileUrl: '',

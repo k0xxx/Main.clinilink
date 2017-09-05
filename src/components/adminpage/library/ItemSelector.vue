@@ -11,11 +11,12 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'itemSelector',
 	data() {
 		return {
-			endpointItems: 'https://api.clinilink.org/api/adminpage/library/getItems',
+			endpointItems: baseAPI + 'adminpage/library/getItems',
 			libraryItemsList: []
 		}
 	},

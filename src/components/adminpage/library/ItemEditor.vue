@@ -61,13 +61,14 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 import { VueEditor } from 'vue2-quill-editor'
 
 export default {
 	name: 'itemEditor',
 	data() {
 		return {
-			endpointItem: 'https://api.clinilink.org/api/adminpage/library/getItems/'+this.$route.params.itemId,
+			endpointItem: baseAPI + 'adminpage/library/getItems/'+this.$route.params.itemId,
 			libItem: {},
 		}
 	},

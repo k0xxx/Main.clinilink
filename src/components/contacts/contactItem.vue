@@ -56,15 +56,16 @@
 	</div>
 </template>
 <script>
+import { baseAPI } from '../../config.js';
 
 import newMessageModal from '../messages/newMessageModal.vue';
 
 export default{
-	name: "contactItem",
+	name: 'contactItem',
 	data() {
 		return {
 			newMessage: false,
-			endpoint: 'https://api.clinilink.org/api/contacts/',
+			endpoint: baseAPI + 'contacts/',
 			statusContact: 0,
 			statusSubscribe: false,
 			profile: {

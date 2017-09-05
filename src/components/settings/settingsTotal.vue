@@ -78,13 +78,15 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
+
 export default {
 	name: 'settingsTotal',
 	data() {
 		return {
 			userId: '',
 			settings: {},
-			endpoint: 'http://api.clinilink.org/api/profileSettings/',
+			endpoint: baseAPI + 'profileSettings/',
 			sub: {
 				blood_type_list: ["I(+)", "I(-)", "II(+)", "II(-)", "III(+)", "III(-)", "IV(+)", "IV(-)"],
 				family_status_list: ["Женат / Замужем", "Не женат / Не замужем"],

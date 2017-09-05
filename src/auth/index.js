@@ -1,9 +1,9 @@
 // URL and endpoint constants
-var apiUrl = 'https://api.clinilink.org/api/';
+import { baseAPI } from '../config';
 const options = {
-	loginUrl: apiUrl + 'auth/login/',
-	signupUrl: apiUrl + 'auth/signup/',
-	tokenUrl: apiUrl + 'auth/token/',
+	loginUrl: baseAPI + 'auth/login/',
+	signupUrl: baseAPI + 'auth/signup/',
+	tokenUrl: baseAPI + 'auth/token/',
 }
 
 class Authenticate {

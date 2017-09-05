@@ -57,6 +57,7 @@
 </template> 
 
 <script>   
+import { baseAPI } from '../../config.js';
 import modalRegister from './modalRegister.vue';
 import modalPostRegister from './modalPostRegister.vue';
 
@@ -64,7 +65,7 @@ export default {
 	name: 'userMenu', 
 	data() {  
 		return {
-			endpoint: 'http://api.clinilink.org/api/auth/profileInfo/',
+			endpoint: baseAPI + 'auth/profileInfo/',
 			credentials: {
 				email: '',
 				password: '',

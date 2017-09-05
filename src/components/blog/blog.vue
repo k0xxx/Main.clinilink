@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 import InfiniteLoading from "vue-infinite-loading"
 import blogItem from "./blogItem.vue"
 
@@ -18,7 +19,7 @@ export default {
 	data() {
 		return {
 			page: 1,
-			endpoint: 'https://api.clinilink.org/api/blog',
+			endpoint: baseAPI + 'blog',
 			posts: [],
 		}
 	},

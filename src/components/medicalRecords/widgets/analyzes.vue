@@ -92,12 +92,13 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'widgetWeight',
 	data() {
 		return {
 			loading: true,
-			endpoint: 'https://api.clinilink.org/api/medical_records/',
+			endpoint: baseAPI + 'medical_records/',
 			item: {title: 'Анализы', icon: 'bed', type: 'analyzes'},
 			showModal: false,
 			medical_recordsList: [],

@@ -140,11 +140,12 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
   name: 'libraryItem',
   data() {
     return {
-		endpoint: 'https://api.clinilink.org/api/library/'+this.$route.params.classUrl+'/'+this.$route.params.categoryUrl+'/'+this.$route.params.itemUrl,
+		endpoint: baseAPI + 'library/'+this.$route.params.classUrl+'/'+this.$route.params.categoryUrl+'/'+this.$route.params.itemUrl,
 		libItem: {}
     }
   },

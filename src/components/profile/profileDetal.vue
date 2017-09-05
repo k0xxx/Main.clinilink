@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 import profileDetailWorks from './profileDetailWorks.vue';
 import profileDetailCertificate from './profileDetailCertificate.vue';
 import profileDetailCourses from './profileDetailCourses.vue';
@@ -46,7 +47,7 @@ export default {
 	},
 	data() {
 		return {
-			endpoint: 'http://api.clinilink.org/api/profile/'+this.$route.params.profileUrl,
+			endpoint: baseAPI + 'profile/'+this.$route.params.profileUrl,
 			profileInfo: {
 				status: {
 					id: 0

@@ -126,11 +126,12 @@
 </template>
 
 <script>
+import { baseAPI } from '../../config.js';
 export default {
 	name: 'modalPostRegister', 
 	data() {  
 		return {
-			endpoint: 'http://api.clinilink.org/api/auth/afterRegistration',
+			endpoint: baseAPI + 'auth/afterRegistration',
 			profileTypeStep: 1,
 			profileType: {
 				status: 'patient',
