@@ -6,6 +6,9 @@
 			</router-link>
 			<ul class="header_menu_items d-flex">
 				<li class="d-flex align-i-center">
+					<router-link to="/about-us" class="mx-50 d-flex global_link">О нас</router-link>
+				</li>
+				<li class="d-flex align-i-center">
 					<router-link to="/library" class="mx-50 d-flex global_link">Справочник</router-link>
 				</li>
 				<li class="d-flex align-i-center">

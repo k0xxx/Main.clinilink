@@ -1,17 +1,21 @@
 <template>
-    <div id="mainView">
+    <div>
         <appHeader v-if="!isAuth"></appHeader>
         <appHeaderAuth v-else></appHeaderAuth>
-        <userMenu v-if="isAuth"></userMenu>
-		<router-view></router-view>
-		<router-view v-if="isAuth" name="sideBar"></router-view>
-	</div>
+        <div id="mainView">
+            <userMenu v-if="isAuth"></userMenu>
+		    <router-view></router-view>
+		    <router-view v-if="isAuth" name="sideBar"></router-view>
+        </div>
+        <appFooter v-if="!isAuth"></appFooter>
+    </div>
 </template>   
 
 <script>
 import appHeader from './components/appHeader/appHeader.vue'
 import appHeaderAuth from './components/appHeader/appHeaderAuth.vue'
-import userMenu from './components/userMenu/userMenu.vue'  
+import userMenu from './components/userMenu/userMenu.vue'
+import appFooter from './components/footer/footer.vue'
 
 export default {
     name: 'app', 
@@ -20,7 +24,7 @@ export default {
             isAuth: this.$auth.check(),
         }
     },
-    components: { appHeader, appHeaderAuth, userMenu },
+    components: { appHeader, appHeaderAuth, userMenu, appFooter },
     updated: function(){
         this.isAuth = this.$auth.check();
     }

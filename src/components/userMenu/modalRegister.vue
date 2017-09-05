@@ -11,7 +11,7 @@
 							<h3>Регистрация</h3>
 						</div>
 						<div class="modal-body-register p-100">
-							<div v-if="!isRegister">
+							<div v-if="!register.isRegister">
 								<span>Пожалуйста, укажите Ваш<br>E-mail и пароль</span>
 								<form class="d-flex flex-column" v-on:submit.prevent="signup">
 									<div class="input-container"> 
@@ -43,9 +43,9 @@ export default {
 		return {
 			register: {
 				email: '',
-				password: ''
+				password: '',
+				isRegister: false
 			},
-			isRegister: false
 		}
 	},
 	methods: {

@@ -34,11 +34,14 @@ export default {
     mounted: function(){
         this.voxApi.addEventListener(VoxImplant.Events.SDKReady, this.onSdkReady);
         this.voxApi.addEventListener(VoxImplant.Events.ConnectionEstablished, this.onConnectionEstablished);
-        
+        this.voxApi.addEventListener(VoxImplant.Events.ConnectionFailed, this.onConnectionFailed);
+        this.voxApi.addEventListener(VoxImplant.Events.ConnectionClosed, this.onConnectionClosed);
+        this.voxApi.addEventListener(VoxImplant.Events.MicAccessResult, this.onMicAccessResult);
+
         try {
             this.voxApi.init({
                 //useRTCOnly: true, // force usage of WebRTC
-                micRequired: true, // ask mic/cam access before connection to VoxImplant
+                micRequired: false, // ask mic/cam access before connection to VoxImplant
                 videoSupport: true,  // enable video support
                 progressTone: true, // play progress tone
                 //localVideoContainerId: "local_video_container", // element id for local video from camera or screen sharing
@@ -46,8 +49,6 @@ export default {
             });
         } catch(e) {
             console.log(e);
-            // showing the message if browser doesn't support WebRTC
-            //if (e.message == "NO_WEBRTC_SUPPORT") alert("WebRTC support isn't available");
         }
     },
     methods: {
@@ -56,7 +57,18 @@ export default {
             this.voxApi.connect();
         },
         onConnectionEstablished(){
+            console.log('ConnectionEstablished!');
             //this.loginVox(); //автоматическа авторизация
+        },
+        onConnectionFailed(e){
+            console.log('ConnectionFailed!');
+            console.log(e);
+        },
+        onConnectionClosed(){
+            console.log('is closed!');
+        },
+        onMicAccessResult(e){
+            console.log(e);
         },
         loginVox(){
             this.voxApi.addEventListener(VoxImplant.Events.AuthResult, this.onAuthResult);
@@ -101,9 +113,9 @@ export default {
             this.voxApi.showLocalVideo(true);
             
             this.localvideo = document.querySelector('#voximplantlocalvideo');
-            document.querySelector('#local_video_container').appendChild(this.localvideo);
-            this.localvideo.style.height = "60px";
-            this.localvideo.play();
+            //document.querySelector('#local_video_container').appendChild(this.localvideo);
+            //this.localvideo.style.height = "60px";
+            //this.localvideo.play();
             
             //this.currentCall.addEventListener(VoxImplant.CallEvents.Connected, this.onCallConnected);
             //
