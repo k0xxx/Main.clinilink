@@ -5,7 +5,7 @@
   "author": "k0xxx",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack -progress --hot",
+    "dev": "cross-env NODE_ENV=development webpack --progress --hide-modules",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
