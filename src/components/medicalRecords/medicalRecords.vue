@@ -93,7 +93,7 @@ export default {
     font-size: 1.3rem;
 	border-bottom: 1px solid #ddd;
 	align-items: center;
-	padding-bottom: 0.25rem;
+	padding: 0.75rem 0.75rem 0.25rem;
 }
 /*.medicalRecordList{
 
