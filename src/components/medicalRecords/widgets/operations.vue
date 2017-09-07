@@ -3,12 +3,12 @@
 		<div class="p-75">
 			<div class="title">
 				<a href="#" v-if="isFullWidget" @click.prevent="$emit('toogle')">
-					<span><icon name="arrow-left"></icon>Назад</span>
+					<span><icon name="arrow-left" class="mr-50"></icon>Назад</span>
 				</a>
 				<a href="#" @click.prevent="$emit('toogle')">
 					<span><icon :name=item.icon class="mr-50"></icon>{{item.title}}</span>
 				</a>
-				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="plus"></icon></button>
+				<button class="btn btn-primary" v-on:click="showModal = true"><icon name="plus"></icon></button>
 			</div>
 		</div> 
 		<div v-if="isFullWidget" class="measurementItemGraph p-75">
@@ -47,33 +47,35 @@
 				</tr>
 			</table>
 		</div>-->
-		<div v-if="showModal" class="modal-template">
+		<div v-if="showModal" class="modal">
 			<transition name="modal">
 				<div class="modal-mask">
 					<div class="modal-wrapper">
-						<div class="modal-container text-center">
-							<div id="closeModalRegister" class="d-flex" v-on:click="showModal = false">
-								<icon name="times" scale="1"></icon> 
+						<div class="modal-container">
+							<div class="modal-header">
+								<h3 class="px-100">Добавить значение</h3>
+								<a href="#" class="close-icon" v-on:click.prevent="showModal = false">
+									<icon name="times" scale="1"></icon> 
+								</a>
 							</div>
-							<div class="modal-header-register p-100">
-								<h3>Добавить значение</h3>
-							</div>
-							<div class="modal-body p-100">
-								<form v-on:submit.prevent="addMedicalRecord">
-									<label for="name">Название</label>
-									<input type="text" name="name" v-model="operationsForm.name" placeholder="напр.: гепатит В">
-									<label for="date">Дата</label>
-									<input type="text" name="date" v-model="operationsForm.date" readonly="">
-  									<label for="note">Примечание</label>
-									<textarea name="note" v-model="operationsForm.note"></textarea>
-									<button type="submit" class="btn-primary btn-xlarge mt-100">Добавить</button>
-								</form>
+							<div class="modal-body">
+								<div class="p-100">
+									<form v-on:submit.prevent="addMedicalRecord">
+										<label for="name">Название</label>
+										<input type="text" name="name" v-model="operationsForm.name" placeholder="напр.: гепатит В">
+										<label for="date">Дата</label>
+										<input type="text" name="date" v-model="operationsForm.date" readonly="">
+										<label for="note">Примечание</label>
+										<textarea name="note" v-model="operationsForm.note"></textarea>
+										<button type="submit" class="btn-primary btn-xlarge mt-100">Добавить</button>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</transition>
-		</div> 
+		</div>
 	</div>
 </template>
 
@@ -85,7 +87,7 @@ export default {
 		return {
 			loading: true,
 			endpoint: baseAPI + 'medical_records/',
-			item: {title: 'Перенесенные операции', icon: 'bed', type: 'operations'},
+			item: {title: 'Операции', icon: 'bed', type: 'operations'},
 			showModal: false,
 			medical_recordsList: [],
 			operationsForm: {
@@ -127,59 +129,5 @@ export default {
 </script>
 
 <style>
-.modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-  display: table;
-  transition: opacity .3s ease;
-}
 
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.modal-container {
-  width: 300px;
-  margin: 0px auto;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
-  font-family: Helvetica, Arial, sans-serif;
-  position: relative;
-} 
-.modal-header-register h3{
-  margin: 0px !important;  
-}
-.modal-header-register{
-  background-color: #329d81;
-  color: white;
-}
-
-.modal-enter {
-  opacity: 0;
-}
-
-.modal-leave-active {
-  opacity: 0;
-}
-
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-}
-#closeModalRegister{
-        position: absolute;
-        top: 6px;
-        right: 9px;
-        color: white;
-        cursor: pointer;  
-}
 </style>

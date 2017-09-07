@@ -1,5 +1,5 @@
 <template>
-	<div id="view" class="noSideBar">
+	<div id="view">
 		<div id="medicalRecords" v-bind:class="{fullWidget: isFullWidget}">
 			<widgetGeneralInformation v-if="activeWidgets.wGeneralInformation.show" :showWidget="activeWidgets.wGeneralInformation.show" :isFullWidget="activeWidgets.wGeneralInformation.full" @toogle="toogle('wGeneralInformation')"></widgetGeneralInformation>
 			<widgetConsultations v-if="activeWidgets.wConsultations.show" :showWidget="activeWidgets.wConsultations.show" :isFullWidget="activeWidgets.wConsultations.full" @toogle="toogle('wConsultations')"></widgetConsultations>
@@ -91,10 +91,11 @@ export default {
 	display: flex;
     justify-content: space-between;
     font-size: 1.3rem;
-	border-bottom: 1px solid #329d81;
+	border-bottom: 1px solid #ddd;
 	align-items: center;
+	padding-bottom: 0.25rem;
 }
-.medicalRecordList{
+/*.medicalRecordList{
 
 }
 .medicalRecordList-item{
@@ -105,5 +106,5 @@ export default {
 }
 .medicalRecordList-item:last-child{
 	border-bottom: none;
-}
+}*/
 </style>
