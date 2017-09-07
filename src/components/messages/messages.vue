@@ -8,7 +8,7 @@
 			</div> 
 			<div class="dialogSideBar_search d-flex justify-content-between align-i-center text-primary p-50"> 
 				<form class="dialogSideBar_searchInput d-flex">
-					<input type="text" class="form-control px-50 input-middle input-calc-border-width" placeholder="Найти...">
+					<input type="text" class="form_input w-100" placeholder="Найти...">
 					<icon name="search" class="form-input-icon text-primary"></icon>
 				</form>
 			</div> 
@@ -70,9 +70,9 @@
 					</ul>
 					<div class="dialogMainBlock_messageFormBlock">
 						<form class="newMessageForm" v-on:submit.prevent="sendMessage">
-							<button type="button"><icon name="plus"></icon></button>
-							<textarea name="message" @keyup.enter="sendMessage" v-model="newMessageForm.message"></textarea>
-							<button type="submit"><icon name="paper-plane-o"></icon></button>
+							<button type="button" class="btn btn-primary"><icon name="plus"></icon></button>
+							<textarea name="message" class="form_input" rows="1" @keyup.enter="sendMessage" v-model="newMessageForm.message"></textarea>
+							<button type="submit" class="btn btn-primary"><icon name="paper-plane-o"></icon></button>
 						</form>
 					</div>
 				</div>
@@ -243,8 +243,8 @@ export default {
 }
 #messengerMain .dialogSideBar_searchInput .form-input-icon{
 	position: absolute;
-	top: 5px;
-	right: 8px;
+    top: calc(50% - 8px);
+    right: 8px;
 }
 #messengerMain .dialogSideBar_list{
 	margin: 0;
@@ -254,6 +254,7 @@ export default {
 	display: flex;
 	width: 100%;
 	border-bottom: 1px solid #ddd;
+	cursor: pointer;
 }
 #messengerMain .dialogSideBar_list > li > a:hover{
 	background: #f9f9f9;

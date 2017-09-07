@@ -162,7 +162,7 @@ export default {
     list-style: none;
     font-size: 14px;
     color: #333;
-    padding: 0.25rem 0.5rem;
+    padding: 0.5rem 0.5rem;
     text-decoration: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }

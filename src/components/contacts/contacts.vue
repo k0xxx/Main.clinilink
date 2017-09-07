@@ -2,10 +2,10 @@
 	<div id="view" class="withSideBar">
 		<div class="card px-75 py-50 mb-50">
 			<form class="d-flex justify-content-between">
-				<input type="text" v-model="contactsSearch" v-on:keyup="refreshList" name="search" class="input-middle px-50" placeholder="Поиск...">
-				<div>
+				<input type="text" v-model="contactsSearch" v-on:keyup="refreshList" name="search" class="form_input" placeholder="Поиск...">
+				<div class="d-flex align-i-baseline">
 					<label for="contactType" class="mr-50">Тип контакта</label>
-					<select id="contactType" v-on:change="refreshList" v-model="contactsType" class="input-middle px-50">
+					<select id="contactType" v-on:change="refreshList" v-model="contactsType" class="form_input">
 						<option value="">Все</option>
 						<option value="0">Пациенты</option>
 						<option value="1">Специалисты</option>
@@ -14,7 +14,7 @@
 				</div>
 			</form>
 		</div>
-		<div id="contacts">
+		<div id="contacts" class="withSideBar">
 			<contactItem v-for="contact in contactsList" v-bind:key="contact._id" :contact="contact.contactRef" :contactStatus="contact.type" :isSubscribe="contact.subsriber" ></contactItem>
 			<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
 				<span slot="no-more">Всё загружено!</span>
