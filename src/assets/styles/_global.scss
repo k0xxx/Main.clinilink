@@ -1,7 +1,19 @@
 html {
-    font-family: "Roboto", sans-serif;
+    box-sizing: border-box; // 1
+    font-family: sans-serif; // 2
+    line-height: 1.15; // 3
+    -webkit-text-size-adjust: 100%; // 4
+    -ms-text-size-adjust: 100%; // 4
+    -ms-overflow-style: scrollbar; // 5
+    -webkit-tap-highlight-color: rgba(0,0,0,0); // 6
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit; // 1
 } 
 body {
+    font-family: "Roboto" sans-serif;
     color: #333;
     background-color: #F5F5F5;
 	margin-top: 50px;
@@ -17,18 +29,12 @@ ul {
 }
 // headings
 @import "./_utlites/_headings";
-/*===text-aligns===*/
-@import "./_utlites/_alignText";
 /*===cards===*/
 @import "./_utlites/_card";
-/*===flex===*/
-@import "./_utlites/_flex";
-/*===width===*/
-@import "./_utlites/_width";
-/*===indents===*/
-@import "./_utlites/_indends";
-/*===Floating====*/
-@import "./_utlites/_floating";
+// Modals
+@import "./_utlites/_modals.scss";
+
+
 /*===Buttons===*/
 @import "./_utlites/_buttons";
 /*===MainView===*/
@@ -37,10 +43,20 @@ ul {
 @import "./_sideBars";
 // Inputs
 @import "./_utlites/_inputs";
+
+
+/*===text-aligns===*/
+@import "./_utlites/_alignText";
+/*===flex===*/
+@import "./_utlites/_flex";
+/*===width===*/
+@import "./_utlites/_width";
+/*===Floating====*/
+@import "./_utlites/_floating";
+/*===indents===*/
+@import "./_utlites/_indends";
 // Images
 @import "./_utlites/_images";
-
-
 /*=============================================*/
 /*===Normalize===*/
 
