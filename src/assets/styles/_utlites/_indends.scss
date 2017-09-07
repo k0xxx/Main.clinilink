@@ -68,29 +68,37 @@
 }
 
 .px-25{
-	padding: 0 0.25rem;
+    padding-right: 0.25rem;
+	padding-left: 0.25rem;
 }
 .px-50{
-    padding: 0 0.5rem;
+    padding-right: 0.5rem;
+	padding-left: 0.5rem;
 }
 .px-75{
-    padding: 0 0.75rem;
+    padding-right: 0.75rem;
+	padding-left: 0.75rem;
 }
 .px-100{
-    padding: 0 1rem;
+    padding-right: 1rem;
+	padding-left: 1rem;
 }
 
 .py-25{
-	padding: 0.25rem 0;
+	padding-top: 0.25rem;
+	padding-bottom: 0.25rem;
 }
 .py-50{
-    padding: 0.5rem 0;
+    padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
 }
 .py-75{
-    padding: 0.75rem 0;
+    padding-top: 0.75rem;
+	padding-bottom: 0.75rem;
 }
 .py-100{
-    padding: 1rem 0;
+    padding-top: 1rem;
+	padding-bottom: 1rem;
 }     
 
 /*===Margins===*/
@@ -104,10 +112,10 @@
     margin: 0rem;
 }
 .m-50{
-    margin: 0.5rem;   
+    margin: 0.5rem;
 }
 .m-75{
-    margin: 0.75rem;   
+    margin: 0.75rem;
 }
 .m-100{
     margin: 1rem;   
@@ -166,27 +174,35 @@
 }
 
 .mx-25{
-    margin: 0 0.25rem;
+    margin-right: 0.25rem;
+    margin-left: 0.25rem;
 }
 .mx-50{
-    margin: 0 0.5rem;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
 }
 .mx-75{
-    margin: 0 0.75rem;
+    margin-right: 0.75rem;
+    margin-left: 0.75rem;
 }
 .mx-100{
-    margin: 0 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
 }
 
 .my-25{
-    margin: 0.5rem 0;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
 }
 .my-50{
-    margin: 0.5rem 0;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 .my-75{
-    margin: 0.75rem 0;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
 }
 .my-100{
-    margin: 1rem 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }

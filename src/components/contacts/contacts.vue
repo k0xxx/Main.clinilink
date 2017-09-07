@@ -1,11 +1,11 @@
 <template>
-	<div id="view" class="withSideBar">
+	<div id="view">
 		<div class="card px-75 py-50 mb-50">
 			<form class="d-flex justify-content-between">
-				<input type="text" v-model="contactsSearch" v-on:keyup="refreshList" name="search" class="input-middle px-50" placeholder="Поиск...">
-				<div>
+				<input type="text" v-model="contactsSearch" v-on:keyup="refreshList" name="search" class="form_input" placeholder="Поиск...">
+				<div class="d-flex align-i-baseline">
 					<label for="contactType" class="mr-50">Тип контакта</label>
-					<select id="contactType" v-on:change="refreshList" v-model="contactsType" class="input-middle px-50">
+					<select id="contactType" v-on:change="refreshList" v-model="contactsType" class="form_input">
 						<option value="">Все</option>
 						<option value="0">Пациенты</option>
 						<option value="1">Специалисты</option>
@@ -14,24 +14,28 @@
 				</div>
 			</form>
 		</div>
-		<div id="contacts">
-			<contactItem v-for="contact in contactsList" v-bind:key="contact._id" :contact="contact.contactRef" :contactStatus="contact.type" :isSubscribe="contact.subsriber" ></contactItem>
-			<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
-				<span slot="no-more">Всё загружено!</span>
-				<span slot="no-results">Вы не добавили еще ни одного друга!</span>
-			</infinite-loading>
+		<div class="d-flex">
+			<div id="contacts" class="withSideBar">
+				<contactItem v-for="contact in contactsList" v-bind:key="contact._id" :contact="contact.contactRef" :contactStatus="contact.type" :isSubscribe="contact.subsriber" ></contactItem>
+				<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
+					<span slot="no-more">Всё загружено!</span>
+					<span slot="no-results">Вы не добавили еще ни одного друга!</span>
+				</infinite-loading>
+			</div>
+			<contactsFilter></contactsFilter>
 		</div>
 	</div>
 </template>
 
 <script>
-import { baseAPI } from '../../config.js';
-import InfiniteLoading from "vue-infinite-loading"
-import contactItem from "./contactItem.vue";
+import { baseAPI } from '../../config.js'
+import InfiniteLoading from 'vue-infinite-loading'
+import contactsFilter from './filterContact.vue'
+import contactItem from "./contactItem.vue"
 
 export default {
 	name:"contacts",
-	components: {contactItem, InfiniteLoading},
+	components: {contactItem, InfiniteLoading, contactsFilter},
 	data() {
 		return {
 			page: 1,

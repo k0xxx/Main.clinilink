@@ -1,6 +1,6 @@
 <template>
-	<div id="view" class="withSideBar">
-		<div id="newsList">
+	<div id="view">
+		<div id="newsList" class="withSideBar">
 			<newsItem v-for="post in posts" v-bind:key="post._id" v-bind:post="post"></newsItem>
 			<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
 				<span slot="no-more">Всё загружено!</span>

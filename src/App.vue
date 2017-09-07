@@ -5,7 +5,6 @@
         <div id="mainView">
             <userMenu v-if="isAuth"></userMenu>
 		    <router-view></router-view>
-		    <router-view v-if="isAuth" name="sideBar"></router-view>
         </div>
         <appFooter v-if="!isAuth"></appFooter>
     </div>

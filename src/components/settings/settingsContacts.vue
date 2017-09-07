@@ -6,8 +6,8 @@
 		<div class="p-75"> 
 		<form v-on:submit.prevent="saveSettings">
 			<div class="p-50">
-					<label for="doc_specialization_experience" class="pr-75">Рабочий стаж</label>
-					<input type="number" name="doc_specialization_experience" class="input-middle px-50"  min="0" max="80" maxlength="2" v-model="settings.doc_specialization_experience">
+				<label for="doc_specialization_experience" class="pr-75">Рабочий стаж</label>
+				<input type="number" name="doc_specialization_experience" class="input-middle px-50"  min="0" max="80" maxlength="2" v-model="settings.doc_specialization_experience">
 			</div>
 			<div class="p-50 text-center">
 				<button type="submit" class="btn btn-primary btn-large">Сохранить</button>
