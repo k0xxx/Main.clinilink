@@ -1,15 +1,13 @@
 <template>
 	<div class="medicalRecordItem card">
-		<div class="p-75">
-			<div class="title">
-				<a href="#" v-if="isFullWidget" @click.prevent="$emit('toogle')">
-					<span><icon name="arrow-left" class="mr-50"></icon>Назад</span>
-				</a>
-				<a href="#" @click.prevent="$emit('toogle')">
-					<span><icon :name=item.icon class="mr-50"></icon>{{item.title}}</span>
-				</a>
-				<button class="btn btn-primary" v-on:click="showModal = true"><icon name="plus"></icon></button>
-			</div>
+		<div class="title">
+			<a href="#" v-if="isFullWidget" @click.prevent="$emit('toogle')">
+				<span><icon name="arrow-left" class="mr-50"></icon>Назад</span>
+			</a>
+			<a href="#" @click.prevent="$emit('toogle')">
+				<span><icon :name=item.icon class="mr-50"></icon>{{item.title}}</span>
+			</a>
+			<button class="btn btn-primary" v-on:click="showModal = true"><icon name="plus"></icon></button>
 		</div>
 		<div class="p-75">
 			<div v-if="loading" class="p-75 text-center text-primary">
@@ -29,10 +27,6 @@
 						</div>
 						<div v-if="isFullWidget && medical_record.note">Примечание: {{medical_record.note}}</div>	
 					</div>
-					
-					
-					
-					
 				</li>
 			</ul>
 			<div v-else class="text-center">

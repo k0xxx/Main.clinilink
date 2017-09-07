@@ -1,11 +1,13 @@
 <template>
 	<div class="measurementItem card">
-		<div class="measurementItemTitle p-75">
-			<a href="#" @click.prevent="$emit('toogle')">
-				<span v-if="isFullWidget"><icon name="arrow-left"></icon>Назад</span>
-				<span><icon :name=item.icon class="mr-50"></icon>{{item.title}}</span>
-				<button class="btn btn-primary d-flex btn-middle" v-on:click="showModal = true"><icon name="plus"></icon></button>
+		<div class="title">
+			<a href="#" v-if="isFullWidget" @click.prevent="$emit('toogle')">
+				<span><icon name="arrow-left" class="mr-50"></icon>Назад</span>
 			</a>
+			<a href="#" @click.prevent="$emit('toogle')">
+				<span><icon :name=item.icon class="mr-50"></icon>{{item.title}}</span>
+			</a>
+			<button class="btn btn-primary" v-on:click="showModal = true"><icon name="plus"></icon></button>
 		</div>
 		<div v-if="loading" class="p-75 text-center text-primary">
 			<icon name="refresh" scale="2" spin></icon>
@@ -35,37 +37,40 @@
 				</tr>
 			</table>
 		</div>
-		<div v-if="showModal" class="modal-template">
+		<div v-if="showModal" class="modal">
 			<transition name="modal">
 				<div class="modal-mask">
 					<div class="modal-wrapper">
-						<div class="modal-container text-center">
-							<div id="closeModalRegister" class="d-flex" v-on:click="showModal = false">
-								<icon name="times" scale="1"></icon> 
+						<div class="modal-container">
+							<div class="modal-header">
+								<h3 class="px-100">Добавить значение</h3>
+								<a href="#" class="close-icon" v-on:click.prevent="showModal = false">
+									<icon name="times" scale="1"></icon> 
+								</a>
 							</div>
-							<div class="modal-header-register p-100">
-								<h3>Добавить значение</h3>
-							</div>
-							<div class="modal-body p-100">
-								<form class="d-flex flex-column" v-on:submit.prevent="addMeasurement">
-									<input type="text" name="date" class="form-control text-center" v-model="cholesterolForm.date">
-									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-									<label for="LNP">ЛНП</label>
-									<input type="number" name="LNP" placeholder="4.5" class="form-control text-center" min="1" max="10" step="0.01" v-model="cholesterolForm.LNP" required="">
-									<span class="input-group-addon">ммоль/л</span>
-									<label for="LVP">ЛВП</label>
-									<input type="number" name="LVP" placeholder="2" class="form-control text-center" min="0.5" max="3" step="0.01" v-model="cholesterolForm.LVP" required="">
-									<span class="input-group-addon">ммоль/л</span>
-									<label for="triglycerides">Триглицериды</label>
-									<input type="number" name="triglycerides" placeholder="2" class="form-control text-center" min="0.14" max="4" step="0.01" v-model="cholesterolForm.triglycerides" required="">
-									<span class="input-group-addon">ммоль/л</span>
-									<label for="cholesterol">Всего холестерин</label>
-									<input type="number" name="cholesterol" placeholder="4" class="form-control text-center" min="2" max="8" step="0.01" v-model="cholesterolForm.cholesterol" required="">
-									<span class="input-group-addon">ммоль/л</span>
-									<label for="note">Примечание</label>
-									<textarea class="form-control" name="note" rows="1" v-model="cholesterolForm.note"></textarea>
-									<button type="submit" class="btn-primary btn-xlarge mt-100">Добавить</button>
-								</form>
+							<div class="modal-body">
+								<div class="p-100">
+									<form class="d-flex flex-column" v-on:submit.prevent="addMeasurement">
+										<label for="date">Дата</label>
+										<input type="text" name="date" class="form_input" v-model="cholesterolForm.date">
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+										<label for="LNP">ЛНП</label>
+										<input type="number" name="LNP" placeholder="4.5" class="form_input" min="1" max="10" step="0.01" v-model="cholesterolForm.LNP" required="">
+										<span class="input-group-addon">ммоль/л</span>
+										<label for="LVP">ЛВП</label>
+										<input type="number" name="LVP" placeholder="2" class="form_input" min="0.5" max="3" step="0.01" v-model="cholesterolForm.LVP" required="">
+										<span class="input-group-addon">ммоль/л</span>
+										<label for="triglycerides">Триглицериды</label>
+										<input type="number" name="triglycerides" placeholder="2" class="form_input" min="0.14" max="4" step="0.01" v-model="cholesterolForm.triglycerides" required="">
+										<span class="input-group-addon">ммоль/л</span>
+										<label for="cholesterol">Всего холестерин</label>
+										<input type="number" name="cholesterol" placeholder="4" class="form_input" min="2" max="8" step="0.01" v-model="cholesterolForm.cholesterol" required="">
+										<span class="input-group-addon">ммоль/л</span>
+										<label for="note">Примечание</label>
+										<textarea class="form_input" name="note" rows="2" v-model="cholesterolForm.note"></textarea>
+										<button type="submit" class="btn btn-primary mx-auto">Добавить</button>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -169,71 +174,5 @@ td, th {
 }
 tr:nth-child(even) {
     background-color: #dddddd;
-}
-.measurementItem{
-	display: inline-block;
-    width: 100%;
-}
-.measurementItemTitle a{
-	display: flex;
-    justify-content: space-between;
-    font-size: 1.3rem;
-	border-bottom: 1px solid #329d81;
-	align-items: center;
-}
-.modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-  display: table;
-  transition: opacity .3s ease;
-}
-
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.modal-container {
-  width: 300px;
-  margin: 0px auto;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
-  font-family: Helvetica, Arial, sans-serif;
-  position: relative;
-} 
-.modal-header-register h3{
-  margin: 0px !important;  
-}
-.modal-header-register{
-  background-color: #329d81;
-  color: white;
-}
-
-.modal-enter {
-  opacity: 0;
-}
-
-.modal-leave-active {
-  opacity: 0;
-}
-
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-}
-#closeModalRegister{
-        position: absolute;
-        top: 6px;
-        right: 9px;
-        color: white;
-        cursor: pointer;  
 }
 </style>

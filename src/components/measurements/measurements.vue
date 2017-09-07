@@ -67,4 +67,16 @@ export default {
 #measurements.fullWidget{
 	column-count: 1;
 }
+.measurementItem{
+	display: inline-block;
+    width: 100%;
+}
+.measurementItem .title{
+	display: flex;
+    justify-content: space-between;
+    font-size: 1.3rem;
+	border-bottom: 1px solid #ddd;
+	align-items: center;
+	padding: 0.75rem 0.75rem 0.25rem;
+}
 </style>
