@@ -27,6 +27,7 @@
 				</div>
 				<div class="p-50">
 					<label for="birthday" class="pr-75">Дата рождения</label>
+					<date-picker :date="startTime" :option="option" :limit="limit"></date-picker>
 					<input type="text" class="form_input"  name="birthday" v-model="settings.birthday">
 				</div>
 				<!--status 0-->
@@ -79,6 +80,7 @@
 
 <script>
 import { baseAPI } from '../../config.js';
+import myDatepicker from './../datePicker.vue'
 
 export default {
 	name: 'settingsTotal',
@@ -100,11 +102,68 @@ export default {
 				"Медицинская сестра по реабилитации", "Медицинская сестра стерилизационной", "Медицинская сестра по физиотерапии", "Медицинский дезинфектор", "Медицинский оптик-оптометрист", 
 				"Медицинский регистратор", "Операционная медицинская сестра", "Рентгенолаборант", "Старшая медицинская сестра", "Фельдшер", "Фельдшер скорой медицинской помощи", 
 				"Младшая медицинская сестра по уходу за больными", "Санитар", "Санитар-водитель", "Сестра-хозяйк", "Провизор", "Фармацевт", "Фасовщик"]
-			}
+			},
+
+			// for Vue 2.0
+			startTime: {
+				time: '22-09-2017'
+			},
+			endtime: {
+				time: ''
+			},
+
+			option: {
+				type: 'day',
+				week: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+				month: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+				format: 'DD-MM-YYYY',
+				placeholder: 'Когда?',
+				inputStyle: {
+					'display': 'inline-block',
+					'padding': '6px',
+					'line-height': '22px',
+					'font-size': '16px',
+					'border': '2px solid #fff',
+					'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
+					'border-radius': '2px',
+					'color': '#5F5F5F'
+				},
+				color: {
+					header: '#ccc',
+					headerText: '#f00'
+				},
+				buttons: {
+					ok: 'Подтвердть',
+					cancel: 'Отмена'
+				},
+				overlayOpacity: 0.5, // 0.5 as default
+				dismissible: true // as true as default
+			},
+			timeoption: {
+				type: 'min',
+				week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+				month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+				format: 'YYYY-MM-DD HH:mm'
+			},
+			multiOption: {
+				type: 'multi-day',
+				week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+				month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+				format:"YYYY-MM-DD HH:mm"
+			},
+			limit: [{
+					type: 'weekday',
+					available: [1, 2, 3, 4, 5]
+				},
+				{
+					type: 'fromto',
+					from: '2016-02-01',
+					to: '2018-02-20'
+			}]
 		}
 	},
 	components: {
-		
+		'date-picker': myDatepicker
 	},
 	methods: {
 		getProfileSettings: function(){

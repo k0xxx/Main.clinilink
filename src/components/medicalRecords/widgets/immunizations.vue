@@ -15,7 +15,7 @@
 			</div>
 			<ul v-else-if="medical_recordsList" class="medicalRecordList">
 				<li v-for="medical_record in medical_recordsList" v-bind:key="medical_record._id" class="medicalRecordList-item">
-					<div>{{medical_record.name}}</div>
+					<div><strong>{{medical_record.name}}</strong></div>
 					<div><icon name="calendar" class="mr-50"></icon>{{medical_record.date | formatMedicalRecord}}</div>
 				</li>
 			</ul>
