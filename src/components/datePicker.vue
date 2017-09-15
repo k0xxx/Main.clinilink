@@ -284,6 +284,9 @@ export default {
 			this.dayList = days
 			console.log(days);
 		},
+		showYear(){
+			
+		},
 		nextMonth (type) {
 			let next = null
 			type === 'next' ? next = moment(this.currentDate.currentMoment).add(1, 'M') : next = moment(this.currentDate.currentMoment).add(-1, 'M')

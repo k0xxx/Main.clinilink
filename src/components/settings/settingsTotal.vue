@@ -140,11 +140,13 @@ export default {
 			})
 		},
 		saveSettings: function(){
+			console.log(this.settings);
+			/*
 			this.$http.post(this.endpoint, this.settings).then((response) => {
 				console.log(response);
 			}, function(err){
 				console.log(err); 
-			})
+			})*/
 		}
 	},
 	created: function(){
