@@ -1,6 +1,6 @@
 <style>
 .datepicker{
-	display: inline-block;
+	display: block;
 }
 .datepicker_input{
 	display: inline-block;

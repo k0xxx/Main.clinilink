@@ -28,7 +28,6 @@
 				<div class="p-50">
 					<label for="birthday" class="pr-75">Дата рождения</label>
 					<date-picker v-bind:date="settings.birthday"></date-picker>
-					<input type="text" class="form_input"  name="birthday" v-model="settings.birthday">
 				</div>
 				<!--status 0-->
 				<div class="p-50">
