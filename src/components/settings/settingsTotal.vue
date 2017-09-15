@@ -27,7 +27,7 @@
 				</div>
 				<div class="p-50">
 					<label for="birthday" class="pr-75">Дата рождения</label>
-					<date-picker :date="startTime" :option="option" :limit="limit"></date-picker>
+					<date-picker v-bind:date="settings.birthday"></date-picker>
 					<input type="text" class="form_input"  name="birthday" v-model="settings.birthday">
 				</div>
 				<!--status 0-->
@@ -87,7 +87,19 @@ export default {
 	data() {
 		return {
 			userId: '',
-			settings: {},
+			settings: {
+				lastName: '',
+				firstName: '',
+				surName: '',
+				gender: '',
+				birthday: {time: ''},
+				bloodType: '',
+				familyStatus: '',
+				doc_work_place: '',
+				doc_specialization_experience: '',
+				doc_category: '',
+				med_position: ''
+			},
 			endpoint: baseAPI + 'profileSettings/',
 			sub: {
 				blood_type_list: ["I(+)", "I(-)", "II(+)", "II(-)", "III(+)", "III(-)", "IV(+)", "IV(-)"],
@@ -103,63 +115,6 @@ export default {
 				"Медицинский регистратор", "Операционная медицинская сестра", "Рентгенолаборант", "Старшая медицинская сестра", "Фельдшер", "Фельдшер скорой медицинской помощи", 
 				"Младшая медицинская сестра по уходу за больными", "Санитар", "Санитар-водитель", "Сестра-хозяйк", "Провизор", "Фармацевт", "Фасовщик"]
 			},
-
-			// for Vue 2.0
-			startTime: {
-				time: '22-09-2017'
-			},
-			endtime: {
-				time: ''
-			},
-
-			option: {
-				type: 'day',
-				week: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-				month: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-				format: 'DD-MM-YYYY',
-				placeholder: 'Когда?',
-				inputStyle: {
-					'display': 'inline-block',
-					'padding': '6px',
-					'line-height': '22px',
-					'font-size': '16px',
-					'border': '2px solid #fff',
-					'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
-					'border-radius': '2px',
-					'color': '#5F5F5F'
-				},
-				color: {
-					header: '#ccc',
-					headerText: '#f00'
-				},
-				buttons: {
-					ok: 'Подтвердть',
-					cancel: 'Отмена'
-				},
-				overlayOpacity: 0.5, // 0.5 as default
-				dismissible: true // as true as default
-			},
-			timeoption: {
-				type: 'min',
-				week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-				month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-				format: 'YYYY-MM-DD HH:mm'
-			},
-			multiOption: {
-				type: 'multi-day',
-				week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-				month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-				format:"YYYY-MM-DD HH:mm"
-			},
-			limit: [{
-					type: 'weekday',
-					available: [1, 2, 3, 4, 5]
-				},
-				{
-					type: 'fromto',
-					from: '2016-02-01',
-					to: '2018-02-20'
-			}]
 		}
 	},
 	components: {
@@ -169,7 +124,18 @@ export default {
 		getProfileSettings: function(){
 			this.$http.get(this.endpoint).then((response) => {
 				console.log(response.data.profileSettings);
-				this.settings = response.data.profileSettings;
+				this.settings.lastName = response.data.profileSettings.lastName;
+				this.settings.firstName = response.data.profileSettings.firstName;
+				this.settings.surName = response.data.profileSettings.surName;
+				this.settings.gender = response.data.profileSettings.gender;
+				this.settings.birthday.time = response.data.profileSettings.birthday;
+				this.settings.bloodType = response.data.profileSettings.bloodType;
+				this.settings.familyStatus = response.data.profileSettings.familyStatus;
+				this.settings.doc_work_place = response.data.profileSettings.doc_work_place;
+				this.settings.doc_specialization_experience = response.data.profileSettings.doc_specialization_experience;
+				this.settings.doc_category = response.data.profileSettings.doc_category;
+				this.settings.med_position = response.data.profileSettings.med_position;
+				console.log(this.settings);
 			}, function(err){
 				console.log(err); 
 			})
@@ -177,7 +143,6 @@ export default {
 		saveSettings: function(){
 			this.$http.post(this.endpoint, this.settings).then((response) => {
 				console.log(response);
-				//this.settings = response.data.profileSettings;
 			}, function(err){
 				console.log(err); 
 			})
