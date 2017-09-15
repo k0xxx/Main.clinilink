@@ -27,6 +27,7 @@
 				</div>
 				<div class="p-50">
 					<label for="birthday" class="pr-75">Дата рождения</label>
+					<date-picker v-bind:date="settings.birthday"></date-picker>
 					<input type="text" class="form_input"  name="birthday" v-model="settings.birthday">
 				</div>
 				<!--status 0-->
@@ -79,13 +80,26 @@
 
 <script>
 import { baseAPI } from '../../config.js';
+import myDatepicker from './../datePicker.vue'
 
 export default {
 	name: 'settingsTotal',
 	data() {
 		return {
 			userId: '',
-			settings: {},
+			settings: {
+				lastName: '',
+				firstName: '',
+				surName: '',
+				gender: '',
+				birthday: {time: ''},
+				bloodType: '',
+				familyStatus: '',
+				doc_work_place: '',
+				doc_specialization_experience: '',
+				doc_category: '',
+				med_position: ''
+			},
 			endpoint: baseAPI + 'profileSettings/',
 			sub: {
 				blood_type_list: ["I(+)", "I(-)", "II(+)", "II(-)", "III(+)", "III(-)", "IV(+)", "IV(-)"],
@@ -100,17 +114,28 @@ export default {
 				"Медицинская сестра по реабилитации", "Медицинская сестра стерилизационной", "Медицинская сестра по физиотерапии", "Медицинский дезинфектор", "Медицинский оптик-оптометрист", 
 				"Медицинский регистратор", "Операционная медицинская сестра", "Рентгенолаборант", "Старшая медицинская сестра", "Фельдшер", "Фельдшер скорой медицинской помощи", 
 				"Младшая медицинская сестра по уходу за больными", "Санитар", "Санитар-водитель", "Сестра-хозяйк", "Провизор", "Фармацевт", "Фасовщик"]
-			}
+			},
 		}
 	},
 	components: {
-		
+		'date-picker': myDatepicker
 	},
 	methods: {
 		getProfileSettings: function(){
 			this.$http.get(this.endpoint).then((response) => {
 				console.log(response.data.profileSettings);
-				this.settings = response.data.profileSettings;
+				this.settings.lastName = response.data.profileSettings.lastName;
+				this.settings.firstName = response.data.profileSettings.firstName;
+				this.settings.surName = response.data.profileSettings.surName;
+				this.settings.gender = response.data.profileSettings.gender;
+				this.settings.birthday.time = response.data.profileSettings.birthday;
+				this.settings.bloodType = response.data.profileSettings.bloodType;
+				this.settings.familyStatus = response.data.profileSettings.familyStatus;
+				this.settings.doc_work_place = response.data.profileSettings.doc_work_place;
+				this.settings.doc_specialization_experience = response.data.profileSettings.doc_specialization_experience;
+				this.settings.doc_category = response.data.profileSettings.doc_category;
+				this.settings.med_position = response.data.profileSettings.med_position;
+				console.log(this.settings);
 			}, function(err){
 				console.log(err); 
 			})
@@ -118,7 +143,6 @@ export default {
 		saveSettings: function(){
 			this.$http.post(this.endpoint, this.settings).then((response) => {
 				console.log(response);
-				//this.settings = response.data.profileSettings;
 			}, function(err){
 				console.log(err); 
 			})

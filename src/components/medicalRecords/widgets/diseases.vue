@@ -15,11 +15,13 @@
 			</div>
 			<ul v-else-if="medical_recordsList" class="medicalRecordList">
 				<li v-for="medical_record in medical_recordsList" v-bind:key="medical_record._id" class="medicalRecordList-item">
-					<div>{{medical_record.name}}</div>
-					<div>
+					<div><strong>{{medical_record.name}}</strong></div>
+					<div><icon name="calendar" class="mr-50"></icon>c {{medical_record.date | formatMedicalRecord}} по {{medical_record.end_date | formatMedicalRecord}}</div>
+					<div v-if="isFullWidget">
 						<div class="d-flex">
-							<div class="mr-50">{{medical_record.state}}</div>
-							<div class="mr-50"><icon name="calendar" class="mr-50"></icon>c {{medical_record.date | formatMedicalRecord}} по {{medical_record.end_date | formatMedicalRecord}}</div>
+							
+							<div  class="mr-50">{{medical_record.state}}</div>
+							
 							<div v-if="isFullWidget">
 								<a href="#"><icon name="remove" class="mr-50"></icon></a>
 								<a href="#"><icon name="edit" class="mr-50"></icon></a>

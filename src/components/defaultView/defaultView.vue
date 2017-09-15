@@ -91,8 +91,8 @@ body{
 	justify-content: center;
     display: flex;
 	align-items: center;
-	width: 30px;
-	height: 20px;
+	width: 40px;
+	height: 32px;
     margin-right: 0.5rem;
 }
 #socialNetworks a::last-child{

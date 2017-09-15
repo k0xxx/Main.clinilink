@@ -9,12 +9,12 @@
 }
 #menuWrap{
     position: relative;
-    min-width: 180px;
+    min-width: 220px;
     padding: 1rem 0.5rem 0.5rem;
     min-height: 100vh;
 }
 #view{
-    width: calc(100% - (180px + 2rem));
+    width: calc(100% - (220px + 2rem));
     padding: 1rem 0.5rem 0.5rem;
 }
 
