@@ -46,7 +46,7 @@
 								<div class="p-100">
 									<form class="d-flex flex-column" v-on:submit.prevent="addMeasurement">
 										<label for="date">Дата</label>
-										<input type="text" name="date" class="form_input" v-model="heightForm.date">
+										<date-picker :date="heightForm.date.time"></date-picker>
 										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 										<label for="height">Рост</label>
 										<input type="number" name="height" placeholder="170" class="form_input" min="1" max="300" v-model="heightForm.height" required="">
@@ -77,7 +77,7 @@ export default {
 			showModal: false,
 			measurementsList: [],
 			heightForm: {
-				date: '',
+				date: {time: ''},
 				height: '',
 				note: '',
 				type: 'height',

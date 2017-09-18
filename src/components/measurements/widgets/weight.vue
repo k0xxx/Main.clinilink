@@ -46,7 +46,7 @@
 								<div class="p-100">
 									<form class="d-flex flex-column" v-on:submit.prevent="addMeasurement">
 										<label for="date">Укажите дату</label> 
-										<input type="text" name="date" class="form_input" v-model="weightForm.date"> 
+										<date-picker :date="weightForm.date.time"></date-picker>
 										<label for="weight">Введите значение</label>
 										<input type="number" name="weight" class="form_input" v-model="weightForm.weight">
 										<label for="note">Примечание</label>
@@ -75,7 +75,7 @@ export default {
 			showModal: false,
 			measurementsList: [],
 			weightForm: {
-				date: '',
+				date: {time: ''},
 				weight: '',
 				note: '',
 				type: 'weight',

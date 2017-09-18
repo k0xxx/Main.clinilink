@@ -52,7 +52,7 @@
 								<div class="p-100">
 									<form v-on:submit.prevent="addMeasurement">
 										<label for="date">Дата</label>
-										<input type="text" name="date" class="form_input" v-model="bloodpressureForm.date">
+										<date-picker :date="bloodpressureForm.date.time"></date-picker>
 										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 										<label for="systolic">Систола</label>
 										<input type="number" name="systolic" placeholder="120" class="form_input" min="0" max="400" v-model="bloodpressureForm.systolic" required="">
@@ -83,6 +83,7 @@
 
 <script>
 import { baseAPI } from '../../../config';
+
 export default {
 	name: 'widgetWeight',
 	data() {
@@ -93,7 +94,9 @@ export default {
 			showModal: false,
 			measurementsList: [],
 			bloodpressureForm: {
-				date: '',
+				date: {
+					time: ''
+				},
 				systolic: '',
 				diastolic: '',
 				pulse: '',

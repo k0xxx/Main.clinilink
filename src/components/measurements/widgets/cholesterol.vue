@@ -52,7 +52,7 @@
 								<div class="p-100">
 									<form class="d-flex flex-column" v-on:submit.prevent="addMeasurement">
 										<label for="date">Дата</label>
-										<input type="text" name="date" class="form_input" v-model="cholesterolForm.date">
+										<date-picker :date="cholesterolForm.date.time"></date-picker>
 										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 										<label for="LNP">ЛНП</label>
 										<input type="number" name="LNP" placeholder="4.5" class="form_input" min="1" max="10" step="0.01" v-model="cholesterolForm.LNP" required="">
@@ -92,7 +92,9 @@ export default {
 			showModal: false,
 			measurementsList: [],
 			cholesterolForm: {
-				date: '',
+				date: {
+					time: ''
+				},
 				LNP: '',
 				LVP: '',
 				triglycerides: '',

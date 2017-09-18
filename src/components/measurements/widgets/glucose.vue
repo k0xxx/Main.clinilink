@@ -48,7 +48,7 @@
 								<div class="p-100">
 									<form v-on:submit.prevent="addMeasurement">
 										<label for="date">Дата</label>
-										<input type="text" name="date" class="form_input" v-model="glucoseForm.date">
+										<date-picker :date="glucoseForm.date.time"></date-picker>
 										<label for="glucose">Показатель глюкозы</label>
 										<input type="number" name="glucose" class="form_input" placeholder="4.5" min="1.5" max="32" step="0.01" v-model="glucoseForm.glucose" required="" autofocus="">
 										<span class="input-group-addon">ммоль/л</span>
@@ -83,7 +83,7 @@ export default {
 			showModal: false,
 			measurementsList: [],
 			glucoseForm: {
-				date: '',
+				date: {time: ''},
 				glucose: '',
 				context: '',
 				note: '',
