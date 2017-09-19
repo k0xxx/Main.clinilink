@@ -10,6 +10,9 @@ Vue.use(Auth, Axios, router);
 import Icon from 'vue-awesome';
 Vue.component('icon', Icon);
 
+import Datepicker from './components/datePicker.vue';
+Vue.component('date-picker', Datepicker);
+
 import VueCharts from 'vue-charts';
 Vue.use(VueCharts);
 

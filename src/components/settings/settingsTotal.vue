@@ -79,7 +79,6 @@
 
 <script>
 import { baseAPI } from '../../config.js';
-import myDatepicker from './../datePicker.vue'
 
 export default {
 	name: 'settingsTotal',
@@ -116,9 +115,6 @@ export default {
 			},
 		}
 	},
-	components: {
-		'date-picker': myDatepicker
-	},
 	methods: {
 		getProfileSettings: function(){
 			this.$http.get(this.endpoint).then((response) => {
@@ -140,13 +136,11 @@ export default {
 			})
 		},
 		saveSettings: function(){
-			console.log(this.settings);
-			/*
 			this.$http.post(this.endpoint, this.settings).then((response) => {
 				console.log(response);
 			}, function(err){
 				console.log(err); 
-			})*/
+			})
 		}
 	},
 	created: function(){

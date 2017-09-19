@@ -13,7 +13,7 @@
 			<icon name="refresh" scale="2" spin></icon>
 		</div>
 		<div v-else class="measurementItemGraph p-75">
-			<vue-chart :columns="columns" :rows="rows" :options="options"></vue-chart>
+			<vue-chart ref="glucoseChart" :columns="columns" :rows="rows" :options="options"></vue-chart>
 		</div>
 		<div v-if="isFullWidget" class="p-75">
 			<table>
@@ -29,7 +29,10 @@
 					<td>{{measurement.glucose}} ммоль/л</td>
 					<td>{{measurement.context}}</td>
 					<td>{{measurement.note}}</td>
-					<td>Edit</td>
+					<td class="editBtns">
+						<a href="#" class="edit"><icon name="pencil"></icon></a>
+						<a href="#" class="remove"><icon name="close"></icon></a>
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -48,7 +51,7 @@
 								<div class="p-100">
 									<form v-on:submit.prevent="addMeasurement">
 										<label for="date">Дата</label>
-										<input type="text" name="date" class="form_input" v-model="glucoseForm.date">
+										<date-picker :date="glucoseForm.date" :type="'daytime'"></date-picker>
 										<label for="glucose">Показатель глюкозы</label>
 										<input type="number" name="glucose" class="form_input" placeholder="4.5" min="1.5" max="32" step="0.01" v-model="glucoseForm.glucose" required="" autofocus="">
 										<span class="input-group-addon">ммоль/л</span>
@@ -83,7 +86,7 @@ export default {
 			showModal: false,
 			measurementsList: [],
 			glucoseForm: {
-				date: '',
+				date: {time: ''},
 				glucose: '',
 				context: '',
 				note: '',
@@ -109,9 +112,9 @@ export default {
 		addMeasurement: function(){
 			this.$http.put(this.endpoint + this.item.type, this.glucoseForm).then((response) => {
 				console.log(response);
-				this.glucoseForm.date = '';
+				this.glucoseForm.date.time = '';
 				this.showModal = false;
-				this.measurementsList.push(response.data.measurement);
+				this.measurementsList.unshift(response.data.measurement);
 			}, function(err){
 				console.log(err);
 			})
@@ -119,7 +122,9 @@ export default {
 		getMeasurement: function(){
 			this.loading = true;
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
-				this.measurementsList = response.data.measurementsList;
+				if(response.data.measurementsList){
+					this.measurementsList = response.data.measurementsList;	
+				}
 				this.loading = false;
 			}, function(err){
 				console.log(err);
@@ -130,6 +135,9 @@ export default {
 		this.getMeasurement();
 	},
 	watch: {
+		isFullWidget: function(){
+			this.$refs.glucoseChart.drawChart();
+		},
 		measurementsList: function (measurement) {
 			for(var i = 0; i < measurement.length; i++){
 				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].glucose)]);
@@ -140,17 +148,5 @@ export default {
 </script>
 
 <style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
+
 </style>

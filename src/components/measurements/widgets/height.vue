@@ -13,7 +13,7 @@
 			<icon name="refresh" scale="2" spin></icon>
 		</div>
 		<div v-else class="measurementItemGraph p-75">
-			<vue-chart :columns="columns" :rows="rows" :options="options"></vue-chart>
+			<vue-chart ref="heightChart" :columns="columns" :rows="rows" :options="options"></vue-chart>
 		</div>
 		<div v-if="isFullWidget" class="p-75">
 			<table>
@@ -27,7 +27,10 @@
 					<td>{{measurement.date | formatMeasurement}}</td>
 					<td>{{measurement.height}} см</td>
 					<td>{{measurement.note}}</td>
-					<td>Edit</td>
+					<td class="editBtns">
+						<a href="#" class="edit"><icon name="pencil"></icon></a>
+						<a href="#" class="remove"><icon name="close"></icon></a>
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -46,7 +49,7 @@
 								<div class="p-100">
 									<form class="d-flex flex-column" v-on:submit.prevent="addMeasurement">
 										<label for="date">Дата</label>
-										<input type="text" name="date" class="form_input" v-model="heightForm.date">
+										<date-picker :date="heightForm.date" :type="'daytime'"></date-picker>
 										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 										<label for="height">Рост</label>
 										<input type="number" name="height" placeholder="170" class="form_input" min="1" max="300" v-model="heightForm.height" required="">
@@ -77,7 +80,7 @@ export default {
 			showModal: false,
 			measurementsList: [],
 			heightForm: {
-				date: '',
+				date: {time: ''},
 				height: '',
 				note: '',
 				type: 'height',
@@ -102,9 +105,9 @@ export default {
 		addMeasurement: function(){
 			this.$http.put(this.endpoint + this.item.type, this.heightForm).then((response) => {
 				console.log(response);
-				this.heightForm.date = '';
+				this.heightForm.date.time = '';
 				this.showModal = false;
-				this.measurementsList.push(response.data.measurement);
+				this.measurementsList.unshift(response.data.measurement);
 			}, function(err){
 				console.log(err);
 			})
@@ -112,7 +115,9 @@ export default {
 		getMeasurement: function(){
 			this.loading = true;
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
-				this.measurementsList = response.data.measurementsList;
+				if(response.data.measurementsList){
+					this.measurementsList = response.data.measurementsList;	
+				}
 				this.loading = false;
 			}, function(err){
 				console.log(err);
@@ -123,6 +128,9 @@ export default {
 		this.getMeasurement();
 	},
 	watch: {
+		isFullWidget: function(){
+			this.$refs.heightChart.drawChart();
+		},
 		measurementsList: function (measurement) {
 			if(measurement.length > 0){
 				for(var i = 0; i < measurement.length; i++){
@@ -135,17 +143,5 @@ export default {
 </script>
 
 <style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
+
 </style>

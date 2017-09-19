@@ -40,7 +40,7 @@ export default {
 	},
 	methods: {
 		toogle: function(el){
-			console.log(this.activeWidgets[el].full);
+			//console.log(this.activeWidgets[el].full);
 			if(!this.activeWidgets[el].full){
 				this.isFullWidget = true;
 				for(var widget in this.activeWidgets){
@@ -78,5 +78,33 @@ export default {
 	border-bottom: 1px solid #ddd;
 	align-items: center;
 	padding: 0.75rem 0.75rem 0.25rem;
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+	padding: 8px;
+}
+tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+td.editBtns{
+	padding: 0;
+    text-align: center;
+    width: 84px;
+}
+td.editBtns a{
+	display: inline-block;
+	padding: 8px 14px;
+}
+td.editBtns a:hover{
+	background: #ddd;
+}
+td.editBtns a:hover.remove{
+	color: #f50057;
 }
 </style>

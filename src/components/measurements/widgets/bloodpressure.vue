@@ -13,7 +13,7 @@
 			<icon name="refresh" scale="2" spin></icon>
 		</div>
 		<div v-else class="measurementItemGraph p-75">
-			<vue-chart :columns="columns" :rows="rows" :options="options"></vue-chart>
+			<vue-chart ref="bloodpressureChart" :columns="columns" :rows="rows" :options="options"></vue-chart>
 		</div>
 		<div v-if="isFullWidget" class="p-75">
 			<table>
@@ -33,7 +33,10 @@
 					<td>{{measurement.pulse}}</td>
 					<td>{{measurement.arrhythmia}}</td>
 					<td>{{measurement.note}}</td>
-					<td>Edit</td>
+					<td class="editBtns">
+						<a href="#" class="edit"><icon name="pencil"></icon></a>
+						<a href="#" class="remove"><icon name="close"></icon></a>
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -52,7 +55,7 @@
 								<div class="p-100">
 									<form v-on:submit.prevent="addMeasurement">
 										<label for="date">Дата</label>
-										<input type="text" name="date" class="form_input" v-model="bloodpressureForm.date">
+										<date-picker v-bind:date="bloodpressureForm.date" :type="'daytime'"></date-picker>
 										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 										<label for="systolic">Систола</label>
 										<input type="number" name="systolic" placeholder="120" class="form_input" min="0" max="400" v-model="bloodpressureForm.systolic" required="">
@@ -83,6 +86,7 @@
 
 <script>
 import { baseAPI } from '../../../config';
+
 export default {
 	name: 'widgetWeight',
 	data() {
@@ -93,7 +97,9 @@ export default {
 			showModal: false,
 			measurementsList: [],
 			bloodpressureForm: {
-				date: '',
+				date: {
+					time: ''
+				},
 				systolic: '',
 				diastolic: '',
 				pulse: '',
@@ -121,9 +127,9 @@ export default {
 		addMeasurement: function(){
 			this.$http.put(this.endpoint + this.item.type, this.bloodpressureForm).then((response) => {
 				console.log(response);
-				this.bloodpressureForm.date = '';
+				this.bloodpressureForm.date.time = '';
 				this.showModal = false;
-				this.measurementsList.push(response.data.measurement);
+				this.measurementsList.unshift(response.data.measurement);
 			}, function(err){
 				console.log(err);
 			})
@@ -131,7 +137,9 @@ export default {
 		getMeasurement: function(){
 			this.loading = true;
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
-				this.measurementsList = response.data.measurementsList;
+				if(response.data.measurementsList){
+					this.measurementsList = response.data.measurementsList;	
+				}
 				this.loading = false;
 			}, function(err){
 				console.log(err);
@@ -142,6 +150,9 @@ export default {
 		this.getMeasurement();
 	},
 	watch: {
+		isFullWidget: function(){
+			this.$refs.bloodpressureChart.drawChart();
+		},
 		measurementsList: function (measurement) {
 			for(var i = 0; i < measurement.length; i++){
 				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].systolic), parseInt(measurement[i].diastolic)]);
@@ -152,17 +163,5 @@ export default {
 </script>
 
 <style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
+
 </style>
