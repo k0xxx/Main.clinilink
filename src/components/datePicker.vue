@@ -48,16 +48,22 @@
 }
 .datepicker_caption {
     display: flex;
-    justify-content: space-around;
+	flex-direction: column;
+    justify-content: center;
 	align-items: center;
 	height: 100%;
     font-size: 20px;
 }
 .datepicker_caption div{
-	margin-right: 0.25rem;
+	margin-bottom: 0.25rem;
+	font-weight: bold;
+	cursor: pointer;
 }
 .datepicker_caption div::last-child{
-	margin-right: 0;
+	margin-bottom: 0;
+}
+.datepicker_caption div:hover{
+	color: #eee;
 }
 .datepicker_header{
 	display: flex;
@@ -71,11 +77,50 @@
 	display: inline-block;
 	width: 100%;
 	background: #fff;
-    padding: 1rem;
     box-sizing: border-box;
     height: 260px;
     text-align: center;
 }
+.datepicker_body_box{
+	height: 100%;
+}
+.datepicker_body_box.type_day{
+	padding: 1rem;
+}
+.datepicker_body_box.type_month,
+.datepicker_body_box.type_year{
+	overflow: auto;
+}
+.datepicker_body_box.type_hour ul{
+	display: inline-block;
+    width: 50%;
+    overflow: auto;
+    height: 100%;
+}
+.datepicker_body_box.type_month::-webkit-scrollbar,
+.datepicker_body_box.type_year::-webkit-scrollbar,
+.datepicker_body_box.type_hour ul::-webkit-scrollbar{
+	width: 2px;
+}
+.datepicker_body_box.type_month li,
+.datepicker_body_box.type_year li,
+.datepicker_body_box.type_hour ul li{
+	padding: 0.5rem 0;
+    font-size: 18px;
+    cursor: pointer;
+}
+.datepicker_body_box.type_month li:hover,
+.datepicker_body_box.type_year li:hover,
+.datepicker_body_box.type_hour ul li:hover{
+	background: #eee;
+}
+.datepicker_body_box.type_hour ul li.hour-item.active,
+.datepicker_body_box.type_hour ul li.min-item.active{
+	background: #f50057;
+	color: #fff;
+    border-radius: 4px;
+}
+
 .datepicker_week > li{
 	display: inline-block;
 	width: calc(100% / 7);
@@ -118,21 +163,38 @@
 				<div class="datepicker_header">
 					<div class="datepicker_previous" @click="nextMonth('previous')"><</div>
 					<div class="datepicker_caption">
-						<div>{{currentDate.day}}</div>
-						<div>{{currentDate.monthName}}</div>
+						<!--<div>{{currentDate.day}}</div>-->
 						<div @click="showYear">{{currentDate.year}}</div>
+						<div @click="showMonth">{{currentDate.monthName}}</div>
+						<div @click="showTime" v-if="type != 'day'">{{currentDate.hour}}:{{currentDate.min}}</div>
 					</div>
 					<div class="datepicker_next" @click="nextMonth('next')">></div>
 				</div>
 				<div class="datepicker_body">
-					<ul class="datepicker_week">
-						<li v-for="week in weeks">{{week}}</li>
+					<div class="datepicker_body_box type_day" v-if="showInfo.day">
+						<ul class="datepicker_week">
+							<li v-for="week in weeks">{{week}}</li>
+						</ul>
+						<div class="datepicker_week_days">
+							<div v-for="day, index in dayList" :key="index" 
+								class="day"
+								@click="setDay(day)"
+								:class="{'checked': day.checked, 'passive_day': !(day.inMonth)}" >{{day.value}}</div>
+						</div>
+					</div>
+		  			<ul class="datepicker_body_box type_month" v-if="showInfo.month">
+						<li v-for="monthItem, index in months" :key="index" @click="setMonth(monthItem)">{{monthItem}}</li>
 					</ul>
-					<div class="datepicker_week_days">
-						<div v-for="day, index in dayList" :key="index" 
-							 class="day"
-							 @click="setDay(day)"
-							 :class="{'checked': day.checked, 'passive_day': !(day.inMonth)}" >{{day.value}}</div>
+					<ul class="datepicker_body_box type_year" v-if="showInfo.year" id="yearList">
+						<li v-for="yearItem, index in years" :key="index" @click="setYear(yearItem)">{{yearItem}}</li>
+					</ul>
+					<div class="datepicker_body_box type_hour" v-if="showInfo.hour">
+						<ul>
+							<li class="hour-item" v-for="hitem in hours" @click="setTime('hour', hitem, hours)" :class="{'active':hitem.checked}">{{hitem.value}}</li>
+						</ul>
+						<ul>
+							<li class="min-item" v-for="mitem in mins" @click="setTime('min', mitem, mins)" :class="{'active':mitem.checked}">{{mitem.value}}</li>
+						</ul>
 					</div>
 				</div>
 				<div class="datepicker_footer">
@@ -145,7 +207,7 @@
 </template>
 <script>
 import moment from 'moment'
-
+//use this option for select time :type="'daytime'"
 export default {
 	props: {
     	required: false,
@@ -153,19 +215,65 @@ export default {
 			type: Object,
       		required: true
 		},
+		type: {
+			type: String,
+			required: false,
+			default: 'day'
+		}
 	},
 	computed: {
 		niceDate: function () {
-			return moment(this.date.time).format('DD MMM YYYY');
+			if(this.currentDate.currentMoment){
+				if(this.type == 'daytime'){
+					return moment(this.currentDate.currentMoment).format('HH:mm DD MMM YYYY');
+				}else{
+					return moment(this.currentDate.currentMoment).format('DD MMM YYYY');
+				}
+			}else{
+				return 'Выберите дату...';
+			}
 		}
 	},
 	data() {
+		function hours () {
+      		let list = []
+      		let hour = 24
+      		while (hour > 0) {
+        		hour--
+        		list.push({
+          			checked: false,
+          			value: hour < 10 ? '0' + hour : hour
+        		})
+      		}
+      		return list
+    	}
+    	function mins () {
+      		let list = []
+      		let min = 60
+      		while (min > 0) {
+        		min--
+        		list.push({
+          			checked: false,
+          			value: min < 10 ? '0' + min : min
+        		})
+      		}
+      		return list
+    	}
 		return {
-			counter: this.date.time,
 			isDatepicker: false,
-			weeks: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-          	months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+			hours: hours(),
+      		mins: mins(),
 			dayList: [],
+			weeks: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+			months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+			years: [],
+			showInfo: {
+        		hour: false,
+        		day: false,
+        		month: false,
+        		year: false,
+        		check: false
+      		},
 			currentDate: {
         		oldtime: '',
         		currentMoment: null,
@@ -183,14 +291,19 @@ export default {
 		}
 	},
 	methods: {
+		// Добавение 0 перед датой
 		addNull(n) {
 			n = Math.floor(n)
 			return n < 10 ? '0' + n : n
 		},
+
+		// Показать Datepicker
 		showDatepicker(){
 			this.showDay(this.date.time);
 			this.isDatepicker = true;
 		},
+
+		// Отменить Datepicker
 		dismiss(evt) {
 			if (evt.target.className === 'datepicker_overlay') {
 				if (this.option.dismissible === undefined || this.option.dismissible) {
@@ -199,21 +312,30 @@ export default {
 				}
 			}
 		},
+
+		// Вывод календаря
 		showDay (time) {
 			let days = []
-
 			if (time === undefined || !Date.parse(time)) {
 				this.currentDate.currentMoment = moment()
 			} else {
-				// chek if format is need =)
 				this.currentDate.currentMoment = moment(time, this.option.format)
 			}
-			
+
+			this.switchPicker('day')
+
 			this.currentDate.year = moment(this.currentDate.currentMoment).format('YYYY')
 			this.currentDate.month = moment(this.currentDate.currentMoment).format('MM')
 			this.currentDate.day = moment(this.currentDate.currentMoment).format('DD')
 			this.currentDate.monthName = this.months[moment(this.currentDate.currentMoment).month()]
+
+			if(this.type != 'day'){
+				this.currentDate.hour = moment(this.currentDate.currentMoment).format('HH');
+				this.currentDate.min = moment(this.currentDate.currentMoment).format('mm');
+			}
 			
+			console.log(this.currentDate);
+
 			let currentMoment = this.currentDate.currentMoment
 
 			let firstDay = moment(currentMoment).date(1).day()
@@ -282,18 +404,10 @@ export default {
 				}
 			}*/
 			this.dayList = days
-			console.log(days);
 		},
-		showYear(){
-			
-		},
-		nextMonth (type) {
-			let next = null
-			type === 'next' ? next = moment(this.currentDate.currentMoment).add(1, 'M') : next = moment(this.currentDate.currentMoment).add(-1, 'M')
-			this.showDay(next)
-		},
+
+		// Вставить в дату выбранный день
 		setDay(obj) {
-			console.log(obj);
 			if (obj.unavailable || obj.value === '') {
 				return false
 			}
@@ -329,6 +443,114 @@ export default {
 					break
 			}*/
 		},
+		
+		// Показать выбор времени
+		showTime(){
+			this.switchPicker('hour')
+		},
+		
+		// Установить время
+		setTime (type, obj, list) {
+			for (let item of list) {
+				item.checked = false
+				if (item.value === obj.value) {
+					item.checked = true
+					this.currentDate[type] = item.value
+				}
+			}
+		},
+
+		// Показать список месяцев
+		showMonth () {
+			this.switchPicker('month')
+		},
+
+		// Вставить в дату выбранный месяц
+		setMonth (month) {
+			let mo = (this.months.indexOf(month) + 1)
+			if (mo < 10) {
+				mo = '0' + '' + mo
+			}
+			this.currentDate.currentMoment = moment(this.currentDate.year + '-' + mo + '-' + this.currentDate.day + ' ' + this.currentDate.hour + ':' + this.currentDate.min)
+			this.showDay(this.currentDate.currentMoment)
+		},
+
+		// Переключить следующий/предидущий месяц
+		nextMonth (type) {
+			let next = null
+			type === 'next' ? next = moment(this.currentDate.currentMoment).add(1, 'M') : next = moment(this.currentDate.currentMoment).add(-1, 'M')
+			this.showDay(next)
+		},
+
+		// Показать список лет
+		showYear () {
+			let year = moment(this.currentDate.currentMoment).year()
+			this.years = []
+			let yearTmp = []
+			for (let i = year - 100; i < year + 5; ++i) {
+				yearTmp.push(i)
+			}
+			this.years = yearTmp
+
+			this.switchPicker('year')
+			this.$nextTick(() => {
+				let listDom = document.getElementById('yearList')
+				listDom.scrollTop = (listDom.scrollHeight - 100)
+				this.addYear()
+			})
+		},
+		addYear () {
+			let listDom = document.getElementById('yearList')
+			listDom.addEventListener('scroll', (e) => {
+				if (listDom.scrollTop < listDom.scrollHeight - 100) {
+					let len = this.years.length
+					let lastYear = this.years[len - 1]
+					this.years.push(lastYear + 1)
+				}
+			}, false)
+		},
+		// Вставить в дату выбранный год
+		setYear (year) {
+			this.currentDate.currentMoment = moment(year + '-' + this.currentDate.month + '-' + this.currentDate.day + ' ' + this.currentDate.hour + ':' + this.currentDate.min)
+			this.showDay(this.currentDate.currentMoment)
+		},
+
+		// Переключение между типами Datepicker
+		switchPicker (type) {
+			switch (type) {
+				case 'year':
+					this.showInfo.hour = false
+					this.showInfo.day = false
+					this.showInfo.year = true
+					this.showInfo.month = false
+					break
+				case 'month':
+					this.showInfo.hour = false
+					this.showInfo.day = false
+					this.showInfo.year = false
+					this.showInfo.month = true
+					break
+				case 'day':
+					this.showInfo.hour = false
+					this.showInfo.day = true
+					this.showInfo.year = false
+					this.showInfo.month = false
+					break
+				case 'hour':
+					this.showInfo.hour = true
+					this.showInfo.day = false
+					this.showInfo.year = false
+					this.showInfo.month = false
+					break
+				default:
+					this.showInfo.day = true
+					this.showInfo.year = false
+					this.showInfo.month = false
+					this.showInfo.hour = false
+			}
+		},
+		
+		// Вставить выбранную дату в поле ввода даты
 		picked () {
 			if (this.option.type === 'day' || this.option.type === 'min') {
 				let ctime = this.currentDate.year + '-' + this.currentDate.month + '-' + this.currentDate.day + ' ' + this.currentDate.hour + ':' + this.currentDate.min

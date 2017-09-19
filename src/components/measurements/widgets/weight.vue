@@ -13,7 +13,7 @@
 			<icon name="refresh" scale="2" spin></icon>
 		</div>
 		<div v-else class="measurementItemGraph p-75">
-			<vue-chart :columns="columns" :rows="rows" :options="options"></vue-chart>
+			<vue-chart ref="weightChart" :columns="columns" :rows="rows" :options="options"></vue-chart>
 		</div>
 		<div v-if="isFullWidget" class="p-75">
 			<table>
@@ -27,7 +27,10 @@
 					<td>{{measurement.date | formatMeasurement}}</td>
 					<td>{{measurement.weight}} кг</td>
 					<td>{{measurement.note}}</td>
-					<td>Edit</td>
+					<td class="editBtns">
+						<a href="#" class="edit"><icon name="pencil"></icon></a>
+						<a href="#" class="remove"><icon name="close"></icon></a>
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -46,7 +49,7 @@
 								<div class="p-100">
 									<form class="d-flex flex-column" v-on:submit.prevent="addMeasurement">
 										<label for="date">Укажите дату</label> 
-										<date-picker :date="weightForm.date.time"></date-picker>
+										<date-picker :date="weightForm.date" :type="'daytime'"></date-picker>
 										<label for="weight">Введите значение</label>
 										<input type="number" name="weight" class="form_input" v-model="weightForm.weight">
 										<label for="note">Примечание</label>
@@ -99,11 +102,11 @@ export default {
 		addMeasurement: function(){
 			this.$http.put(this.endpoint + this.item.type, this.weightForm).then((response) => {
 				console.log(response);
-				this.weightForm.date = '';
+				this.weightForm.date.time = '';
 				this.weightForm.weight = '';
 				this.weightForm.note = '';
 				this.showModal = false;
-				this.measurementsList.push(response.data.measurement);
+				this.measurementsList.unshift(response.data.measurement);
 			}, function(err){
 				console.log(err);
 			})
@@ -111,7 +114,9 @@ export default {
 		getMeasurement: function(){
 			this.loading = true;
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
-				this.measurementsList = response.data.measurementsList;
+				if(response.data.measurementsList){
+					this.measurementsList = response.data.measurementsList;	
+				}
 				this.loading = false;
 			}, function(err){
 				console.log(err);
@@ -120,8 +125,19 @@ export default {
 	},
 	created: function(){
 		this.getMeasurement();
+		
+		/*const self = this;
+        this.$on('redrawChart', function() {
+			console.log(self.$children);
+           	for (idx in self.$children) {
+           		self.$children[idx].$emit('redrawChart');
+           	}
+        });*/
 	},
 	watch: {
+		isFullWidget: function(){
+			this.$refs.weightChart.drawChart();
+		},
 		measurementsList: function (measurement) {
 			for(var i = 0; i < measurement.length; i++){
 				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].weight)]);
@@ -132,17 +148,5 @@ export default {
 </script>
 
 <style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
+
 </style>
