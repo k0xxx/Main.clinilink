@@ -48,12 +48,18 @@
 							<div class="modal-body">
 								<div class="p-100">
 									<form class="d-flex flex-column">
-										<label for="date">Укажите дату</label> 
-										<date-picker :date="weightForm.date" :type="'daytime'"></date-picker>
-										<label for="weight">Введите значение</label>
-										<input type="number" name="weight" class="form_input" v-model="weightForm.weight">
-										<label for="note">Примечание</label>
-										<textarea name="note" class="form_input" rows="2" v-model="weightForm.note"></textarea>
+										<div>
+											<label for="date">Укажите дату</label> 
+											<date-picker :date="weightForm.date" :type="'daytime'"></date-picker>
+										</div>
+										<div>
+											<label for="weight">Введите значение</label>
+											<input type="number" name="weight" class="form_input w-100" v-model="weightForm.weight">
+										</div>
+										<div>
+											<label for="note">Примечание</label>
+											<textarea name="note" class="form_input" rows="2" v-model="weightForm.note"></textarea>
+										</div>
 										<button type="button" v-if="!weightForm.itemId" v-on:click="addMeasurement" class="btn btn-primary mx-auto">Добавить</button>
 										<button type="button" v-else v-on:click="saveMeasurement" class="btn btn-primary mx-auto">Сохранить</button>
 									</form>

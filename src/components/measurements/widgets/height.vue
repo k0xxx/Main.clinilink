@@ -48,14 +48,19 @@
 							<div class="modal-body">
 								<div class="p-100">
 									<form class="d-flex flex-column">
-										<label for="date">Дата</label>
-										<date-picker :date="heightForm.date" :type="'daytime'"></date-picker>
-										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-										<label for="height">Рост</label>
-										<input type="number" name="height" placeholder="170" class="form_input" min="1" max="300" v-model="heightForm.height" required="">
-										<span class="input-group-addon">см</span>
-										<label for="note">Примечание</label>
-										<textarea class="form_input" name="note" rows="2" v-model="heightForm.note"></textarea>
+										<div>
+											<label for="date">Дата</label>
+											<date-picker :date="heightForm.date" :type="'daytime'"></date-picker>
+										</div>
+										<div>
+											<label for="height">Рост</label>
+											<input type="number" name="height" placeholder="170" class="form_input" min="1" max="300" v-model="heightForm.height" required="">
+											<span class="input-group-addon">см</span>
+										</div>
+										<div>
+											<label for="note">Примечание</label>
+											<textarea class="form_input" name="note" rows="2" v-model="heightForm.note"></textarea>
+										</div>
 										<button type="button" v-if="!heightForm.itemId" v-on:click="addMeasurement" class="btn btn-primary mx-auto">Добавить</button>
 										<button type="button" v-else v-on:click="saveMeasurement" class="btn btn-primary mx-auto">Сохранить</button>
 									</form>

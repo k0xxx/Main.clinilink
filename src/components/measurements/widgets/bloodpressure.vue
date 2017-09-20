@@ -54,24 +54,33 @@
 							<div class="modal-body">
 								<div class="p-100">
 									<form class="d-flex flex-column">
-										<label for="date">Дата</label>
-										<date-picker v-bind:date="bloodpressureForm.date" :type="'daytime'"></date-picker>
-										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-										<label for="systolic">Систола</label>
-										<input type="number" name="systolic" placeholder="120" class="form_input" min="0" max="400" v-model="bloodpressureForm.systolic" required="">
-										<div class="col-2 text-center py-1">/</div>
-										<label for="diastolic">Диастола</label>
-										<input type="number" name="diastolic" placeholder="80" class="form_input" min="0" max="400" v-model="bloodpressureForm.diastolic" required="">
-										<label for="pulse">Пульс</label>
-										<input type="number" name="pulse" placeholder="80" class="form_input" min="0" max="400" v-model="bloodpressureForm.pulse" required="">
-										<span class="input-group-addon">уд/м</span>
-										<label for="arrhythmia">Аритмия</label>
-										<select class="form_input" name="arrhythmia" v-model="bloodpressureForm.arrhythmia">
-											<option value="Нет" selected="">Нет</option>
-											<option value="Обнаружена">Обнаружена</option>
-										</select>
-										<label for="note">Примечание</label>
-										<textarea class="form_input" name="note" rows="2" v-model="bloodpressureForm.note"></textarea>
+										<div>
+											<label for="date">Дата</label>
+											<date-picker v-bind:date="bloodpressureForm.date" :type="'daytime'"></date-picker>
+										</div>
+										<div>
+											<label for="systolic">Систола</label>
+											<input type="number" name="systolic" placeholder="120" class="form_input" min="0" max="400" v-model="bloodpressureForm.systolic" required="">
+											<div class="col-2 text-center py-1">/</div>
+											<label for="diastolic">Диастола</label>
+											<input type="number" name="diastolic" placeholder="80" class="form_input" min="0" max="400" v-model="bloodpressureForm.diastolic" required="">
+										</div>
+										<div>
+											<label for="pulse">Пульс</label>
+											<input type="number" name="pulse" placeholder="80" class="form_input" min="0" max="400" v-model="bloodpressureForm.pulse" required="">
+											<span class="input-group-addon">уд/м</span>
+										</div>
+										<div>
+											<label for="arrhythmia">Аритмия</label>
+											<select class="form_input" name="arrhythmia" v-model="bloodpressureForm.arrhythmia">
+												<option value="Нет" selected="">Нет</option>
+												<option value="Обнаружена">Обнаружена</option>
+											</select>
+										</div>
+										<div>
+											<label for="note">Примечание</label>
+											<textarea class="form_input" name="note" rows="2" v-model="bloodpressureForm.note"></textarea>
+										</div>
 										<button type="button" v-if="!bloodpressureForm.itemId" v-on:click="addMeasurement" class="btn btn-primary mx-auto">Добавить</button>
 										<button type="button" v-else v-on:click="saveMeasurement" class="btn btn-primary mx-auto">Сохранить</button>
 									</form>

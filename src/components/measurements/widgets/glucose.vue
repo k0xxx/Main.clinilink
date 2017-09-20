@@ -50,18 +50,26 @@
 							<div class="modal-body">
 								<div class="p-100">
 									<form class="d-flex flex-column">
-										<label for="date">Дата</label>
-										<date-picker :date="glucoseForm.date" :type="'daytime'"></date-picker>
-										<label for="glucose">Показатель глюкозы</label>
-										<input type="number" name="glucose" class="form_input" placeholder="4.5" min="1.5" max="32" step="0.01" v-model="glucoseForm.glucose" required="" autofocus="">
-										<span class="input-group-addon">ммоль/л</span>
-										<label for="context">Контекст измерения</label>
-										<select class="form_input" name="context" v-model="glucoseForm.context">
-											<option value="Натощак" selected="">Натощак</option>
-											<option value="После еды">После еды</option>
-										</select>
-										<label for="note">Примечание</label>
-										<textarea name="note" class="form_input" rows="2" v-model="glucoseForm.note"></textarea>
+										<div>
+											<label for="date">Дата</label>
+											<date-picker :date="glucoseForm.date" :type="'daytime'"></date-picker>
+										</div>
+										<div>
+											<label for="glucose">Показатель глюкозы</label>
+											<input type="number" name="glucose" class="form_input" placeholder="4.5" min="1.5" max="32" step="0.01" v-model="glucoseForm.glucose" required="" autofocus="">
+											<span class="input-group-addon">ммоль/л</span>
+										</div>
+										<div>
+											<label for="context">Контекст измерения</label>
+											<select class="form_input" name="context" v-model="glucoseForm.context">
+												<option value="Натощак" selected="">Натощак</option>
+												<option value="После еды">После еды</option>
+											</select>
+										</div>
+										<div>
+											<label for="note">Примечание</label>
+											<textarea name="note" class="form_input" rows="2" v-model="glucoseForm.note"></textarea>
+										</div>
 										<button type="button" v-if="!glucoseForm.itemId" v-on:click="addMeasurement" class="btn btn-primary mx-auto">Добавить</button>
 										<button type="button" v-else v-on:click="saveMeasurement" class="btn btn-primary mx-auto">Сохранить</button>
 									</form>

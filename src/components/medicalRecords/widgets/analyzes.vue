@@ -19,9 +19,9 @@
 					<div><icon name="calendar" class="mr-50"></icon>{{medical_record.date | formatMedicalRecord}}</div>
 				</li>
 			</ul>
-			<div v-else class="text-center">
-				Записей нет<br>
-				<button class="btn btn-primary d-flex btn-middle mx-auto" v-on:click="showModal = true">
+			<div v-else class="text-center pt-100">
+				<span class="text-primary">Записей нет</span>
+				<button class="btn btn-outline-primary btn-small mx-auto mt-50" v-on:click="showModal = true">
 					Добавить новую запись<icon name="plus" class="ml-50"></icon>
 				</button>
 			</div>

@@ -13,9 +13,9 @@
 			<div v-if="loading" class="p-75 text-center text-primary">
 				<icon name="refresh" scale="2" spin></icon>
 			</div>
-			<div class="text-center">
-				Записей нет<br>
-				<button class="btn btn-primary d-flex btn-middle mx-auto" v-on:click="showModal = true">
+			<div class="text-center pt-100">
+				<span class="text-primary">Записей нет</span>
+				<button class="btn btn-outline-primary btn-small mx-auto mt-50" v-on:click="showModal = true">
 					Добавить новую запись<icon name="plus" class="ml-50"></icon>
 				</button>
 			</div>

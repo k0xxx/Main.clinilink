@@ -54,23 +54,34 @@
 							<div class="modal-body">
 								<div class="p-100">
 									<form class="d-flex flex-column">
-										<label for="date">Дата</label>
-										<date-picker :date="cholesterolForm.date" :type="'daytime'"></date-picker>
-										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-										<label for="LNP">ЛНП</label>
-										<input type="number" name="LNP" placeholder="4.5" class="form_input" min="1" max="10" step="0.01" v-model="cholesterolForm.LNP" required="">
-										<span class="input-group-addon">ммоль/л</span>
-										<label for="LVP">ЛВП</label>
-										<input type="number" name="LVP" placeholder="2" class="form_input" min="0.5" max="3" step="0.01" v-model="cholesterolForm.LVP" required="">
-										<span class="input-group-addon">ммоль/л</span>
-										<label for="triglycerides">Триглицериды</label>
-										<input type="number" name="triglycerides" placeholder="2" class="form_input" min="0.14" max="4" step="0.01" v-model="cholesterolForm.triglycerides" required="">
-										<span class="input-group-addon">ммоль/л</span>
-										<label for="cholesterol">Всего холестерин</label>
-										<input type="number" name="cholesterol" placeholder="4" class="form_input" min="2" max="8" step="0.01" v-model="cholesterolForm.cholesterol" required="">
-										<span class="input-group-addon">ммоль/л</span>
-										<label for="note">Примечание</label>
-										<textarea class="form_input" name="note" rows="2" v-model="cholesterolForm.note"></textarea>
+										<div>
+											<label for="date">Дата</label>
+											<date-picker :date="cholesterolForm.date" :type="'daytime'"></date-picker>
+										</div>
+										<div>
+											<label for="LNP">ЛНП</label>
+											<input type="number" name="LNP" placeholder="4.5" class="form_input" min="1" max="10" step="0.01" v-model="cholesterolForm.LNP" required="">
+											<span class="input-group-addon">ммоль/л</span>
+										</div>
+										<div>
+											<label for="LVP">ЛВП</label>
+											<input type="number" name="LVP" placeholder="2" class="form_input" min="0.5" max="3" step="0.01" v-model="cholesterolForm.LVP" required="">
+											<span class="input-group-addon">ммоль/л</span>
+										</div>
+										<div>
+											<label for="triglycerides">Триглицериды</label>
+											<input type="number" name="triglycerides" placeholder="2" class="form_input" min="0.14" max="4" step="0.01" v-model="cholesterolForm.triglycerides" required="">
+											<span class="input-group-addon">ммоль/л</span>	
+										</div>
+										<div>
+											<label for="cholesterol">Всего холестерин</label>
+											<input type="number" name="cholesterol" placeholder="4" class="form_input" min="2" max="8" step="0.01" v-model="cholesterolForm.cholesterol" required="">
+											<span class="input-group-addon">ммоль/л</span>
+										</div>
+										<div>
+											<label for="note">Примечание</label>
+											<textarea class="form_input" name="note" rows="2" v-model="cholesterolForm.note"></textarea>
+										</div>
 										<button type="button" v-if="!cholesterolForm.itemId" v-on:click="addMeasurement" class="btn btn-primary mx-auto">Добавить</button>
 										<button type="button" v-else v-on:click="saveMeasurement" class="btn btn-primary mx-auto">Сохранить</button>
 									</form>
