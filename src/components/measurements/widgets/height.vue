@@ -23,13 +23,13 @@
 					<th>Примечание</th>
 					<th></th>
 				</tr>
-				<tr v-for="measurement in measurementsList" v-bind:key="measurement._id">
-					<td>{{measurement.date | formatMeasurement}}</td>
+				<tr v-for="(measurement, index) in measurementsList" v-bind:key="measurement._id">
+					<td>{{measurement.date.time | formatMeasurement}}</td>
 					<td>{{measurement.height}} см</td>
 					<td>{{measurement.note}}</td>
 					<td class="editBtns">
-						<a href="#" class="edit"><icon name="pencil"></icon></a>
-						<a href="#" class="remove"><icon name="close"></icon></a>
+						<a href="#" class="edit" v-on:click="editMeasurment(measurement._id)"><icon name="pencil"></icon></a>
+						<a href="#" class="remove" v-on:click="removeMeasurment(measurement._id, index)"><icon name="close"></icon></a>
 					</td>
 				</tr>
 			</table>
@@ -47,16 +47,22 @@
 							</div>
 							<div class="modal-body">
 								<div class="p-100">
-									<form class="d-flex flex-column" v-on:submit.prevent="addMeasurement">
-										<label for="date">Дата</label>
-										<date-picker :date="heightForm.date" :type="'daytime'"></date-picker>
-										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-										<label for="height">Рост</label>
-										<input type="number" name="height" placeholder="170" class="form_input" min="1" max="300" v-model="heightForm.height" required="">
-										<span class="input-group-addon">см</span>
-										<label for="note">Примечание</label>
-										<textarea class="form_input" name="note" rows="2" v-model="heightForm.note"></textarea>
-										<button type="submit" class="btn btn-primary mx-auto">Добавить</button>
+									<form class="d-flex flex-column">
+										<div>
+											<label for="date">Дата</label>
+											<date-picker :date="heightForm.date" :type="'daytime'"></date-picker>
+										</div>
+										<div>
+											<label for="height">Рост</label>
+											<input type="number" name="height" placeholder="170" class="form_input" min="1" max="300" v-model="heightForm.height" required="">
+											<span class="input-group-addon">см</span>
+										</div>
+										<div>
+											<label for="note">Примечание</label>
+											<textarea class="form_input" name="note" rows="2" v-model="heightForm.note"></textarea>
+										</div>
+										<button type="button" v-if="!heightForm.itemId" v-on:click="addMeasurement" class="btn btn-primary mx-auto">Добавить</button>
+										<button type="button" v-else v-on:click="saveMeasurement" class="btn btn-primary mx-auto">Сохранить</button>
 									</form>
 								</div>
 							</div>
@@ -71,7 +77,7 @@
 <script>
 import { baseAPI } from '../../../config';
 export default {
-	name: 'widgetWeight',
+	name: 'widgetHeight',
 	data() {
 		return {
 			loading: true,
@@ -102,12 +108,62 @@ export default {
 	},
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
+		editMeasurment: function(id){
+			this.$http.get(this.endpoint + this.item.type + '/' + id).then((response) => {
+				if(response.data.measurement){
+					this.heightForm.itemId = response.data.measurement._id;
+					this.heightForm.date.time = response.data.measurement.date.time;
+					this.heightForm.height = response.data.measurement.height;
+					this.heightForm.note = response.data.measurement.note;
+					this.showModal = true;
+				}else{
+					console.log('its no data from db');
+				}
+			}, function(err){
+				console.log(err);
+			})
+		},
+		saveMeasurement: function(){
+			this.$http.post(this.endpoint + this.item.type + '/' + this.heightForm.itemId, this.heightForm).then((response) => {
+				if(response.data.measurement){
+					this.measurementsList = [];
+					this.getMeasurement();
+					this.heightForm.itemId = '';
+					this.heightForm.date.time = '';
+					this.heightForm.height = '';
+					this.heightForm.note = '';
+					this.showModal = false;
+				}else{
+					console.log(response.data);
+				}
+			}, function(err){
+				console.log(err);
+			})
+		},
 		addMeasurement: function(){
 			this.$http.put(this.endpoint + this.item.type, this.heightForm).then((response) => {
-				console.log(response);
-				this.heightForm.date.time = '';
-				this.showModal = false;
-				this.measurementsList.unshift(response.data.measurement);
+				if(response.data.measurement){
+					this.measurementsList = [];
+					this.getMeasurement();
+					this.heightForm.itemId = '';
+					this.heightForm.date.time = '';
+					this.heightForm.height = '';
+					this.heightForm.note = '';
+					this.showModal = false;
+				}else{
+					console.log(response.data);
+				}
+			}, function(err){
+				console.log(err);
+			})
+		},
+		removeMeasurment: function(id, index){
+			this.$http.delete(this.endpoint + this.item.type + '/' + id).then((response) => {
+				if(response.data.measurement){
+					this.measurementsList.splice(index, 1)
+				}else{
+					console.log('item is not removed!');
+				}
 			}, function(err){
 				console.log(err);
 			})
@@ -134,7 +190,7 @@ export default {
 		measurementsList: function (measurement) {
 			if(measurement.length > 0){
 				for(var i = 0; i < measurement.length; i++){
-					this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].height)]);
+					this.rows.push([new Date(measurement[i].date.time), parseInt(measurement[i].height)]);
 				}
 			}
 		},

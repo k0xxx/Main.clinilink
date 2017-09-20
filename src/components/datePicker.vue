@@ -4,6 +4,7 @@
 }
 .datepicker_input{
 	display: inline-block;
+	width: 100%;
 	padding: 0.5rem 0.75rem;
 	font-size: 1rem;
 	line-height: 1.25;
@@ -221,13 +222,18 @@ export default {
 			default: 'day'
 		}
 	},
+	created: function () {
+		if(this.date.time){
+			this.currentDate.currentMoment = moment(this.date.time, this.option.format)
+		}
+  	},
 	computed: {
 		niceDate: function () {
 			if(this.currentDate.currentMoment){
 				if(this.type == 'daytime'){
-					return moment(this.currentDate.currentMoment).format('HH:mm DD MMM YYYY');
-				}else{
-					return moment(this.currentDate.currentMoment).format('DD MMM YYYY');
+					return moment(this.currentDate.currentMoment).format('HH:mm DD MMMM YYYY');
+				}else if(this.type == 'day'){
+					return moment(this.currentDate.currentMoment).format('DD MMMM YYYY');
 				}
 			}else{
 				return 'Выберите дату...';

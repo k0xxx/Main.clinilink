@@ -91,10 +91,13 @@
     }
 
     /*===button-sizing===*/
-    .btn-small{
-        height: 1rem;
+    &.btn-small{
+        padding: .25rem .5rem;
+        font-size: .875rem;
+        line-height: 1.5;
+        border-radius: .2rem;
     }
-    .btn-middle{
+    /*.btn-middle{
         height: 1.3rem;
     }
     .btn-large{
@@ -102,5 +105,5 @@
     }
     .btn-xlarge{
         height: 2.3rem;
-    }
+    }*/
 }

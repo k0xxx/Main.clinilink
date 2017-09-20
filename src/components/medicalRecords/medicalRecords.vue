@@ -89,7 +89,7 @@ export default {
 .medicalRecordItem{
 	display: inline-block;
     width: 100%;
-	min-height: 380px;
+	min-height: 280px;
 }
 .medicalRecordItem .title{
 	display: flex;
@@ -103,6 +103,7 @@ export default {
 	margin-bottom: 0.5rem;
     border-bottom: 1px solid #ddd;
     padding-bottom: 0.25rem;
+	font-size: 14px;
 }
 /*.medicalRecordList{
 

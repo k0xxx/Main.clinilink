@@ -41,7 +41,7 @@ export default {
         try {
             this.voxApi.init({
                 //useRTCOnly: true, // force usage of WebRTC
-                micRequired: false, // ask mic/cam access before connection to VoxImplant
+                micRequired: true, // ask mic/cam access before connection to VoxImplant
                 videoSupport: true,  // enable video support
                 progressTone: true, // play progress tone
                 //localVideoContainerId: "local_video_container", // element id for local video from camera or screen sharing
