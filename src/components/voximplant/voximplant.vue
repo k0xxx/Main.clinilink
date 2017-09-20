@@ -15,12 +15,14 @@
     </div>
 </template>
 <script>
+import { baseAPI } from '../../config.js';
 var VoxImplant = require('voximplant-websdk');
 
 export default {
     data() {  
 		return {
             voxApi: VoxImplant.getInstance(),
+            endpoint: baseAPI + 'auth/voxauth',
             localvideo: null,
             remotevideo: null,
             currentCall: null,
@@ -32,12 +34,12 @@ export default {
         }
     },
     mounted: function(){
+        
         this.voxApi.addEventListener(VoxImplant.Events.SDKReady, this.onSdkReady);
         this.voxApi.addEventListener(VoxImplant.Events.ConnectionEstablished, this.onConnectionEstablished);
-        this.voxApi.addEventListener(VoxImplant.Events.ConnectionFailed, this.onConnectionFailed);
-        this.voxApi.addEventListener(VoxImplant.Events.ConnectionClosed, this.onConnectionClosed);
-        this.voxApi.addEventListener(VoxImplant.Events.MicAccessResult, this.onMicAccessResult);
-
+        //this.voxApi.addEventListener(VoxImplant.Events.ConnectionFailed, this.onConnectionFailed);
+        //this.voxApi.addEventListener(VoxImplant.Events.ConnectionClosed, this.onConnectionClosed);
+        //this.voxApi.addEventListener(VoxImplant.Events.MicAccessResult, this.onMicAccessResult);
         try {
             this.voxApi.init({
                 //useRTCOnly: true, // force usage of WebRTC
@@ -54,30 +56,12 @@ export default {
     methods: {
         onSdkReady(){
             console.log("onSDKReady version " + VoxImplant.version + " WebRTC supported: " + this.voxApi.isRTCsupported());
-            if (navigator.webkitGetUserMedia) {
-                navigator.webkitGetUserMedia( 
-                    // Desired stream parameters
-                    { 
-                    audio: true,
-                    video: true
-                    },
-                    // Callback if success
-                    function(stream) {
-                    console.log('Stream:', stream);
-                    },
-                    // Callback if error
-                    function(error) {
-                    console.log('Error:', error);
-                    }
-                );
-                } else {
-                console.log('navigator.webkitGetUserMedia not supported. Are you using latest Chrome/Chromium?');
-                }
-
             this.voxApi.connect();
         },
         onConnectionEstablished(){
             console.log('ConnectionEstablished!');
+            this.voxApi.addEventListener(VoxImplant.Events.AuthResult, this.onAuthResult);
+            this.voxApi.requestOneTimeLoginKey(this.username+"@"+this.application_name+"."+this.account_name+".voximplant.com");
             //this.loginVox(); //автоматическа авторизация
         },
         onConnectionFailed(e){
@@ -95,8 +79,24 @@ export default {
             this.voxApi.login(this.username+"@"+this.application_name+"."+this.account_name+".voximplant.com", this.password);
         },
         onAuthResult(e){
-            console.log(e);
-            if(e.result){
+            console.log("AuthResult: "+e.result);
+            if (e.result) {
+                console.log('login success!')
+                this.voxApi.addEventListener(VoxImplant.Events.IncomingCall, this.onIncomingCall);
+            } else {
+                if (e.code == 302){
+                    //IMPORTANT: You should always calculate the token on your backend!
+                    console.log('post to server and get key')
+                    this.$http.post(this.endpoint, {"key":e.key}).then((response) => {
+                        console.log(response);
+                        this.voxApi.loginWithOneTimeKey(this.username+"@"+this.application_name+"."+this.account_name+".voximplant.com", response.data);
+                    });
+                    /*$.post('/calckey/',{"key":e.key},function(token){
+                        VoxImplant.getInstance().loginWithOneTimeKey("myuser@myapp.myaccount.voximplant.com", token);
+                    },'text');*/
+                }
+            }
+            /*if(e.result){
                 console.log('is connected succsesful!');
                 this.voxApi.addEventListener(VoxImplant.Events.IncomingCall, this.onIncomingCall);
                 //this.currentCall = this.voxApi.call('test1');
@@ -121,9 +121,9 @@ export default {
                         }
                     });
                 });*/
-            }else{
+            /*}else{
                 console.log('cant auth!');
-            }
+            }*/
         },
         createCall() {
             // application_username - app username that will be dialed (with video)
@@ -133,7 +133,8 @@ export default {
             this.voxApi.showLocalVideo(true);
             
             this.localvideo = document.querySelector('#voximplantlocalvideo');
-            //document.querySelector('#local_video_container').appendChild(this.localvideo);
+            console.log(this.localvideo);
+            document.querySelector('#local_video_container').appendChild(this.localvideo);
             //this.localvideo.style.height = "60px";
             //this.localvideo.play();
             
