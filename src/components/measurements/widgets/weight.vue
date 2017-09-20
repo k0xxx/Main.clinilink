@@ -23,13 +23,13 @@
 					<th>Примечание</th>
 					<th></th>
 				</tr>
-				<tr v-for="measurement in measurementsList" v-bind:key="measurement._id">
+				<tr v-for="(measurement, index) in measurementsList" v-bind:key="measurement._id">
 					<td>{{measurement.date.time | formatMeasurement}}</td>
 					<td>{{measurement.weight}} кг</td>
 					<td>{{measurement.note}}</td>
 					<td class="editBtns">
 						<a href="#" class="edit" v-on:click="editMeasurment(measurement._id)"><icon name="pencil"></icon></a>
-						<a href="#" class="remove" v-on:click="removeMeasurment(measurement._id)"><icon name="close"></icon></a>
+						<a href="#" class="remove" v-on:click="removeMeasurment(measurement._id, index)"><icon name="close"></icon></a>
 					</td>
 				</tr>
 			</table>
@@ -69,6 +69,7 @@
 
 <script>
 import { baseAPI } from '../../../config';
+
 export default {
 	name: 'widgetWeight',
 	data() {
@@ -104,14 +105,11 @@ export default {
 		editMeasurment: function(id){
 			this.$http.get(this.endpoint + this.item.type + '/' + id).then((response) => {
 				if(response.data.measurement){
-					//this.measurementsList = response.data.measurementsList;
-					console.log(response.data.measurement);
 					this.weightForm.itemId = response.data.measurement._id;
 					this.weightForm.date.time = response.data.measurement.date.time;
 					this.weightForm.weight = response.data.measurement.weight;
 					this.weightForm.note = response.data.measurement.note;
 					this.showModal = true;
-					console.log(this.weightForm);
 				}else{
 					console.log('its no data from db');
 				}
@@ -122,7 +120,8 @@ export default {
 		saveMeasurement: function(){
 			this.$http.post(this.endpoint + this.item.type + '/' + this.weightForm.itemId, this.weightForm).then((response) => {
 				if(response.data.measurement){
-					console.log(response);
+					this.measurementsList = [];
+					this.getMeasurement();
 					this.weightForm.itemId = '';
 					this.weightForm.date.time = '';
 					this.weightForm.weight = '';
@@ -137,20 +136,22 @@ export default {
 		},
 		addMeasurement: function(){
 			this.$http.put(this.endpoint + this.item.type, this.weightForm).then((response) => {
-				console.log(response);
-				this.weightForm.date.time = '';
-				this.weightForm.weight = '';
-				this.weightForm.note = '';
-				this.showModal = false;
-				this.measurementsList.unshift(response.data.measurement);
+				if(response.data.measurement){
+					this.measurementsList = [];
+					this.getMeasurement();
+					this.weightForm.date.time = '';
+					this.weightForm.weight = '';
+					this.weightForm.note = '';
+					this.showModal = false;
+				}
 			}, function(err){
 				console.log(err);
 			})
 		},
-		removeMeasurment: function(id){
+		removeMeasurment: function(id, index){
 			this.$http.delete(this.endpoint + this.item.type + '/' + id).then((response) => {
 				if(response.data.measurement){
-					console.log(response.data.measurement);
+					this.measurementsList.splice(index, 1)
 				}else{
 					console.log('item is not removed!');
 				}
@@ -162,7 +163,7 @@ export default {
 			this.loading = true;
 			this.$http.get(this.endpoint + this.item.type).then((response) => {
 				if(response.data.measurementsList){
-					this.measurementsList = response.data.measurementsList;	
+					this.measurementsList = response.data.measurementsList;
 				}
 				this.loading = false;
 			}, function(err){
@@ -178,8 +179,10 @@ export default {
 			this.$refs.weightChart.drawChart();
 		},
 		measurementsList: function (measurement) {
-			for(var i = 0; i < measurement.length; i++){
-				this.rows.push([new Date(measurement[i].date.time), parseInt(measurement[i].weight)]);
+			if(measurement.length > 0){
+				for(var i = 0; i < measurement.length; i++){
+					this.rows.push([new Date(measurement[i].date.time), parseInt(measurement[i].weight)]);
+				}
 			}
 		},
 	},
@@ -187,5 +190,4 @@ export default {
 </script>
 
 <style>
-
 </style>

@@ -24,14 +24,14 @@
 					<th>Примечание</th>
 					<th></th>
 				</tr>
-				<tr v-for="measurement in measurementsList" v-bind:key="measurement._id">
-					<td>{{measurement.date | formatMeasurement}}</td>
+				<tr v-for="(measurement, index) in measurementsList" v-bind:key="measurement._id">
+					<td>{{measurement.date.time | formatMeasurement}}</td>
 					<td>{{measurement.glucose}} ммоль/л</td>
 					<td>{{measurement.context}}</td>
 					<td>{{measurement.note}}</td>
 					<td class="editBtns">
-						<a href="#" class="edit"><icon name="pencil"></icon></a>
-						<a href="#" class="remove"><icon name="close"></icon></a>
+						<a href="#" class="edit" v-on:click="editMeasurment(measurement._id)"><icon name="pencil"></icon></a>
+						<a href="#" class="remove" v-on:click="removeMeasurment(measurement._id, index)"><icon name="close"></icon></a>
 					</td>
 				</tr>
 			</table>
@@ -49,7 +49,7 @@
 							</div>
 							<div class="modal-body">
 								<div class="p-100">
-									<form v-on:submit.prevent="addMeasurement">
+									<form class="d-flex flex-column">
 										<label for="date">Дата</label>
 										<date-picker :date="glucoseForm.date" :type="'daytime'"></date-picker>
 										<label for="glucose">Показатель глюкозы</label>
@@ -62,7 +62,8 @@
 										</select>
 										<label for="note">Примечание</label>
 										<textarea name="note" class="form_input" rows="2" v-model="glucoseForm.note"></textarea>
-										<button type="submit" class="btn btn-primary mx-auto">Добавить</button>
+										<button type="button" v-if="!glucoseForm.itemId" v-on:click="addMeasurement" class="btn btn-primary mx-auto">Добавить</button>
+										<button type="button" v-else v-on:click="saveMeasurement" class="btn btn-primary mx-auto">Сохранить</button>
 									</form>
 								</div>
 							</div>
@@ -77,7 +78,7 @@
 <script>
 import { baseAPI } from '../../../config';
 export default {
-	name: 'widgetWeight',
+	name: 'widgetGlucose',
 	data() {
 		return {
 			loading: true,
@@ -109,12 +110,65 @@ export default {
 	},
 	props: ['showWidget', 'isFullWidget'],
 	methods: {
+		editMeasurment: function(id){
+			this.$http.get(this.endpoint + this.item.type + '/' + id).then((response) => {
+				if(response.data.measurement){
+					this.glucoseForm.itemId = response.data.measurement._id;
+					this.glucoseForm.date.time = response.data.measurement.date.time;
+					this.glucoseForm.glucose = response.data.measurement.glucose;
+					this.glucoseForm.context = response.data.measurement.context;
+					this.glucoseForm.note = response.data.measurement.note;
+					this.showModal = true;
+				}else{
+					console.log('its no data from db');
+				}
+			}, function(err){
+				console.log(err);
+			})
+		},
+		saveMeasurement: function(){
+			this.$http.post(this.endpoint + this.item.type + '/' + this.glucoseForm.itemId, this.glucoseForm).then((response) => {
+				if(response.data.measurement){
+					this.measurementsList = [];
+					this.getMeasurement();
+					this.glucoseForm.itemId = '';
+					this.glucoseForm.date.time = '';
+					this.glucoseForm.glucose = '';
+					this.glucoseForm.context = '';
+					this.glucoseForm.note = '';
+					this.showModal = false;
+				}else{
+					console.log(response.data);
+				}
+			}, function(err){
+				console.log(err);
+			})
+		},
 		addMeasurement: function(){
 			this.$http.put(this.endpoint + this.item.type, this.glucoseForm).then((response) => {
-				console.log(response);
-				this.glucoseForm.date.time = '';
-				this.showModal = false;
-				this.measurementsList.unshift(response.data.measurement);
+				if(response.data.measurement){
+					this.measurementsList = [];
+					this.getMeasurement();
+					this.glucoseForm.itemId = '';
+					this.glucoseForm.date.time = '';
+					this.glucoseForm.glucose = '';
+					this.glucoseForm.context = '';
+					this.glucoseForm.note = '';
+					this.showModal = false;
+				}else{
+					console.log(response.data);
+				}
+			}, function(err){
+				console.log(err);
+			})
+		},
+		removeMeasurment: function(id, index){
+			this.$http.delete(this.endpoint + this.item.type + '/' + id).then((response) => {
+				if(response.data.measurement){
+					this.measurementsList.splice(index, 1)
+				}else{
+					console.log('item is not removed!');
+				}
 			}, function(err){
 				console.log(err);
 			})
@@ -139,8 +193,10 @@ export default {
 			this.$refs.glucoseChart.drawChart();
 		},
 		measurementsList: function (measurement) {
-			for(var i = 0; i < measurement.length; i++){
-				this.rows.push([new Date(measurement[i].date), parseInt(measurement[i].glucose)]);
+			if(measurement.length > 0){
+				for(var i = 0; i < measurement.length; i++){
+					this.rows.push([new Date(measurement[i].date.time), parseInt(measurement[i].glucose)]);
+				}
 			}
 		},
 	},
