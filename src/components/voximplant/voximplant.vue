@@ -54,6 +54,26 @@ export default {
     methods: {
         onSdkReady(){
             console.log("onSDKReady version " + VoxImplant.version + " WebRTC supported: " + this.voxApi.isRTCsupported());
+            if (navigator.webkitGetUserMedia) {
+                navigator.webkitGetUserMedia( 
+                    // Desired stream parameters
+                    { 
+                    audio: true,
+                    video: true
+                    },
+                    // Callback if success
+                    function(stream) {
+                    console.log('Stream:', stream);
+                    },
+                    // Callback if error
+                    function(error) {
+                    console.log('Error:', error);
+                    }
+                );
+                } else {
+                console.log('navigator.webkitGetUserMedia not supported. Are you using latest Chrome/Chromium?');
+                }
+
             this.voxApi.connect();
         },
         onConnectionEstablished(){
