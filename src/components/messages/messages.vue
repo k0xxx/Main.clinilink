@@ -33,7 +33,6 @@
 			</ul>
 		</aside>
 		<div class="dialogMainBlock">
-			<voximplant></voximplant>
 			<div class="dialogMainBlock_header" v-if="currentDialogId">
 				<div></div>
 				<div class="d-flex align-i-center py-50">
@@ -42,7 +41,7 @@
 					<icon name="circle" class="text-primary ml-50"></icon>
 				</div>
 				<div class="d-flex align-i-center text-primary">
-					<a href="#" class="d-flex py-50 px-75"><icon name="phone"></icon></a>
+					<a href="#" class="d-flex py-50 px-75" v-on:click.prevent="call"><icon name="phone"></icon></a>
 					<a href="#" class="d-flex py-50 px-75"><icon name="video-camera"></icon></a>
 					<a href="#" class="d-flex py-50 px-75" v-on:click.prevent="toogleDialogProfile"><icon name="user"></icon></a>
 				</div>
@@ -102,11 +101,10 @@
 <script>
 import { baseAPI } from '../../config.js';
 import InfiniteLoading from "vue-infinite-loading"
-import voximplant from "../voximplant/voximplant.vue"
 
 export default {
 	name: 'messages', 
-	components: {InfiniteLoading, voximplant},
+	components: {InfiniteLoading},
 	data() {  
 		return {
 			endpoint: baseAPI + 'messages/',
@@ -208,7 +206,11 @@ export default {
 			}, function(err){
 				console.log(err);
 			})
-		}
+		},
+		call() {
+			//this.$calls.call(this.currentDialog.userInfo.calls.login);
+			this.$calls.call(this.currentDialog.userInfo.id);
+		},
 	},
 	created: function(){
 		//console.log(this.voxAPI);
