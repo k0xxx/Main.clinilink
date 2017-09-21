@@ -10,11 +10,11 @@
 			<div class="card p-75 my-100">
 				<form id="auth_form" class="d-flex flex-column" v-on:submit.prevent="login">
 					<legend class="text-center mb-75">Вход</legend>
-					<input type="email" v-model="credentials.email" class="form_input" placeholder="Ваш email">
+					<input type="email" v-model="credentials.email" class="form_input w-100" placeholder="Ваш email">
 					<br>
-					<input type="password" v-model="credentials.password" class="form_input" placeholder="Пароль">
+					<input type="password" v-model="credentials.password" class="form_input w-100" placeholder="Пароль">
 					<br>
-					<button type="submit" class="btn btn-primary mb-50">Вход</button>
+					<button type="submit" class="btn btn-primary w-100 mb-50">Вход</button>
 					<div id="socialNetworks" class="d-flex justify-content-center"> 
 						<a href="#" class="btn btn-outline-danger">
 							<icon name="google-plus"></icon>
@@ -35,12 +35,16 @@
 			<div class="card p-75">
 				<form id="register_form" class="d-flex flex-column" v-on:submit.prevent="signup">
 					<legend class="text-center mb-75">Регистрация</legend>
-					<input type="email" v-model="register.email" class="form_input" placeholder="Ваш email">
-					<br>
-					<input type="password" v-model="register.password" class="form_input" placeholder="Пароль">
-					<br>
-					<button type="submit" class="btn btn-primary mb-50">Зарегистрироваться</button>
-					<small class="text-center"> Регистрируясь, Вы соглашаетесь с нашими условиями<br> <a>пользовательского соглашения</a> </small>
+					<div v-if="register.isRegister">Регистрация прошла успешно! пожалуйста проверте ваш email!</div>
+					<div v-else>
+						<p class="text-center" v-if="register.error">{{register.error}}</p>
+						<input type="email" v-model="register.email" class="form_input w-100" placeholder="Ваш email">
+						<br>
+						<input type="password" v-model="register.password" class="form_input w-100" placeholder="Пароль">
+						<br>
+						<button type="submit" class="btn btn-primary w-100 mb-50">Зарегистрироваться</button>
+						<small class="text-center"> Регистрируясь, Вы соглашаетесь с нашими условиями<br> <a>пользовательского соглашения</a> </small>
+					</div>
 				</form>
 			</div>
 		</div>

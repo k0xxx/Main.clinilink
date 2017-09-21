@@ -31,8 +31,13 @@ class Authenticate {
 	}
 	signup(context, input){
 		this.Axios.post(this.signupUrl, input).then((response) => {
-			//console.log(response);
-			input.isRegister = true;
+			console.log(response);
+			if(response.data.user){
+				input.isRegister = true;
+			}else{
+				input.error = response.data.info.message;
+			}
+			
 			//context.$emit('auth');
 			//context.$router.replace('asd');
 			/*if(response.data.user){

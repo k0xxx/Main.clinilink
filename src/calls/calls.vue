@@ -1,83 +1,102 @@
+<style>
+#callHeaderBlock{
+    display: block;
+}
+.calls_overlay{
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+}
+.calls_block{
+	display: block;
+    z-index: 1060;
+    background: #fff;
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 7%;
+    overflow: hidden;
+    max-width: 100%;
+}
+</style>
+
 <template>
-	<div>
-        <input type="text" v-model="username" placeholder="логин">
-        <input type="text" v-model="password" placeholder="пароль">
-        <button type="button" v-on:click="loginVox">Авторизация</button>
-        <input type="text" v-model="callTo" placeholder="кому звоним">
-        <button type="button" v-on:click="createCall">Позвонить</button>
-        <div id="call2video_container">
-            <div id="local_video_container"></div>
-            <div id="remote_video_container"></div>
-            <div class="it_remote"></div>
-            <button type="button" v-on:click="answerCall">Ответить</button>
-            <button type="button" v-on:click="cancelCall">Отклонить</button>
+	<div id="callsHeaderBlock">
+        <div class="calls_overlay" v-if="isCalling" @click="dismiss($event)">
+            <div class="calls_block">
+                <input type="text" v-model="callTo" placeholder="кому звоним">
+                <button type="button" v-on:click="createCall">Позвонить</button>
+                <div id="call2video_container">
+                    <div id="local_video_container"></div>
+                    <div id="remote_video_container"></div>
+                    <div class="it_remote"></div>
+                    <button type="button" v-on:click="answerCall">Ответить</button>
+                    <button type="button" v-on:click="cancelCall">Отклонить</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
+
 <script>
+import { baseAPI } from './../config.js';
+import Calls from './index.js';
 var VoxImplant = require('voximplant-websdk');
 
 export default {
     data() {  
 		return {
+            isCalling: false,
             voxApi: VoxImplant.getInstance(),
+            endpoint: baseAPI + 'auth/call_auth',
             localvideo: null,
             remotevideo: null,
             currentCall: null,
-            username: 'test1',
-            callTo: 'test1',
             application_name: 'videocall',
             account_name: 'clinilink',
-            password: 'qwe123'
+            callTo: '',
+            user_login: this.$auth.getUserId(),
+            user_password: '',
         }
+    },
+    beforeMount() {
+        Calls.event.$on('call', (callTo, state) => {
+            this.callTo = callTo;
+            this.isCalling = true;
+            console.log('and now we are make call '+state)        
+        })
     },
     mounted: function(){
         this.voxApi.addEventListener(VoxImplant.Events.SDKReady, this.onSdkReady);
-        this.voxApi.addEventListener(VoxImplant.Events.ConnectionEstablished, this.onConnectionEstablished);
-        this.voxApi.addEventListener(VoxImplant.Events.ConnectionFailed, this.onConnectionFailed);
-        this.voxApi.addEventListener(VoxImplant.Events.ConnectionClosed, this.onConnectionClosed);
-        this.voxApi.addEventListener(VoxImplant.Events.MicAccessResult, this.onMicAccessResult);
-
-        try {
-            this.voxApi.init({
-                //useRTCOnly: true, // force usage of WebRTC
-                micRequired: true, // ask mic/cam access before connection to VoxImplant
-                videoSupport: true,  // enable video support
-                progressTone: true, // play progress tone
-                //localVideoContainerId: "local_video_container", // element id for local video from camera or screen sharing
-                //remoteVideoContainerId: "remote_video_container"
-            });
-        } catch(e) {
-            console.log(e);
-        }
+        //this.voxApi.addEventListener(VoxImplant.Events.MicAccessResult, this.onMicAccessResult);
     },
     methods: {
+        /*getUserVoxInfo(){
+            this.$http.get(this.endpoint).then((response) => {
+                if (response.data.isRegister){
+                    this.user_login = response.data.login;
+                    this.user_password = response.data.password;
+                    console.log(response.data)
+                    
+				}else{
+                    console.log(response.data);
+                }
+		    });
+        },*/
         onSdkReady(){
             console.log("onSDKReady version " + VoxImplant.version + " WebRTC supported: " + this.voxApi.isRTCsupported());
-            if (navigator.webkitGetUserMedia) {
-                navigator.webkitGetUserMedia( 
-                    // Desired stream parameters
-                    { 
-                    audio: true,
-                    video: true
-                    },
-                    // Callback if success
-                    function(stream) {
-                    console.log('Stream:', stream);
-                    },
-                    // Callback if error
-                    function(error) {
-                    console.log('Error:', error);
-                    }
-                );
-                } else {
-                console.log('navigator.webkitGetUserMedia not supported. Are you using latest Chrome/Chromium?');
-                }
-
+            this.voxApi.addEventListener(VoxImplant.Events.ConnectionEstablished, this.onConnectionEstablished);
+            this.voxApi.addEventListener(VoxImplant.Events.ConnectionFailed, this.onConnectionFailed);
+            this.voxApi.addEventListener(VoxImplant.Events.ConnectionClosed, this.onConnectionClosed);
             this.voxApi.connect();
         },
         onConnectionEstablished(){
             console.log('ConnectionEstablished!');
+            this.voxApi.addEventListener(VoxImplant.Events.AuthResult, this.onAuthResult);
+            this.voxApi.requestOneTimeLoginKey(this.user_login+"@"+this.application_name+"."+this.account_name+".voximplant.com");
             //this.loginVox(); //автоматическа авторизация
         },
         onConnectionFailed(e){
@@ -87,16 +106,32 @@ export default {
         onConnectionClosed(){
             console.log('is closed!');
         },
-        onMicAccessResult(e){
-            console.log(e);
+        call(){
+            console.log('asdasd');
         },
-        loginVox(){
+        /*loginVox(){
             this.voxApi.addEventListener(VoxImplant.Events.AuthResult, this.onAuthResult);
             this.voxApi.login(this.username+"@"+this.application_name+"."+this.account_name+".voximplant.com", this.password);
-        },
+        },*/
         onAuthResult(e){
-            console.log(e);
-            if(e.result){
+            console.log("AuthResult: "+e.result);
+            if (e.result) {
+                console.log('login success!')
+                this.voxApi.addEventListener(VoxImplant.Events.IncomingCall, this.onIncomingCall);
+            } else {
+                if (e.code == 302){
+                    //IMPORTANT: You should always calculate the token on your backend!
+                    console.log('post to server and get key')
+                    this.$http.post(this.endpoint, {"key":e.key}).then((response) => {
+                        console.log(response);
+                        this.voxApi.loginWithOneTimeKey(this.user_login+"@"+this.application_name+"."+this.account_name+".voximplant.com", response.data);
+                    });
+                    /*$.post('/calckey/',{"key":e.key},function(token){
+                        VoxImplant.getInstance().loginWithOneTimeKey("myuser@myapp.myaccount.voximplant.com", token);
+                    },'text');*/
+                }
+            }
+            /*if(e.result){
                 console.log('is connected succsesful!');
                 this.voxApi.addEventListener(VoxImplant.Events.IncomingCall, this.onIncomingCall);
                 //this.currentCall = this.voxApi.call('test1');
@@ -121,9 +156,12 @@ export default {
                         }
                     });
                 });*/
-            }else{
+            /*}else{
                 console.log('cant auth!');
-            }
+            }*/
+        },
+        onMicAccessResult(e){
+            console.log(e);
         },
         createCall() {
             // application_username - app username that will be dialed (with video)
@@ -133,7 +171,8 @@ export default {
             this.voxApi.showLocalVideo(true);
             
             this.localvideo = document.querySelector('#voximplantlocalvideo');
-            //document.querySelector('#local_video_container').appendChild(this.localvideo);
+            console.log(this.localvideo);
+            document.querySelector('#local_video_container').appendChild(this.localvideo);
             //this.localvideo.style.height = "60px";
             //this.localvideo.play();
             
@@ -305,9 +344,27 @@ export default {
             document.querySelector('.callpopup').style.display = 'none';
             document.querySelector('.it_local_video').style.display = 'none';*/
         },
+        
+        // Отменить звонок
+		dismiss(evt) {
+			if (evt.target.className === 'calls_overlay') {
+				this.isCalling = false
+			}
+		},
     },
     created: function(){
-        
+        //this.getUserVoxInfo();
+        try {
+            this.voxApi.init({
+                useRTCOnly: true, // force usage of WebRTC
+                micRequired: false, // ask mic/cam access before connection to VoxImplant
+                videoSupport: false,  // enable video support
+                progressTone: true, // play progress tone
+            });
+        } catch(e) {
+            console.log(e);
+        }
     }
 }
 </script>
+

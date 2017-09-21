@@ -10,7 +10,7 @@ Vue.use(Auth, Axios, router);
 import Icon from 'vue-awesome';
 Vue.component('icon', Icon);
 
-import Datepicker from './components/datePicker.vue';
+import Datepicker from './components/datePicker/datePicker.vue';
 Vue.component('date-picker', Datepicker);
 
 import VueCharts from 'vue-charts';
@@ -19,6 +19,8 @@ Vue.use(VueCharts);
 import moment from 'moment';
 moment.locale('ru');
 
+import Calls from './calls/index.js'
+Vue.use(Calls);
 
 Vue.filter('formatPostDate', function(value) {
   if (value) {
