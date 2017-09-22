@@ -79,10 +79,38 @@ function validToken(token) {
 }
 
 function authJWT(Vue, Axios, router) {
-
 	Vue.prototype.$auth = new Authenticate(Axios, router, options.loginUrl, options.signupUrl, options.logoutUrl);
 	
+	Axios.interceptors.request.use(function (config) {
+		if (!config.headers.common.hasOwnProperty('Authorization')) {
+			config.headers.common['Authorization'] = localStorage.getItem("token");
+		}
+		return config;
+	}, function (error) {
+		return Promise.reject(error);
+	});
+
 	router.beforeEach((to, from, next) => {
+		if(to.name == 'submit_profile'){
+			var submitInfo = {
+				userId: to.params.id,
+				submit: to.params.submit
+			}
+			Axios.post(baseAPI + 'auth/chek_verification', submitInfo).then((response) => {
+				if(!response.data.error){
+					localStorage.setItem("token", response.data.jwtInfo.token)
+					localStorage.setItem("userId", response.data.jwtInfo.id)
+					next({
+						path: '/'+response.data.jwtInfo.url
+					})
+				}else{
+					//Возможные заглушки или редирект на главную...
+					console.log(response.data.error);
+				}
+			})
+		}
+
+
 		if (to.matched.some(record => record.meta.requiresAuth)) {
 			// этот путь требует авторизации, проверяем залогинен ли
 			// пользователь, и если нет, перенаправляем на страницу логина
@@ -99,16 +127,6 @@ function authJWT(Vue, Axios, router) {
 		} else {
 			next() // всегда так или иначе нужно вызвать next()!
 		}
-	});
-	
-	Axios.interceptors.request.use(function (config) {
-		if (!config.headers.common.hasOwnProperty('Authorization')) {
-			config.headers.common['Authorization'] = localStorage.getItem("token");
-		}
-		
-		return config;
-	}, function (error) {
-		return Promise.reject(error);
 	});
 	
 }

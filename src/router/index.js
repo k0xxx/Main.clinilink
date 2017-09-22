@@ -51,6 +51,8 @@ import AdminpageLibraryClassEditor from '../components/adminpage/library/ClassEd
 import AdminpageLibraryCategoryEditor from '../components/adminpage/library/CategoryEditor.vue';
 import AdminpageLibraryItemEditor from '../components/adminpage/library/ItemEditor.vue';
 
+import SubmitProfile from '../components/submitProfile/submitProfile.vue';
+
 Vue.use(VueRouter);
 
 var router =  new VueRouter({
@@ -105,6 +107,7 @@ var router =  new VueRouter({
 				}
 			]
 		},
+		{path: '/submit_profile/:id/:submit', name: 'submit_profile', component: SubmitProfile},
 		{path: '/:profileUrl', component: UserPage, props: true,
 			children: [
 					{path: '',  name: 'profile', component: profileDetal},
