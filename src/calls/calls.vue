@@ -26,16 +26,27 @@
 <template>
 	<div id="callsHeaderBlock">
         <div class="calls_overlay" v-if="isCalling" @click="dismiss($event)">
-            <div class="calls_block">
-                <input type="text" v-model="callTo" placeholder="кому звоним">
-                <button type="button" v-on:click="createCall">Позвонить</button>
+            <div class="calls_block p-75">
+                <div id="local_video_container"></div>
+                <div id="remote_video_container"></div>
+                <div v-if="callType == 'inCall'">
+                    Входящий звонок
+                    <button type="button" class="btn btn-primary" v-on:click="createCall">Ответить</button>
+                    <button type="button" class="btn btn-danger">Отклонить</button>
+                </div>
+                <div v-if="callType == 'outCall'">
+                    Исходящий звонок
+                    <button type="button" class="btn btn-primary" v-on:click="createCall">Позвонить</button>
+                    <button type="button" class="btn btn-danger">Отклонить</button>
+                </div>
+                <!--<input type="text" v-model="callTo" placeholder="кому звоним">
+                
                 <div id="call2video_container">
-                    <div id="local_video_container"></div>
-                    <div id="remote_video_container"></div>
+                    
                     <div class="it_remote"></div>
                     <button type="button" v-on:click="answerCall">Ответить</button>
                     <button type="button" v-on:click="cancelCall">Отклонить</button>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
@@ -50,6 +61,8 @@ export default {
     data() {  
 		return {
             isCalling: false,
+            callType: 'outCall',//inCall
+            callState: false,
             voxApi: VoxImplant.getInstance(),
             endpoint: baseAPI + 'auth/call_auth',
             localvideo: null,
@@ -164,6 +177,8 @@ export default {
             console.log(e);
         },
         createCall() {
+            this.callType = 'outCall';
+            this.callState = true;
             // application_username - app username that will be dialed (with video)
             this.currentCall = this.voxApi.call(this.callTo, true);
             this.currentCall.addEventListener(VoxImplant.CallEvents.Connected, this.onOutCallConnected);
@@ -172,7 +187,11 @@ export default {
             
             this.localvideo = document.querySelector('#voximplantlocalvideo');
             console.log(this.localvideo);
-            document.querySelector('#local_video_container').appendChild(this.localvideo);
+            if(this.localvideo){
+                document.querySelector('#local_video_container').appendChild(this.localvideo);
+            }else{
+                console.log('Нет доступа к видеокамере');
+            }
             //this.localvideo.style.height = "60px";
             //this.localvideo.play();
             
@@ -217,8 +236,15 @@ export default {
             }
         },
         onIncomingCall(e) {
-            //console.log(e);
+            console.log(e);
+
+            this.callType = 'inCall';
+            this.callState = true;
+
+            this.isCalling = true;
+
             this.currentCall = e.call;
+
             //this.currentCall.addEventListener(VoxImplant.CallEvents.MessageReceived, this.onMessageReceived);
             //this.currentCall.addEventListener(VoxImplant.CallEvents.MediaElementCreated, this.onMediaElement);
             //this.currentCall.addEventListener(VoxImplant.CallEvents.LocalVideoStreamAdded, this.onLocalVideoStream);

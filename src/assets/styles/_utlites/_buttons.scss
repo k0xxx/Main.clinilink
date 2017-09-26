@@ -119,10 +119,10 @@
     background: #329d81;
     color: #fff;
 }
-.btn_group select,
-.btn_group button,
-.btn_group input,
-.btn_group .btn{
+.btn_group select:not(:last-child),
+.btn_group button:not(:last-child),
+.btn_group input:not(:last-child),
+.btn_group .btn:not(:last-child){
     border-right-color: #1a775f;
     border-radius: 0;
 }
@@ -137,9 +137,10 @@
 .btn_group button:last-child,
 .btn_group input:last-child,
 .btn_group .btn:last-child{
-    border-right-color: transparent;
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
 }
 
 .btn_tab{

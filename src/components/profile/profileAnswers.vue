@@ -54,7 +54,7 @@ export default {
 </script> 
 
 <style>
-#questions{
+/*#questions{
      
 }
     questionsSidebar{
@@ -82,5 +82,5 @@ export default {
 }
 #questions .selectQuestionBar a:last-child{
 	border-right: none;
-}
+}*/
 </style>
