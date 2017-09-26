@@ -12,19 +12,19 @@
 			</div>
 			<nav>
 				<router-link :to="{ name: 'profile', params: { profileUrl: menu.profileUrl }}">Профиль</router-link>
-				<router-link to="/measurements">Измерения</router-link>
-				<router-link to="/medical_records">Медицинская карта</router-link>
-				<router-link to="/consultations">Консультации</router-link>
+				<router-link to="/measurements" v-if="menu.statusId == 0">Измерения</router-link>
+				<router-link to="/medical_records" v-if="menu.statusId == 0">Медицинская карта</router-link>
+				<router-link to="/consultations" v-if="menu.statusId == 3">Консультации</router-link>
 				<router-link to="/news">Новости</router-link>
 				<router-link to="/questions">Вопрос врачу</router-link>
 				<router-link to="/messages">Сообщения</router-link>
 				<router-link to="/search">Найти контакты</router-link>
 				<router-link to="/contacts">Контакты</router-link>
-				<router-link to="/groups">Группы</router-link>
-				<router-link to="/organizations">Организации</router-link>
+				<router-link to="/groups" v-if="menu.statusId == 4">Группы</router-link>
+				<router-link to="/organizations" v-if="menu.statusId == 4">Организации</router-link>
 				<router-link to="/library">Справочник</router-link> 
-				<router-link to="/settings"><icon name="cogs" class="mr-50"></icon>Настройки</router-link> 
-				<router-link to="/adminpage">Админ панель</router-link>
+				<router-link to="/settings">Настройки</router-link> 
+				<router-link to="/adminpage" v-if="menu.statusId == 'admin'">Админ панель</router-link>
 			</nav>
 			<modalPostRegister v-if="!isSubmited" @submit="isSubmited = true"></modalPostRegister> 
 		</div> 
@@ -79,6 +79,7 @@ export default {
 				displayName: 'Аноним',
 				status: 'Не указано',
 				profileUrl: 'Аноним',
+				statusId: false,
 			},
 		} 
 	},
@@ -99,7 +100,8 @@ export default {
 				this.menu.profileUrl = response.data.profile.url;
 				this.menu.displayName = response.data.profile.fullName;
 				this.menu.status = response.data.profile.status.name_rus;
-				
+				this.menu.statusId = response.data.profile.status.id;
+
 				this.isSubmited = response.data.profile.isRegister;
 			}, function(err){
 				console.log(err); 

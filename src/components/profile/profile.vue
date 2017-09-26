@@ -24,14 +24,24 @@
 				</div>
 			</div>
 			<div id="profileInfo">
-				<div class="profileTabs">   
-					<router-link :to="'/'+ profileUrl">Информация</router-link>
-					<router-link :to="'/'+ profileUrl+'/answers'">Ответы</router-link>
-					<router-link :to="'/'+ profileUrl+'/rewievs'" v-if="profile.status.id != 0">Отзывы</router-link>
-					<router-link :to="'/'+ profileUrl+'/blog'">Блог</router-link>
-					<router-link :to="'/'+ profileUrl+'/files'" v-if="profile.status.id != 0">Файлы</router-link>
-				</div>
-				<div id="profileInfoContent"> 
+				<ul class="btn_tab">
+					<li class="btn_tab-item">
+						<router-link :to="'/'+ profileUrl">Информация</router-link>
+					</li>
+					<li class="btn_tab-item">
+						<router-link :to="'/'+ profileUrl+'/answers'">Ответы</router-link>
+					</li>
+					<li class="btn_tab-item" v-if="profile.status.id > 0">
+						<router-link :to="'/'+ profileUrl+'/rewievs'">Отзывы</router-link>
+					</li>
+					<li class="btn_tab-item">
+						<router-link :to="'/'+ profileUrl+'/blog'">Блог</router-link>
+					</li>
+					<li class="btn_tab-item" v-if="profile.status.id > 0">
+						<router-link :to="'/'+ profileUrl+'/files'">Файлы</router-link>
+					</li>
+				</ul>
+				<div class="btn_tab-content"> 
 					<router-view></router-view>
 				</div>
 			</div> 
@@ -83,7 +93,7 @@ export default {
 	display: flex;
     flex-direction: column;
 }
-#profileInfo .profileTabs{
+/*#profileInfo .profileTabs{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -105,7 +115,7 @@ export default {
     border: 1px solid #ddd;
     border-top: none;
 }
-
+*/
     .header_profile_buttons{
         font-size: 20px;
     }

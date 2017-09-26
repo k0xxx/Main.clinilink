@@ -62,7 +62,7 @@ var router =  new VueRouter({
 		{path: '/blog', name: 'blog', component: Blog},
 		{path: '/about-us', name: 'aboutUs', component: AboutUs},
 		{path: '/news', name: 'news', component: News, meta: {requiresAuth: true}},
-		{path: '/contacts', name: 'contacts', components: {default:Contacts, sideBar:ContactsFilter}, props: (route) => ({ query: route.query.q })},
+		{path: '/contacts', name: 'contacts', component: Contacts, props: (route) => ({ query: route.query.q })},
 		{path: '/library', name: 'library', component: Library, 
 			children: [
 				{path: ':classUrl', name: 'libraryClass', component: LibraryClass,

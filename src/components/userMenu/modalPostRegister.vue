@@ -8,19 +8,19 @@
 							<h3 class="text-center">Добро пожаловать на медицинскую платформу Clinilink!</h3>
 						</div>
 						<div class="modal-body p-100">
-							<p class="text-center">Для более удобного использования ресурса предлагаем вам выбрать тип вашего профиля:</p>							
+							<p class="text-center">Для более удобного использования ресурса предлагаем вам выбрать тип вашего профиля:</p>
 							<div class="profileTypeSelect d-flex justify-content-between" v-if="profileTypeStep == 1">
-								<a href="#" v-on:click="profileType.status = 'patient'" class="active text-center">
+								<a href="#" v-on:click="switchType(0)" class="text-center p-75 mr-75" v-bind:class="{ active: profileType.patient.isActive }">
 									<img src="../../assets/afterRegistration/reg_patient.png" class="reg_patient m-auto mb-50"> 
 									<p class="lead mb-0">Я Пациент</p>
 									<small>Для людей имеющих проблемы со здоровьем, и тех кто интересуется здоровым образом жизни</small>
 								</a>
-								<a href="#" v-on:click="profileType.status = 'specialist'" class="text-center">
+								<a href="#" v-on:click="switchType(1)" class="text-center p-75 mr-75" v-bind:class="{ active: profileType.specialist.isActive }">
 									<img src="../../assets/afterRegistration/reg_medical.png" class="reg_medical m-auto mb-50">
 									<p class="lead mb-0">Я Специалист</p>
 									<small>Средний и младший медицинский или фармацевтический персонал</small>
 								</a>
-								<a href="#" v-on:click="profileType.status = 'doctor'" class="text-center">
+								<a href="#" v-on:click="switchType(2)" class="text-center p-75" v-bind:class="{ active: profileType.doctor.isActive }">
 									<img src="../../assets/afterRegistration/reg_doctor.png" class="reg_doctor m-auto mb-50">
 									<p class="lead mb-0">Я Врач</p>
 									<small>Требуется подтверждение в виде фотографии диплома о высшем медицинском образовании или сертификата</small>
@@ -29,39 +29,50 @@
 							<div v-if="profileType.status == 'patient' && profileTypeStep == 2">
 								<p class="text-center">У Вас есть проблемы со здоровьем?</p>  
 								<form>
-									<input type="hidden" name="user_status" value="0" />
-									<label class="btn btn-primary active">Я здоров</label>
-									<label class="btn btn-primary">Я болен</label>
-									<p class="lead">Выберете одну из проблемм:</p>
-									<ul class="nav nav-pills justify-content-center card-header-pills flex-column flex-sm-row">
-										<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#disease" role="tab">Заболевание</a></li>
-										<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#operation" role="tab">Операция</a></li>
-										<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#allergy" role="tab">Аллергия</a></li>
-										<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#injury" role="tab">Травма</a></li>
-									</ul>
-									<div class="tab-content pt-3">
-										<div class="tab-pane active" id="disease" role="tabpanel">
-											<div class="form-group">
-												<label class="sr-only" for="diseaseInput">Заболевание</label>
-												<input type="text" class="form-control" name="diseaseInput" id="diseaseInput" v-model="profileType.patient.diseaseInput" placeholder="Введите заболевание...">
+									<div class="btn_group full_width">
+										<button type="button" class="btn btn-outline-primary" v-on:click="patientHaveProblems" v-bind:class="{active: !profileType.patient.haveProblems}">Я здоров</button>
+										<button type="button" class="btn btn-outline-primary" v-on:click="patientHaveProblems" v-bind:class="{active: profileType.patient.haveProblems}">Я болен</button>
+									</div>
+									<div v-if="profileType.patient.haveProblems">
+										<p class="lead">Выберете одну из проблемм:</p>
+										<ul class="btn_tab">
+											<li class="btn_tab-item">
+												<a href="#" v-on:click="patientProblems = 'disease'" v-bind:class="{active: patientProblems == 'disease'}">Заболевание</a>
+											</li>
+											<li class="btn_tab-item">
+												<a href="#" v-on:click="patientProblems = 'operation'" v-bind:class="{active: patientProblems == 'operation'}">Операция</a>
+											</li>
+											<li class="btn_tab-item">
+												<a href="#" v-on:click="patientProblems = 'allergy'" v-bind:class="{active: patientProblems == 'allergy'}">Аллергия</a>
+											</li>
+											<li class="btn_tab-item">
+												<a href="#" v-on:click="patientProblems = 'injury'" v-bind:class="{active: patientProblems == 'injury'}">Травма</a>
+											</li>
+										</ul>
+										<div class="btn_tab-content">
+											<div class="btn_tab-content_item" v-if="patientProblems == 'disease'">
+												<div class="form-group">
+													<label class="sr-only" for="diseaseInput">Заболевание</label>
+													<input type="text" class="form_input w-100" name="diseaseInput" id="diseaseInput" v-model="profileType.patient.diseaseInput" placeholder="Введите заболевание...">
+												</div>
 											</div>
-										</div>
-										<div class="tab-pane" id="operation" role="tabpanel">
-											<div class="form-group">
-												<label class="sr-only" for="operationInput">Операция</label>
-												<input type="text" class="form-control" name="operationInput" id="operationInput" v-model="profileType.patient.operationInput" placeholder="Введите операцию...">
+											<div class="btn_tab-content_item" v-if="patientProblems == 'operation'">
+												<div class="form-group">
+													<label class="sr-only" for="operationInput">Операция</label>
+													<input type="text" class="form_input w-100" name="operationInput" id="operationInput" v-model="profileType.patient.operationInput" placeholder="Введите операцию...">
+												</div>
 											</div>
-										</div>
-										<div class="tab-pane" id="allergy" role="tabpanel">
-											<div class="form-group">
-												<label class="sr-only" for="allergyInput">Аллергия</label>
-												<input type="text" class="form-control" name="allergyInput" id="allergyInput" v-model="profileType.patient.allergyInput" placeholder="Введите вид аллергии...">
+											<div class="btn_tab-content_item" v-if="patientProblems == 'allergy'">
+												<div class="form-group">
+													<label class="sr-only" for="allergyInput">Аллергия</label>
+													<input type="text" class="form_input w-100" name="allergyInput" id="allergyInput" v-model="profileType.patient.allergyInput" placeholder="Введите вид аллергии...">
+												</div>
 											</div>
-										</div>
-										<div class="tab-pane" id="injury" role="tabpanel">
-											<div class="form-group">
-												<label class="sr-only" for="injuryInput">Травма</label>
-												<input type="text" class="form-control" name="injuryInput" id="injuryInput" v-model="profileType.patient.injuryInput" placeholder="Укажите свою травму...">
+											<div class="btn_tab-content_item" v-if="patientProblems == 'injury'">
+												<div class="form-group">
+													<label class="sr-only" for="injuryInput">Травма</label>
+													<input type="text" class="form_input w-100" name="injuryInput" id="injuryInput" v-model="profileType.patient.injuryInput" placeholder="Укажите свою травму...">
+												</div>
 											</div>
 										</div>
 									</div>
@@ -70,37 +81,41 @@
 							<div v-if="profileType.status == 'specialist' && profileTypeStep == 2">
 								<p class="text-center">Заполните пожалуйста следующую информацию:</p>
 								<form>
-									<input type="hidden" name="user_status" value="1" />
-									<label for="lastname">Ваша фамилия</label>
-									<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Фамилия" v-model="profileType.specialist.lastname" required />
-									<label for="name">Ваше имя</label>\
-									<input type="text" class="form-control" id="name" name="name" placeholder="Имя" v-model="profileType.specialist.name" required />
-									<label for="med_position">Ваша должность</label>
-									<select class="form-control" name="med_position" id="med_position" v-model="profileType.specialist.med_position" required>
-										<option v-for="special in specialistList">{{ special }}</option>
-									</select>
+									<div>
+										<label for="lastname">Ваша фамилия</label>
+										<input type="text" class="form_input w-100" name="lastname" placeholder="Фамилия" v-model="profileType.specialist.lastname" required />
+									</div>
+									<div>
+										<label for="name">Ваше имя</label>
+										<input type="text" class="form_input w-100" name="name" placeholder="Имя" v-model="profileType.specialist.name" required />
+									</div>
+									<div>
+										<label for="med_position">Ваша должность</label>
+										<select class="form_input w-100" name="med_position" v-model="profileType.specialist.med_position" required>
+											<option v-for="special in specialistList">{{ special }}</option>
+										</select>
+									</div>
 								</form>
 							</div>
 							<div v-if="profileType.status == 'doctor' && profileTypeStep == 2">
 								<p class="text-center">Заполните пожалуйста следующую информацию:</p>
 								<form>
-									<input type="hidden" name="user_status" value="2" />
-									<div class="form-group">
+									<div>
 										<label for="lastname">Ваша фамилия</label>
-										<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Фамилия" v-model="profileType.doctor.lastname" required />
+										<input type="text" class="form_input w-100" name="lastname" placeholder="Фамилия" v-model="profileType.doctor.lastname" required />
 									</div>
-									<div class="form-group">
+									<div>
 										<label for="name">Ваше имя</label>
-										<input type="text" class="form-control" id="name" name="name" placeholder="Имя" v-model="profileType.doctor.name" required />
+										<input type="text" class="form_input w-100" name="name" placeholder="Имя" v-model="profileType.doctor.name" required />
 									</div>
-									<div class="form-group">
+									<div>
 										<label for="doc_specialization">Ваша специализация</label>
-										<select class="form-control" id="doc_specialization" name="doc_specialization" v-model="profileType.doctor.doc_specialization" required>
+										<select class="form_input w-100" name="doc_specialization" v-model="profileType.doctor.doc_specialization" required>
 											<option v-for="docCat in doctorList">{{docCat}}</option>
 										</select>
 									</div>
-									<div class="form-group">
-										<label id="statusSubmitFile_label" class="form-control btn btn-primary" for="statusSubmitFile" title="Добавить диплом">
+									<div>
+										<label id="statusSubmitFile_label" class="btn btn-primary" for="statusSubmitFile" title="Добавить диплом">
 											Прикрепить диплом
 											<input id="statusSubmitFile" name="statusSubmitFile" style="display: none;" type="file" accept="image/jpeg,image/png,image/gif" />
 										</label>
@@ -112,10 +127,10 @@
 									</div>
 								</form>
 							</div>
-							<div class="p-100">
-								<button type="button" v-if="profileTypeStep == 2" v-on:click="profileTypeStep = 1">Назад</button>
-								<button type="button" v-if="profileTypeStep == 1" v-on:click="profileTypeStep = 2">Далее</button>
-								<button type="button" v-if="profileTypeStep == 2" v-on:click="submitProfile">Завершить регистрацию</button>
+							<div class="d-flex justify-content-between mt-100">
+								<button type="button" class="btn btn-primary" v-if="profileTypeStep == 2" v-on:click="profileTypeStep = 1">Назад</button>
+								<button type="button" class="btn btn-primary mx-auto w-25" v-if="profileTypeStep == 1 && profileType.status" v-on:click="profileTypeStep = 2">Далее</button>
+								<button type="button" class="btn btn-primary" v-if="profileTypeStep == 2" v-on:click="submitProfile">Завершить регистрацию</button>
 							</div>
 						</div>
 					</div>
@@ -133,20 +148,25 @@ export default {
 		return {
 			endpoint: baseAPI + 'auth/afterRegistration',
 			profileTypeStep: 1,
+			patientProblems: 'disease',
 			profileType: {
-				status: 'patient',
+				status: '',
 				patient: {
+					haveProblems: false,
+					isActive: false,
 					diseaseInput: '',
 					operationInput: '',
 					allergyInput: '',
 					injuryInput: '',
 				},
 				specialist: {
+					isActive: false,
 					lastname: '',
 					name: '',
 					med_position: '',
 				},
 				doctor: {
+					isActive: false,
 					lastname: '',
 					name: '',
 					doc_specialization: '',
@@ -184,10 +204,41 @@ export default {
 		}
 	},
 	methods: {
+		switchType: function(type){
+			switch (type) {
+				case 0:
+					this.profileType.status = 'patient';
+					this.profileType.patient.isActive = true;
+					this.profileType.specialist.isActive = false;
+					this.profileType.doctor.isActive = false;
+					break;
+				case 1:
+					this.profileType.status = 'specialist';
+					this.profileType.patient.isActive = false;
+					this.profileType.specialist.isActive = true;
+					this.profileType.doctor.isActive = false;
+					break;
+				case 2:
+					this.profileType.status = 'doctor';
+					this.profileType.patient.isActive = false;
+					this.profileType.specialist.isActive = false;
+					this.profileType.doctor.isActive = true;
+					break;
+				default:
+					break;
+			}
+		},
+		patientHaveProblems: function(){
+			if(this.profileType.patient.haveProblems){
+				this.profileType.patient.haveProblems = false;
+			}else{
+				this.profileType.patient.haveProblems = true;
+			}
+		},
 		submitProfile: function(){
 			this.$http.post(this.endpoint, this.profileType).then((response) => {
 				console.log(response);
-				this.$auth.updateUserData();
+				//this.$auth.updateUserData();
 				this.$emit('submit');
 			}, function(err){
 				console.log(err);
@@ -226,10 +277,7 @@ export default {
   position: relative;
 } 
 
-#modalPostRegister .profileTypeSelect a{
-	width:30%;
-	padding: 0.75rem;
-}
+#modalPostRegister .profileTypeSelect a.active,
 #modalPostRegister .profileTypeSelect a:hover{
 	background: #329d81;
 	color: white; 

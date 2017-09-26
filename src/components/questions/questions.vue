@@ -1,42 +1,42 @@
 <template>
-	<div id="view" class="withSideBar">
-		<div id="questions" class="">  
-		  <div class="mainContentQuestions">
-			  <div class="questonTopBar">
-				<div class="selectQuestionBar">
-					<a href="" class="">Лента вопросов</a>
-					<a href="" class="">Мои вопросы</a>
+	<div id="view">
+		<div class="d-flex">
+			<div id="questions" class="withSideBar">
+				<div class="card mb-50">
+					<div class="selectQuestionBar">
+						<a href="" class="active">Лента вопросов</a>
+						<a href="" class="">Мои вопросы</a>
+					</div>
+					<div class="askQuestion p-75">     
+						<form v-on:submit.prevent="newQuestion">
+							<div class="d-flex flex-column">
+								<textarea id="questionText" name="text" v-model="questionForm.text" class="form_input w-100" maxlength="250" placeholder="Задайте вопрос врачу..." rows="3"></textarea>
+								<div class="text-right"><small>Осталось <span class="count_symbols">250</span> символов</small></div>
+							</div>
+							<div class="d-flex justify-content-end btn_group"> 
+								<select name="type" v-model="questionForm.type" class="form_input">
+									<option>Тематика вопроса</option>
+									<option value="1">First</option>
+									<option value="2">Second</option>
+									<option value="3">Threed</option> 
+								</select>
+								<button type="button" class="btn btn-primary"><icon name="plus" scale="0.8"></icon></button>
+								<button type="submit"class="btn btn-primary">Задать вопрос</button> 
+							</div>
+							<div class="text-right"> 
+								<input type="checkbox"><small>Задать вопрос анонимно</small>
+							</div>
+						</form>
+					</div>
 				</div>
-				<div class="askQuestion p-100">     
-					<form v-on:submit.prevent="newQuestion">
-						<div class="d-flex flex-column">
-							<textarea id="questionText" name="text" v-model="questionForm.text" class="form_input" maxlength="250" placeholder="Задайте вопрос врачу..." rows="3"></textarea>
-							<div class="text-right"><small>Осталось <span class="count_symbols">250</span> символов</small></div>
-						</div>
-						<div class="text-right d-flex justify-content-end"> 
-							<select name="type" v-model="questionForm.type" class="form_input">
-								<option selected="">Тематика вопроса</option>
-								<option value="1">First</option>
-								<option value="2">Second</option>
-								<option value="3">Threed</option> 
-							</select>
-							<button type="button" class="btn btn-primary"><icon name="plus" scale="0.8"></icon></button>
-							<button type="submit"class="btn btn-primary">Задать вопрос</button> 
-						</div>
-						<div class="text-right"> 
-							<input type="checkbox"><small>Задать вопрос анонимно</small>
-						</div>
-					</form>
+				<div id="questionList">
+					<questionItem v-for="question in questions" v-bind:key="question._id" v-bind:question="question"></questionItem>
+					<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
+						<span slot="no-more">Всё загружено!</span>
+					</infinite-loading>
 				</div>
 			</div>
-			<router-view></router-view>
-			<div id="questionList">
-				<questionItem v-for="question in questions" v-bind:key="question._id" v-bind:question="question"></questionItem>
-				<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
-					<span slot="no-more">Всё загружено!</span>
-				</infinite-loading>
-			</div>
-		  </div>
+			<questionsSideBar></questionsSideBar>	
 		</div>
 	</div>
 </template>
@@ -45,6 +45,7 @@
 import { baseAPI } from '../../config.js';
 import InfiniteLoading from "vue-infinite-loading"
 import questionItem from './questionItem.vue';
+import questionsSideBar from './questionsSideBar.vue';
 
 export default {
 	name: 'questions',
@@ -59,7 +60,7 @@ export default {
 			questions: []
 		}
 	},
-	components: {questionItem, InfiniteLoading},
+	components: {questionItem, questionsSideBar, InfiniteLoading},
 	methods: {
 		onInfinite() {
 			var options = {
@@ -92,7 +93,28 @@ export default {
 </script> 
 
 <style>
-#questions{
+.selectQuestionBar{
+	display: flex;
+}
+.selectQuestionBar a{
+	flex: 1 1;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #329d81;
+    text-align: center;   
+}
+.selectQuestionBar a.active{
+	background: #329d81;
+	color: #fff;
+}
+.selectQuestionBar a:first-child{
+	border-top-left-radius: 0.25rem;
+	border-right: none;
+}
+.selectQuestionBar a:last-child{
+	border-top-right-radius: 0.25rem;
+}
+    
+/*#questions{
      
 }
     questionsSidebar{
@@ -120,5 +142,5 @@ export default {
 }
 #questions .selectQuestionBar a:last-child{
 	border-right: none;
-}
+}*/
 </style>
