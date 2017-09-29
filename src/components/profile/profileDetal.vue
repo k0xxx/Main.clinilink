@@ -2,7 +2,7 @@
     <div id="more_tab" role="tabpanel">
         <ul class="list-detail">
             <!-- Пользователь -->
-			<li class="p-100 d-flex flex-column">
+			<li class="d-flex flex-column">
 				<h3 class="text-primary"><strong><icon name="medkit" class="mr-50"></icon>О пользователе</strong></h3>
 				<ul class="education">
 					<li class="education_item">{{profileInfo.birthday | formatBirthday}}</li>

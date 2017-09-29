@@ -94,7 +94,7 @@ export default {
 </script>
 
 <style>
-#questions .questonTopBar{
+/*#questions .questonTopBar{
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 0.25rem;
@@ -144,5 +144,5 @@ export default {
 }
 .openedForm{
 	display: flex !important;
-}
+}*/
 </style>

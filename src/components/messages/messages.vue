@@ -289,7 +289,8 @@ export default {
 	width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+	justify-content: flex-end;
+	height: calc(100vh - 90px);
 }
 #messengerMain .dialogMainBlock_messageFormBlock{
 	border-top: 1px solid #ddd;

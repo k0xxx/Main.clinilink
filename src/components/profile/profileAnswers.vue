@@ -1,10 +1,10 @@
 <template>
-		<div id="questionList" class="p-75">
-			<questionItem v-for="question in questions" v-bind:key="question._id" v-bind:question="question"></questionItem>
-			<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
-				<span slot="no-more">Всё загружено!</span>
-			</infinite-loading>  
-		</div>
+	<div id="questionList">
+		<questionItem v-for="question in questions" v-bind:key="question._id" v-bind:question="question"></questionItem>
+		<infinite-loading :on-infinite="onInfinite" ref="infiniteLoading">
+			<span slot="no-more">Всё загружено!</span>
+		</infinite-loading>  
+	</div>
 </template>
 
 <script>
@@ -54,7 +54,7 @@ export default {
 </script> 
 
 <style>
-#questions{
+/*#questions{
      
 }
     questionsSidebar{
@@ -82,5 +82,5 @@ export default {
 }
 #questions .selectQuestionBar a:last-child{
 	border-right: none;
-}
+}*/
 </style>

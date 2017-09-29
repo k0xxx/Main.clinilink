@@ -1,5 +1,5 @@
 <template>
-	<div id="blog" class="p-75">
+	<div id="blog">
 		<div class="add_newpost_form py-1 text-center">
 			<form id="newPost" class='d-flex flex-column mb-75' method="POST" v-on:submit.prevent="sendPost">
 				<textarea name="title" class="form_input mb-50" id="postTitle" v-model="newPost.title" cols="30" rows="1" placeholder="Тема..."></textarea>
@@ -7,7 +7,7 @@
 				<ul v-if="attachfiles" class="d-flex flex-column">
 					<li v-for="attachfile in attachfiles">{{attachfile}}</li> 
 				</ul>
-				<div class="btn-group w-100 justify-content-end d-flex">
+				<div class="d-flex justify-content-end btn_group">
 					<select name="access" class="form_input" v-model="newPost.access" id="postAccess">
 						<option value="0" data-icon="fa fa-globe">Доступно всем</option>
 						<option value="1" data-icon="fa fa-male">Пациенты</option>
@@ -15,9 +15,9 @@
 						<option value="3" data-icon="fa fa-medkit">Врачи</option>
 						<option value="4" data-icon="fa fa-eye-slash">Только я</option>
 					</select>
-					<button class="btn btn-primary no-border-radius" type="submit">Отправить</button>
-					<label for="attachFile" class="btn btn-primary border-right-radius d-flex align-i-center"><icon name="plus" scale="0.8"></icon></label>
-					<input type="file" id="attachFile" class="d-none" @change="attachFile">
+					<button class="btn btn-primary" type="submit">Отправить</button>
+					<input type="file" id="attachFile" style="display: none;" @change="attachFile">
+					<label for="attachFile" class="btn btn-primary"><icon name="plus" scale="0.8"></icon></label>
 				</div>
 			</form>
 		</div>
