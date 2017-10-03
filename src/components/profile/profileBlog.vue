@@ -32,6 +32,7 @@
 
 <script>
 import { baseAPI } from '../../config.js';
+import { cdnAPI } from '../../config.js';
 import InfiniteLoading from "vue-infinite-loading"
 import newsItem from "../news/newsItem.vue"
 
@@ -48,7 +49,7 @@ export default {
 			attachfiles: [],
 			currentUploadFile: {},
 			endpoint: baseAPI + 'news',
-			endpointFileUpload: 'http://cdn.clinilink.org/upload',
+			endpointFileUpload: cdnAPI + 'upload',
 			page: 1,
 			posts: []
 		}
