@@ -155,29 +155,32 @@ export default {
                 }
             })
             
-            this.currentCall = this.voxApi.call(this.callTo, true);
             //sdk.call('participant',{sendVideo:true,receiveVideo:true});
             this.currentCall.addEventListener(VoxImplant.CallEvents.Connected, this.onOutCallConnected);
             this.currentCall.addEventListener(VoxImplant.CallEvents.Disconnected, this.onOutCallDisconnected);
             this.currentCall.addEventListener(VoxImplant.CallEvents.Failed, this.onOutCallFailed);
+
+            this.currentCall = this.voxApi.call(this.callTo, {sendVideo:true, receiveVideo:true});
         },
         onOutCallConnected(e) {  
             // Start sending video and show incoming video
+            console.log(this.currentCall);
             this.voxApi.sendVideo(true);
             this.currentCall.showRemoteVideo(true);
+            console.log(this.currentCall.showRemoteVideo(true));
             console.log(this.currentCall.getVideoElementId());
 
             /*this.localvideo = document.querySelector('#voximplantlocalvideo');
             console.log(this.localvideo)
             document.querySelector('#local_video_container').appendChild(this.localvideo);
             this.localvideo.style.height = "150px";
-            this.localvideo.play();
+            this.localvideo.play();*/
 
             this.remotevideo = document.getElementById(this.currentCall.getVideoElementId());
             console.log(this.remotevideo);
             document.querySelector('#remote_video_container').appendChild(this.remotevideo);
             this.remotevideo.style.height = "150px";
-            this.remotevideo.play();*/
+            this.remotevideo.play();
 
         },
         onOutCallDisconnected(e) {
@@ -223,12 +226,11 @@ export default {
                 }
             })
 
-            this.currentCall.answer();
-
             this.currentCall.addEventListener(VoxImplant.CallEvents.Connected, this.onInCallConnected);
             this.currentCall.addEventListener(VoxImplant.CallEvents.Disconnected, this.onInCallDisconnected);
             this.currentCall.addEventListener(VoxImplant.CallEvents.Failed, this.onInCallFailed);
-            
+
+            this.currentCall.answer();
         },
         onInCallConnected(e) {  
             // Start sending video and show incoming video
@@ -242,12 +244,12 @@ export default {
             document.querySelector('#local_video_container').appendChild(this.localvideo);
             this.localvideo.style.height = "150px";
             this.localvideo.play();
-
+            */
             this.remotevideo = document.getElementById(this.currentCall.getVideoElementId());
             console.log(this.remotevideo);
             document.querySelector('#remote_video_container').appendChild(this.remotevideo);
-            this.remotevideo.style.height = "150px";
-            this.remotevideo.play();*/
+            //this.remotevideo.style.height = "150px";
+            this.remotevideo.play();
 
         },
         onInCallDisconnected(e) {
