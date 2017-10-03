@@ -16,7 +16,7 @@
 					<li><small><strong>{{profile.med_position}}</strong></small></li>
 					<li><small><strong>{{profile.pat_main_disease}}</strong></small></li>
 				</ul>
-				<div class="d-flex">
+				<div class="d-flex btn_group">
 					<button type="button" v-on:click="newMessage = true" class="d-flex btn btn-primary btn-middle border-left-radius"><icon name="comment" class="mr-50"></icon>Написать</button>
 					<newMessageModal v-if="newMessage" @close="newMessage = false" :contact_id="profile._id"></newMessageModal> 
 					<button v-if="statusContact == 0" type="button" v-on:click="addContact" class="d-flex btn btn-primary btn-middle no-border-radius">
@@ -70,7 +70,7 @@ export default{
 			statusSubscribe: false,
 			profile: {
 				id: '',
-				img: 'asd.png',
+				img: 'https://cdn.clinilink.org/images/defaultProfile.png',
 				fullName: '',
 			}
 		}

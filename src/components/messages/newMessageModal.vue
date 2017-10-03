@@ -1,18 +1,22 @@
 <template>
-	<div id="newMessageModal">
+	<div class="modal">
 		<transition name="modal">
 			<div class="modal-mask">
 				<div class="modal-wrapper">
 					<div class="modal-container">
-						<div class="p-100">
-							<h3 class="text-center">Новое сообщение</h3>
-							<a href="#" v-on:click.prevent="$emit('close')"><icon name="close"></icon></a>
+						<div class="modal-header">
+							<h3 class="px-100 text-center">Новое сообщение</h3>
+							<a href="#" class="close-icon" v-on:click.prevent="$emit('close')">
+								<icon name="times" scale="1"></icon> 
+							</a>
 						</div>
-						<div class="modal-body p-100">
+						<div class="modal-body">
 							<div class="p-100">
 								<form v-on:submit.prevent="newMessage">
-									<input type="text" name="message" v-model="newMessageForm.text">
-									<button class="btn btn-primary" type="submit">Отправить</button>
+									<div>
+										<textarea type="text" class="form_input w-100" name="message" v-model="newMessageForm.text"></textarea>
+									</div>
+									<button class="btn btn-primary mx-auto" type="submit">Отправить</button>
 								</form>
 							</div>
 						</div>
@@ -51,7 +55,29 @@ export default {
 </script> 
 
 <style>
-#newMessageModal .modal-mask {
+/*#newMessageModal{
+    display: block;
+}
+.message_overlay{
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+}
+.message_block{
+	display: block;
+    z-index: 1060;
+    background: #fff;
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 7%;
+    overflow: hidden;
+    max-width: 100%;
+}
+/*#newMessageModal .modal-mask {
 	position: fixed;
 	z-index: 9998;
 	top: 0;
@@ -108,5 +134,5 @@ export default {
         right: 9px;
         color: white;
         cursor: pointer;  
-}    
+}*/ 
 </style>

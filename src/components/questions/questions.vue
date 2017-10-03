@@ -238,7 +238,7 @@ export default {
 			this.currentQuestionTab = type;
 			this.refreshQuestions();
 		},
-		refreshQuestions(){
+		refreshQuestions: function(){
 			this.questions = [];
 			this.page = 1;
       		this.$nextTick(() => {
