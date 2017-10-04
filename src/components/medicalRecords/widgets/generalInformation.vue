@@ -13,21 +13,28 @@
 			<icon name="refresh" scale="2" spin></icon>
 		</div>
 		<div v-else-if="!isFullWidget" class="p-75">
-			<div>Уровень активности: <br> {{generalInformationForm.activity_level}}.</div>
-			<div v-if="generalInformationForm.smoking_years || generalInformationForm.alcohol_years || generalInformationForm.drugs_years">
-				Вредные привычки:
+			<div v-if="generalInformationForm.activity_level" class="mb-25">
+				<strong>Уровень активности:</strong>
+				{{generalInformationForm.activity_level}}.
 			</div>
-			<div v-if="generalInformationForm.smoking_years">Курение {{generalInformationForm.smoking_years}} лет, по {{generalInformationForm.smoking_counter}} пачек в день.</div>
-			<div v-if="generalInformationForm.alcohol_years">Употребление алкоголя {{generalInformationForm.alcohol_years}} лет.</div>
-			<div v-if="generalInformationForm.drugs_years">Употребление наркотиков {{generalInformationForm.drugs_years}} лет.</div>
-			<div>Стрессовые ситуации: <br> {{generalInformationForm.stress_type}}</div>
-			<div>Физическая культура: {{generalInformationForm.physical_culture}}</div>
-			<div>Питание: {{generalInformationForm.food_settings}}</div>
-			<div>Уровень тяжести работы: {{generalInformationForm.work_type}}</div>
-			<div>Качество сна {{generalInformationForm.sleep_type}}, продолжительность сна {{generalInformationForm.sleep_duration}} часов.</div>
-			<div>Сексуальная жизнь {{generalInformationForm.sex_life}}, средства контрацепции {{generalInformationForm.sex_contraception}}</div>
-			<div>Наличие домашних животных - {{generalInformationForm.home_pets}}.</div>
-			
+			<div v-if="generalInformationForm.smoking_years || generalInformationForm.alcohol_years || generalInformationForm.drugs_years" class="mb-25">
+				<strong>Вредные привычки:</strong>
+				<div v-if="generalInformationForm.smoking_years">Курение {{generalInformationForm.smoking_years}} лет, по {{generalInformationForm.smoking_counter}} пачек в день.</div>
+				<div v-if="generalInformationForm.alcohol_years">Употребление алкоголя {{generalInformationForm.alcohol_years}} лет.</div>
+				<div v-if="generalInformationForm.drugs_years">Употребление наркотиков {{generalInformationForm.drugs_years}} лет.</div>
+			</div>
+			<div v-if="generalInformationForm.food_settings" class="mb-25">
+				<strong>Питание:</strong>
+				{{generalInformationForm.food_settings}}
+			</div>
+			<div v-if="generalInformationForm.sleep_type" class="mb-25">
+				<strong>Качество сна:</strong>
+				{{generalInformationForm.sleep_type}}, длительность {{generalInformationForm.sleep_duration}} часов.
+			</div>
+			<div v-if="generalInformationForm.stress_type" class="mb-25">
+				<strong>Стрессовые ситуации:</strong>
+				{{generalInformationForm.stress_type}}
+			</div>
 		</div>
 		<div v-else-if="isFullWidget" class="p-75">
 			<form v-on:submit.prevent="saveGeneralInformation">

@@ -34,6 +34,12 @@ Vue.filter('formatDialogTime', function(value) {
   }
 });
 
+Vue.filter('formatMessageTime', function(value) {
+  if (value) {
+    return moment(String(value)).format('DD MMMM в HH:mm');
+  }
+});
+
 Vue.filter('formatBirthday', function(value) {
   if (value) {
     return moment(String(value)).toNow(true);

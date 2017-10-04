@@ -59,7 +59,7 @@
 							<div class="messageContent py-50"> 
 								<div class="d-flex justify-content-between align-i-center pr-50">
 									<span>{{message.from_ref.fullName}}</span>
-									<small>{{message.date}}</small>
+									<small>{{message.date | formatMessageTime}}</small>
 								</div>
 								<div>
 									<span>{{message.text}}</span>
